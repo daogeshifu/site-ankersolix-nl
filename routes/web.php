@@ -31,7 +31,7 @@ Route::group([
     // ===============================================
     // 功能页面路由 (需要访问检查)
     // ===============================================
-    Route::group(['middleware' => ['web', 'check.guest.access']], function () {
+    Route::group(['middleware' => ['web']], function () {
         // 首页
         Route::get('/', [IndexController::class, 'index'])->name('index');
         Route::get('/index', [IndexController::class, 'index'])->name('page.index');
