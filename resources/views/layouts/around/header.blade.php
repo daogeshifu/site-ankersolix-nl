@@ -4,7 +4,7 @@
     <!-- Navbar brand (Logo) -->
     <a class="navbar-brand pe-sm-3" href="{{ route('index') }}">
       <span class="text-primary flex-shrink-0 me-2">
-        <img src="/around/image/logo/logo-icon.png" alt="道格数据" width="35" height="32">
+        <img src="/around/image/logo/logo-icon.png" alt="HelloGEO" width="35" height="32">
       </span>
       {{ __('home.super') }}
     </a>
@@ -61,82 +61,7 @@
           <a class="nav-link {{ request()->routeIs('index') ? 'active' : '' }}" href="{{ route('index') }}">{{ __('menu.home') }}</a>
         </li>
 
-        <!-- 优化服务 -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle {{ request()->routeIs('index.contact') ? 'active' : '' }}" href="#" data-bs-toggle="dropdown" aria-expanded="false">{{ __('menu.services') }}</a>
-          <div class="dropdown-menu overflow-hidden p-0">
-            <div class="d-lg-flex">
-              <div class="mega-dropdown-column pt-1 pt-lg-3 pb-lg-4">
-                <ul class="list-unstyled mb-0">
-                  <li>
-                    <a class="dropdown-item" href="{{ route('contact') }}">{{ __('menu.dropdown.services.brand_status_analysis.title') }}</a>
-
-                    <p>{{ __('menu.dropdown.services.brand_status_analysis.description') }}</p>
-
-                    <span class="mega-dropdown-column position-absolute top-0 end-0 h-100 bg-size-cover bg-repeat-0 rounded-3 rounded-start-0" style="background-image: url(/around/picture/brand_status_analysis.png);"></span>
-                  </li>
-                  <li>
-                    <a class="dropdown-item text-align-left" href="{{ route('contact') }}">{{ __('menu.dropdown.services.prompt_evaluation.title') }}</a>
-                    <p>{{ __('menu.dropdown.services.prompt_evaluation.description') }}</p>
-                    <span class="mega-dropdown-column position-absolute top-0 end-0 h-100 bg-size-cover bg-repeat-0 z-2 opacity-0" style="background-image: url(/around/picture/prompt_evaluation.png);"></span>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="{{ route('contact') }}">{{ __('menu.dropdown.services.effect_optimization.title') }}</a>
-                    <p>{{ __('menu.dropdown.services.effect_optimization.description') }}</p>
-                    <span class="mega-dropdown-column position-absolute top-0 end-0 h-100 bg-size-cover bg-repeat-0 z-2 opacity-0" style="background-image: url(/around/picture/effect_optimization.png);"></span>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="{{ route('contact') }}">{{ __('menu.dropdown.services.effect_monitoring.title') }}</a>
-                    <p>{{ __('menu.dropdown.services.effect_monitoring.description') }}</p>
-                    <span class="mega-dropdown-column position-absolute top-0 end-0 h-100 bg-size-cover bg-repeat-0 z-2 opacity-0" style="background-image: url(/around/picture/effect_monitoring.png);"></span>
-                  </li>
-
-                </ul>
-              </div>
-              <div class="mega-dropdown-column position-relative border-start z-3"></div>
-            </div>
-          </div>
-        </li>
-
-
-        <!-- 技术服务 -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle {{ request()->routeIs('technical-services*') ? 'active' : '' }}" href="#" data-bs-toggle="dropdown" aria-expanded="false">{{ __('menu.technical_services') }}</a>
-          <div class="dropdown-menu overflow-hidden p-0">
-            <div class="d-lg-flex">
-              <div class="mega-dropdown-column pt-1 pt-lg-3 pb-lg-4">
-                <ul class="list-unstyled mb-0">
-                  <li>
-                    <a class="dropdown-item" href="{{ route('technical-services.domestic-qa-data') }}">{{ __('menu.dropdown.technical_services.domestic_qa_data.title') }}</a>
-                    <p>{{ __('menu.dropdown.technical_services.domestic_qa_data.description') }}</p>
-                    <span class="mega-dropdown-column position-absolute top-0 end-0 h-100 bg-size-cover bg-repeat-0 rounded-3 rounded-start-0" style="background-image: url(/around/picture/domestic_qa_data.png);"></span>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="{{ route('technical-services.domestic-qa-screenshot') }}">{{ __('menu.dropdown.technical_services.domestic_qa_screenshot.title') }}</a>
-                    <p>{{ __('menu.dropdown.technical_services.domestic_qa_screenshot.description') }}</p>
-                    <span class="mega-dropdown-column position-absolute top-0 end-0 h-100 bg-size-cover bg-repeat-0 z-2 opacity-0" style="background-image: url(/around/picture/domestic_qa_screenshot.png);"></span>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="{{ route('technical-services.foreign-qa-data') }}">{{ __('menu.dropdown.technical_services.foreign_qa_data.title') }}</a>
-                    <p>{{ __('menu.dropdown.technical_services.foreign_qa_data.description') }}</p>
-                    <span class="mega-dropdown-column position-absolute top-0 end-0 h-100 bg-size-cover bg-repeat-0 z-2 opacity-0" style="background-image: url(/around/picture/foreign_qa_data.png);"></span>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="{{ route('technical-services.foreign-qa-screenshot') }}">{{ __('menu.dropdown.technical_services.foreign_qa_screenshot.title') }}</a>
-                    <p>{{ __('menu.dropdown.technical_services.foreign_qa_screenshot.description') }}</p>
-                    <span class="mega-dropdown-column position-absolute top-0 end-0 h-100 bg-size-cover bg-repeat-0 z-2 opacity-0" style="background-image: url(/around/picture/foreign_qa_screenshot.png);"></span>
-                  </li>
-                </ul>
-              </div>
-              <div class="mega-dropdown-column position-relative border-start z-3"></div>
-            </div>
-          </div>
-        </li>
-
-        <!-- 价格 -->
-        <li class="nav-item">
-             <a class="nav-link {{ request()->routeIs('pricing') ? 'active' : '' }}" href="{{ route('pricing') }}">{{ __('menu.pricing') }}</a>
-        </li>
+        
 
         <!-- 文章 -->
         <li class="nav-item">

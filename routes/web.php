@@ -53,29 +53,29 @@ Route::group([
         Route::get('/auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 
         // 静态页面
-        // 旧路由永久重定向到新路由
-        Route::get('/policy', [PagesController::class, 'policy'])->name('page.policy');
-        Route::redirect('/privacy-policy', '/policy', 301);
+   
+        Route::get('/index', [IndexController::class, 'index'])->name('index');
 
-        Route::get('/terms', [PagesController::class, 'terms'])->name('page.terms');
-        Route::redirect('/terms-of-use', 'terms', 301);
 
-        // 新闻相关
-        //news 301 到 blog
-        Route::redirect('/news', '/blog', 301);
+        Route::get('pricing', [IndexController::class, 'pricing'])->name('pricing');
+        Route::get('price', [IndexController::class, 'price'])->name('price');
+        
+        Route::get('terms', [IndexController::class, 'terms'])->name('terms');
+        Route::get('policy', [IndexController::class, 'policy'])->name('policy');
+    
+        Route::get('contact', [IndexController::class, 'contact'])->name('contact');
+    
+        Route::get('about', [IndexController::class, 'about'])->name('about');
+
+
         // 博客/文章相关
         // 注意：更具体的路由要放在前面，避免被通配路由捕获
-        Route::get('/blog', [FrontArticleController::class, 'index'])->name('aigc.blog');
-        Route::get('/blog/page/{page}', [FrontArticleController::class, 'index_page'])->name('aigc.blog.page')->where('page', '[0-9]+');
-        Route::get('/blog/{category_name}/page/{page}', [FrontArticleController::class, 'index_category_page'])->name('aigc.blog.category.page')->where('page', '[0-9]+');
-        Route::get('/blog/{category_name}', [FrontArticleController::class, 'index'])->name('aigc.blog.category');
-        Route::get('/{category_name}/{link}.html', [FrontArticleController::class, 'detail'])->name('aigc.blog.detail.show');
+        Route::get('/article', [FrontArticleController::class, 'index'])->name('articles');
+        Route::get('/article/page/{page}', [FrontArticleController::class, 'index_page'])->name('article.page')->where('page', '[0-9]+');
+        Route::get('/article/{category_name}/page/{page}', [FrontArticleController::class, 'index_category_page'])->name('article.category.page')->where('page', '[0-9]+');
+        Route::get('/article/{category_name}', [FrontArticleController::class, 'index'])->name('article.category');
+        Route::get('/{category_name}/{link}.html', [FrontArticleController::class, 'detail'])->name('article.detail.show');
 
-        //404 路由处理
-        Route::redirect('home-real-estate.html','index',301);
-        Route::get('mcp/{id}.html', function () {
-            return redirect('/', 301);
-        })->where('id', '[0-9]+');
 
     });
 
