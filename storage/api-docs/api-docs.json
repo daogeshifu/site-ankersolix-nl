@@ -1,0 +1,208 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "AIGC Checker API Documentation",
+        "description": "API documentation for AIGC Checker application",
+        "contact": {
+            "email": "support@aigc-checker.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/articles": {
+            "post": {
+                "tags": [
+                    "Articles"
+                ],
+                "summary": "创建文章",
+                "description": "通过 API 创建新文章,支持多语言",
+                "operationId": "createArticle",
+                "requestBody": {
+                    "description": "文章数据",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "content",
+                                    "lang"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "description": "文章标题",
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "如何使用AI检测工具"
+                                    },
+                                    "content": {
+                                        "description": "文章内容,支持HTML",
+                                        "type": "string",
+                                        "example": "<p>这是文章的详细内容...</p>"
+                                    },
+                                    "lang": {
+                                        "description": "语言代码: en=英文, zh=中文, fr=法文",
+                                        "type": "string",
+                                        "enum": [
+                                            "en",
+                                            "zh",
+                                            "fr"
+                                        ],
+                                        "example": "zh"
+                                    },
+                                    "category_id": {
+                                        "description": "文章分类ID(可选)",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "summary": {
+                                        "description": "文章摘要(可选)",
+                                        "type": "string",
+                                        "example": "这是文章摘要"
+                                    },
+                                    "cover": {
+                                        "description": "封面图片URL(可选)",
+                                        "type": "string",
+                                        "example": "https://example.com/image.jpg"
+                                    },
+                                    "seo_title": {
+                                        "description": "SEO标题(可选)",
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "SEO标题"
+                                    },
+                                    "seo_description": {
+                                        "description": "SEO描述(可选)",
+                                        "type": "string",
+                                        "example": "SEO描述"
+                                    },
+                                    "seo_keywords": {
+                                        "description": "SEO关键词(可选)",
+                                        "type": "string",
+                                        "example": "AI,检测,工具"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "文章创建成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "文章创建成功"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 123
+                                                },
+                                                "link": {
+                                                    "type": "string",
+                                                    "example": "ru-he-shi-yong-ai-jian-ce-gong-ju-1730000000"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "如何使用AI检测工具"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-10-30T10:00:00.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "验证失败",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "验证失败"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "title": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "标题字段是必填的"
+                                                    }
+                                                },
+                                                "lang": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "语言必须是 en, zh, fr 之一"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "文章创建失败: 错误详情"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Articles",
+            "description": "文章管理相关接口"
+        }
+    ]
+}
