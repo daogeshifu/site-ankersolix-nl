@@ -22,7 +22,7 @@
               <div class="row g-2">
                 <div class="input-group input-group-sm rounded-pill">
                   <input class="form-control" type="text" placeholder="Email address">
-                  <button class="btn btn-primary rounded-pill" type="button">{{ __('lang.Contact us') }}</button>
+                  <button class="btn btn-primary rounded-pill" type="button">{{ __('lang.contact') }}</button>
                 </div>
               </div>
             </form>
@@ -37,7 +37,7 @@
               <li class="nav-item">
                 <a class="nav-link fw-normal px-0 py-1" href="{{ route('index') }}">{{ __('menu.home') }}</a>
               </li>
-              <li class="nav-item">
+{{--               <li class="nav-item">
                 <a class="nav-link fw-normal px-0 py-1" href="{{ route('pricing') }}">{{ __('menu.pricing') }}</a>
               </li>
               <li class="nav-item">
@@ -45,10 +45,10 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link fw-normal px-0 py-1" href="{{ route('about') }}">{{ __('menu.about') }}</a>
-              </li>
+              </li> --}}
             </ul>
           </div>
-          <div class="col-sm-4 col-lg-2 mb-4 mb-sm-0">
+{{--           <div class="col-sm-4 col-lg-2 mb-4 mb-sm-0">
             <h6 class="fw-bold">{{ __('menu.services') }}</h6>
             <ul class="nav flex-column fs-sm">
               <li class="nav-item">
@@ -64,12 +64,12 @@
                 <a class="nav-link fw-normal px-0 py-1" href="{{ route('contact') }}">{{ __('menu.dropdown.services.effect_monitoring.title') }}</a>
               </li>
             </ul>
-          </div>
+          </div> --}}
           <div class="col-sm-4 col-lg-3 col-xl-2">
-            <h6 class="fw-bold">{{ __('lang.Contact us') }}</h6>
+            <h6 class="fw-bold">{{ __('lang.contact') }}</h6>
             <ul class="nav flex-column fs-sm">
               <li class="nav-item">
-                <a class="nav-link fw-normal px-0 py-1" href="mailto:berry@daogeshifu.cn">berry@daogeshifu.cn</a>
+                <a class="nav-link fw-normal px-0 py-1" href="mailto:xxxxx@example.com">xxxxx@example.com</a>
               </li>
             </ul>
           </div>
@@ -88,7 +88,7 @@
           </div>
           <p class="nav fs-sm order-sm-1 text-center text-sm-start pt-4 pt-sm-0 mb-0 me-4">
             <span class="text-body-secondary">© All rights reserved. Made by</span>
-            <a class="nav-link fw-normal p-0 ms-1" href="https://adsuperman.com/" target="_blank" rel="noopener">ADSuperMan</a>
+            <a class="nav-link fw-normal p-0 ms-1" href="https://hellogeo.ai/" target="_blank" rel="noopener">HelloGEO</a>
           </p>
         </div>
       </div>

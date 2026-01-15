@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Article;
+use App\Models\Article\Article;
 use App\Service\TranslationService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;

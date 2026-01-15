@@ -76,8 +76,8 @@
   <!-- Hero -->
   <div class="container content-space-t-2 content-space-b-1 content-space-b-md-2">
     <div class="w-md-75 w-lg-50 text-center mx-md-auto">
-      <h1 class="display-4">Newsroom</h1>
-      <p class="lead">Latest updates and Hand-picked resources.</p>
+      <h1 class="display-4">{{ __('article.newsroom') }}</h1>
+      <p class="lead">{{ __('article.newsroom_description') }}</p>
     </div>
   </div>
   <!-- End Hero -->
@@ -183,7 +183,7 @@
 
                 <div class="flex-grow-1">
                   <div class="d-flex justify-content-end">
-                    <p class="card-text">{{ $topArticle->created_at->format('F d, Y') }}</p>
+                    <p class="card-text">{{ $topArticle->created_at->diffForHumans() }}</p>
                   </div>
                 </div>
               </div>
@@ -246,7 +246,7 @@
 
                 <div class="flex-grow-1">
                   <div class="d-flex justify-content-end">
-                    <p class="card-text">{{ $article->created_at->format('F d, Y') }}</p>
+                    <p class="card-text">{{ $article->created_at->diffForHumans() }}</p>
                   </div>
                 </div>
               </div>

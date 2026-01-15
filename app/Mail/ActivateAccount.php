@@ -5,7 +5,7 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Queue\SerializesModels;
 
 class ActivateAccount extends Mailable

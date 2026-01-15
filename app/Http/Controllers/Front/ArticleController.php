@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use App\Models\Article;
-use App\Models\ArticleCategory;
+use App\Models\Article\Article;
+use App\Models\Article\ArticleCategory;
 use Illuminate\Support\Str;
 
 class ArticleController extends Controller
@@ -157,7 +157,7 @@ class ArticleController extends Controller
             $contentWithAnchors
         );
 
-        return view('article.detail-finder', compact(
+        return view('front.article.detail-around', compact(
             'category_name',
             'article',
             'sidebarArticles',

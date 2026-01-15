@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Article;
+use App\Models\Article\Article;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 

@@ -195,6 +195,8 @@
 
     @include('layouts.around.script')
 
+    @stack('scripts')
+
     <div class="modal fade" id="modal-contact" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

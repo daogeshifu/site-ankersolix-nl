@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\UserAdmin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\User\User;
 use App\Models\User\UserAmountLog;
 use App\Models\User\UserInfo;
 use Illuminate\Http\Request;

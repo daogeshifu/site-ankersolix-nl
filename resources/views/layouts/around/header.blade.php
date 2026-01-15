@@ -63,7 +63,7 @@
 
         
 
-        <!-- 文章 -->
+        {{-- <!-- 文章 -->
         <li class="nav-item">
           <a class="nav-link {{ request()->routeIs('articles*') ? 'active' : '' }}" href="{{ route('articles') }}">{{ __('menu.insights') }}</a>
         </li>
@@ -71,7 +71,7 @@
         <!-- 关于 -->
         <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">{{ __('menu.about') }}</a>
-        </li>
+        </li> --}}
 
       </ul>
       <div class="d-sm-none p-3 mt-n3">

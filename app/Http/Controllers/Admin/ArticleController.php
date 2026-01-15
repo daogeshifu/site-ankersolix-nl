@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Article;
-use App\Models\ArticleCategory;
+use App\Models\Article\Article;
+use App\Models\Article\ArticleCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\UserAdmin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\User\User;
 use App\Models\User\UserAmountLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Article;
+use App\Models\Article\Article;
 
 class IndexController extends Controller
 {

@@ -57,7 +57,7 @@
         <div class="row row-cols-1 row-cols-sm-2 g-0">
           <div class="col position-relative" style="min-height: 220px">
             <a class="hover-effect-scale position-absolute top-0 start-0 w-100 h-100 overflow-hidden" href="{{ route('aigc.blog.detail.show', [$topArticle->category->name, $topArticle->link]) }}">
-              <img src="{{ asset('storage/' . $topArticle->cover) }}" class="hover-effect-target position-absolute top-0 start-0 w-100 h-100 object-fit-cover" alt="Image">
+              <img src="{{ asset('storage/' . $topArticle->cover) }}" class="hover-effect-target position-absolute top-0 start-0 w-100 h-100 object-fit-cover" alt="{{ __('article.author_image') }}">
             </a>
           </div>
           <div class="col p-4 p-md-5">
@@ -67,7 +67,7 @@
               </div>
               <h1>{{ $topArticle->title }}</h1>
               <p class="pb-sm-1 pb-md-2 pb-lg-3 pb-xl-0 mb-4 mb-xl-5">{{ $topArticle->excerpt }}</p>
-              <a class="btn btn-lg btn-dark" href="{{ route('aigc.blog.detail.show', [$topArticle->category->name, $topArticle->link]) }}">Read more</a>
+              <a class="btn btn-lg btn-dark" href="{{ route('aigc.blog.detail.show', [$topArticle->category->name, $topArticle->link]) }}">{{ __('article.read_more') }}</a>
             </div>
           </div>
         </div>
@@ -101,9 +101,9 @@
                 &quot;containerInner&quot;: [&quot;form-select&quot;, &quot;border-0&quot;, &quot;rounded-0&quot;, &quot;ps-4&quot;, &quot;pe-1&quot;]
               }
             }" hidden="" tabindex="-1" data-choice="active">
-              <option value="Newest" selected="">Newest</option>
-              <option value="Popular">Popular</option>
-            </select><div class="choices__list choices__list--single"><div class="choices__item choices__item--selectable" data-item="" data-id="1" data-value="Newest" aria-selected="true" role="option">Newest</div></div></div><div class="choices__list choices__list--dropdown" aria-expanded="false"><div class="choices__list" role="listbox"><div id="choices--rd0b-item-choice-1" class="choices__item choices__item--choice is-selected choices__item--selectable is-highlighted" role="option" data-choice="" data-id="1" data-value="Newest" data-choice-selectable="" aria-selected="true">Newest</div><div id="choices--rd0b-item-choice-2" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="2" data-value="Popular" data-choice-selectable="">Popular</div></div></div></div>
+              <option value="Newest" selected="">{{ __('article.newest') }}</option>
+              <option value="Popular">{{ __('article.popular') }}</option>
+            </select><div class="choices__list choices__list--single"><div class="choices__item choices__item--selectable" data-item="" data-id="1" data-value="Newest" aria-selected="true" role="option">{{ __('article.newest') }}</div></div></div><div class="choices__list choices__list--dropdown" aria-expanded="false"><div class="choices__list" role="listbox"><div id="choices--rd0b-item-choice-1" class="choices__item choices__item--choice is-selected choices__item--selectable is-highlighted" role="option" data-choice="" data-id="1" data-value="Newest" data-choice-selectable="" aria-selected="true">{{ __('article.newest') }}</div><div id="choices--rd0b-item-choice-2" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="2" data-value="Popular" data-choice-selectable="">{{ __('article.popular') }}</div></div></div></div>
           </div>
         </div>
 
@@ -114,7 +114,7 @@
               <a class="ratio d-flex hover-effect-scale rounded overflow-hidden mb-3 mb-sm-4"
                 href="{{ route('aigc.blog.detail.show', [$article->category->name, $article->link]) }}"
                 style="--fn-aspect-ratio: calc(300 / 416 * 100%)">
-                <img src="{{ asset('storage/' . $article->cover) }}" class="hover-effect-target" alt="Image">
+                <img src="{{ asset('storage/' . $article->cover) }}" class="hover-effect-target" alt="{{ __('article.author_image') }}">
               </a>
               <div class="nav pb-1 mb-2">
                 <a class="nav-link text-body-secondary fs-xs text-uppercase p-0" href="#!">{{ $article->category->name }}</a>
@@ -126,8 +126,8 @@
               </h3>
               <p class="fs-sm">{{ $article->excerpt }}</p>
               <div class="nav fs-sm gap-3">
-                <a class="nav-link fw-semibold p-0" href="#!">by {{ $article->user->name }}</a>
-                <span class="text-body-secondary">{{ $article->created_at->format('M d, Y') }}</span>
+                <a class="nav-link fw-semibold p-0" href="#!">{{ __('article.by') }} {{ $article->user->name }}</a>
+                <span class="text-body-secondary">{{ $article->created_at->diffForHumans() }}</span>
               </div>
             </article>
           @endforeach

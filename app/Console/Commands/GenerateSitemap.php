@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Article;
+use App\Models\Article\Article;
 use Illuminate\Console\Command;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
-use App\Models\ArticleCategory;
+use App\Models\Article\ArticleCategory;
 use App\Models\Lunwen\LunwenTask;
 class GenerateSitemap extends Command
 {

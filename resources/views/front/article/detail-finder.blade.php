@@ -104,7 +104,7 @@ h2 {
                 <a class="nav-link stretched-link p-0" href="#!">{{ $article->user->name }}</a>
               </div>
               <i class="fi-bullet mx-n1"></i>
-              <div class="fs-sm me-2">{{ $article->created_at->format('M d, Y') }}</div>
+              <div class="fs-sm me-2">{{ $article->created_at->diffForHumans() }}</div>
               <a class="badge text-secondary-emphasis bg-body-secondary text-uppercase text-decoration-none" href="#!">{{ $article->category->name }}</a>
             </div>
 
@@ -118,7 +118,7 @@ h2 {
             <div class="offcanvas-lg offcanvas-end sidebar-sticky ps-lg-4 ps-xl-0" id="blogSidebar">
               <div class="d-none d-lg-block" style="height: 105px"></div>
               <div class="offcanvas-header border-bottom py-3">
-                <h3 class="h5 offcanvas-title">Sidebar</h3>
+                <h3 class="h5 offcanvas-title">{{ __('article.sidebar') }}</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#blogSidebar" aria-label="Close"></button>
               </div>
               <div class="offcanvas-body d-block">
@@ -188,15 +188,15 @@ h2 {
                   </div>
                   <hr class="my-3">
                   <div class="d-flex align-items-center justify-content-between">
-                    <h4 class="h6 fs-sm mb-0 me-2">Share this post</h4>
+                    <h4 class="h6 fs-sm mb-0 me-2">{{ __('article.share_post') }}</h4>
                     <div class="d-flex gap-2">
-                      <a class="btn btn-icon fs-base btn-secondary" href="#!" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" aria-label="Share on Instagram" data-bs-original-title="Share on Instagram">
+                      <a class="btn btn-icon fs-base btn-secondary" href="#!" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" aria-label="{{ __('article.share_on_instagram') }}" data-bs-original-title="{{ __('article.share_on_instagram') }}">
                         <i class="fi-instagram"></i>
                       </a>
-                      <a class="btn btn-icon fs-base btn-secondary" href="#!" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" aria-label="Share on Facebook" data-bs-original-title="Share on Facebook">
+                      <a class="btn btn-icon fs-base btn-secondary" href="#!" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" aria-label="{{ __('article.share_on_facebook') }}" data-bs-original-title="{{ __('article.share_on_facebook') }}">
                         <i class="fi-facebook"></i>
                       </a>
-                      <a class="btn btn-icon fs-base btn-secondary" href="#!" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" aria-label="Copy a link" data-bs-original-title="Copy link">
+                      <a class="btn btn-icon fs-base btn-secondary" href="#!" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" aria-label="{{ __('article.copy_link') }}" data-bs-original-title="{{ __('article.copy_link') }}">
                         <i class="fi-link"></i>
                       </a>
                     </div>
@@ -258,7 +258,7 @@ h2 {
                   <p class="fs-sm"> {{ Str::limit($sidebarArticle->summary, 100) }}</p>
                   <div class="nav fs-sm gap-3">
                     <a class="nav-link fw-semibold p-0">{{ $sidebarArticle->user->name }}</a>
-                    <span class="text-body-secondary">{{ $sidebarArticle->created_at->format('M d, Y') }}</span>
+                    <span class="text-body-secondary">{{ $sidebarArticle->created_at->diffForHumans() }}</span>
                   </div>
                 </article>
               @endforeach

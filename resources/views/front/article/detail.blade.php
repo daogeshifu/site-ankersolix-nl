@@ -76,19 +76,19 @@
             <!-- Post meta + Sharing -->
             <div class="d-flex align-items-md-center justify-content-between border-bottom pb-4">
               <div class="nav flex-column flex-md-row fs-sm gap-2 gap-md-3 mb-lg-2">
-                <a class="nav-link fw-semibold p-0">by Admin</a>
-                <span class="text-body-secondary">{{ $article->created_at->format('M d, Y') }}</span>
+                <a class="nav-link fw-semibold p-0">{{ __('article.by') }} {{ __('article.admin') }}</a>
+                <span class="text-body-secondary">{{ $article->created_at->diffForHumans() }}</span>
                 {{-- <hr class="vr d-none d-md-block m-0">
                 <a class="nav-link fw-normal text-body p-0" href="#comments">8 comments</a> --}}
               </div>
               <div class="d-flex mb-lg-2">
-                <a class="btn btn-icon fs-base btn-outline-secondary border-0" href="https://www.linkedin.com/company/aicgchecker/" data-bs-toggle="tooltip" data-bs-template="&lt;div class=&quot;tooltip fs-xs mb-n2&quot; role=&quot;tooltip&quot;&gt;&lt;div class=&quot;tooltip-inner bg-transparent text-body p-0&quot;&gt;&lt;/div&gt;&lt;/div&gt;" aria-label="Share on Instagram" data-bs-original-title="Share on Instagram">
+                <a class="btn btn-icon fs-base btn-outline-secondary border-0" href="https://www.linkedin.com/company/aicgchecker/" data-bs-toggle="tooltip" data-bs-template="&lt;div class=&quot;tooltip fs-xs mb-n2&quot; role=&quot;tooltip&quot;&gt;&lt;div class=&quot;tooltip-inner bg-transparent text-body p-0&quot;&gt;&lt;/div&gt;&lt;/div&gt;" aria-label="{{ __('article.share_on_instagram') }}" data-bs-original-title="{{ __('article.share_on_instagram') }}">
                   <i class="fi-linkedin"></i>
                 </a>
-                <a class="btn btn-icon fs-base btn-outline-secondary border-0" href="https://facebook.com/aigcchecker" data-bs-toggle="tooltip" data-bs-template="&lt;div class=&quot;tooltip fs-xs mb-n2&quot; role=&quot;tooltip&quot;&gt;&lt;div class=&quot;tooltip-inner bg-transparent text-body p-0&quot;&gt;&lt;/div&gt;&lt;/div&gt;" aria-label="Share on Facebook" data-bs-original-title="Share on Facebook">
+                <a class="btn btn-icon fs-base btn-outline-secondary border-0" href="https://facebook.com/aigcchecker" data-bs-toggle="tooltip" data-bs-template="&lt;div class=&quot;tooltip fs-xs mb-n2&quot; role=&quot;tooltip&quot;&gt;&lt;div class=&quot;tooltip-inner bg-transparent text-body p-0&quot;&gt;&lt;/div&gt;&lt;/div&gt;" aria-label="{{ __('article.share_on_facebook') }}" data-bs-original-title="{{ __('article.share_on_facebook') }}">
                   <i class="fi-facebook"></i>
                 </a>
-                <a class="btn btn-icon fs-base btn-outline-secondary border-0" href="{{ Url::current() }}" data-bs-toggle="tooltip" data-bs-template="&lt;div class=&quot;tooltip fs-xs mb-n2&quot; role=&quot;tooltip&quot;&gt;&lt;div class=&quot;tooltip-inner bg-transparent text-body p-0&quot;&gt;&lt;/div&gt;&lt;/div&gt;" aria-label="Copy a link" data-bs-original-title="Copy link">
+                <a class="btn btn-icon fs-base btn-outline-secondary border-0" href="{{ Url::current() }}" data-bs-toggle="tooltip" data-bs-template="&lt;div class=&quot;tooltip fs-xs mb-n2&quot; role=&quot;tooltip&quot;&gt;&lt;div class=&quot;tooltip-inner bg-transparent text-body p-0&quot;&gt;&lt;/div&gt;&lt;/div&gt;" aria-label="{{ __('article.copy_link') }}" data-bs-original-title="{{ __('article.copy_link') }}">
                   <i class="fi-link"></i>
                 </a>
               </div>
@@ -104,7 +104,7 @@
           <aside class="col-lg-4 col-xl-3 offset-xl-1">
             <div class="offcanvas-lg offcanvas-end ps-lg-4 ps-xl-0" id="blogSidebar">
               <div class="offcanvas-header border-bottom py-3">
-                <h3 class="h5 offcanvas-title">Sidebar</h3>
+                <h3 class="h5 offcanvas-title">{{ __('article.sidebar') }}</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#blogSidebar" aria-label="Close"></button>
               </div>
               <div class="offcanvas-body d-block">
@@ -123,24 +123,24 @@
                 <div class="card bg-body-tertiary border-0 mt-4">
                   <div class="card-body">
                     <div class="ratio bg-body-secondary rounded overflow-hidden mb-3" style="--fn-aspect-ratio: calc(130 / 258 * 100%)">
-                      <img src="https://finder-html.createx.studio/assets/img/blog/v1/single/subscription.jpg" alt="Image">
+                      <img src="https://finder-html.createx.studio/assets/img/blog/v1/single/subscription.jpg" alt="{{ __('article.author_image') }}">
                     </div>
-                    <h4 class="h6">Subscribe to a free newsletter</h4>
+                    <h4 class="h6">{{ __('article.subscribe_newsletter') }}</h4>
                     <div class="vstack gap-2 pb-1 mb-3">
                       <div class="form-check mb-0">
                         <input type="checkbox" class="form-check-input" id="daily">
-                        <label for="daily" class="form-check-label">Daily summary (weekdays)</label>
+                        <label for="daily" class="form-check-label">{{ __('article.daily_summary') }}</label>
                       </div>
                       <div class="form-check mb-0">
                         <input type="checkbox" class="form-check-input" id="weekly">
-                        <label for="weekly" class="form-check-label">Weekly summary (Mondays)</label>
+                        <label for="weekly" class="form-check-label">{{ __('article.weekly_summary') }}</label>
                       </div>
                       <div class="form-check mb-0">
                         <input type="checkbox" class="form-check-input" id="alerts">
-                        <label for="alerts" class="form-check-label">Breaking news alerts (as needed)</label>
+                        <label for="alerts" class="form-check-label">{{ __('article.breaking_news') }}</label>
                       </div>
                     </div>
-                    <button type="button" class="btn btn-primary w-100">Subscribe</button>
+                    <button type="button" class="btn btn-primary w-100">{{ __('article.subscribe') }}</button>
                   </div>
                 </div>
 
@@ -212,8 +212,8 @@
                   </h3>
                   <p class="fs-sm"> {{ Str::limit($sidebarArticle->summary, 100) }}</p>
                   <div class="nav fs-sm gap-3">
-                    <a class="nav-link fw-semibold p-0">by Admin</a>
-                    <span class="text-body-secondary">{{ $sidebarArticle->created_at->format('M d, Y') }}</span>
+                    <a class="nav-link fw-semibold p-0">{{ __('article.by') }} {{ __('article.admin') }}</a>
+                    <span class="text-body-secondary">{{ $sidebarArticle->created_at->diffForHumans() }}</span>
                   </div>
                 </article>
               @endforeach
