@@ -34,14 +34,14 @@
     </div>
 
 
-    <div class="d-none d-sm-inline-grid order-lg-3 gap-2" style="grid-template-columns: 1fr 1fr;">
+    <div class="d-none d-sm-inline-grid order-lg-3 gap-1" style="grid-template-columns: 1fr;">
       <!-- <a class="btn btn-outline-primary btn-sm fs-sm" href="#modal-contact" data-bs-toggle="modal" rel="noopener">
         <i class="ai-phone-out fs-xl me-2 ms-n1"></i>
         {{ __('contact.request_demo') }}
       </a>  -->
       <a class="btn btn-outline-primary btn-sm fs-sm" href="{{ route('contact') }}" rel="noopener">
         <i class="ai-phone-out fs-xl me-2 ms-n1"></i>
-        {{ __('contact.request_demo') }}
+        {{ __('contact-us.title') }}
       </a>
       
 

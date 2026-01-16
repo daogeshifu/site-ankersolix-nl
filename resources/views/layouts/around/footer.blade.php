@@ -42,37 +42,37 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link fw-normal px-0 py-1" href="{{ route('articles') }}">{{ __('menu.insights') }}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link fw-normal px-0 py-1" href="{{ route('about') }}">{{ __('menu.about') }}</a>
               </li> --}}
+              <li class="nav-item">
+                <a class="nav-link fw-normal px-0 py-1" href="{{ route('about') }}">{{ __('about-us.title') }}</a>
+              </li>
             </ul>
           </div>
-{{--           <div class="col-sm-4 col-lg-2 mb-4 mb-sm-0">
-            <h6 class="fw-bold">{{ __('menu.services') }}</h6>
+          <div class="col-sm-4 col-lg-2 mb-4 mb-sm-0">
+            <h6 class="fw-bold">{{ __('lang.support') }}</h6>
             <ul class="nav flex-column fs-sm">
               <li class="nav-item">
-                <a class="nav-link fw-normal px-0 py-1" href="{{ route('contact') }}">{{ __('menu.dropdown.services.brand_status_analysis.title') }}</a>
+                <a class="nav-link fw-normal px-0 py-1" href="{{ route('help') }}">{{ __('help.title') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link fw-normal px-0 py-1" href="{{ route('contact') }}">{{ __('menu.dropdown.services.prompt_evaluation.title') }}</a>
+                <a class="nav-link fw-normal px-0 py-1" href="{{ route('policy') }}">{{ __('privacy-policy.privacy_policy_title') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link fw-normal px-0 py-1" href="{{ route('contact') }}">{{ __('menu.dropdown.services.effect_optimization.title') }}</a>
+                <a class="nav-link fw-normal px-0 py-1" href="{{ route('terms') }}">{{ __('terms-of-service.terms_title') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link fw-normal px-0 py-1" href="{{ route('contact') }}">{{ __('menu.dropdown.services.effect_monitoring.title') }}</a>
+                <a class="nav-link fw-normal px-0 py-1" href="{{ route('contact') }}">{{ __('contact-us.title') }}</a>
               </li>
             </ul>
-          </div> --}}
-          <div class="col-sm-4 col-lg-3 col-xl-2">
+          </div>
+          {{-- <div class="col-sm-4 col-lg-3 col-xl-2">
             <h6 class="fw-bold">{{ __('lang.contact') }}</h6>
             <ul class="nav flex-column fs-sm">
               <li class="nav-item">
                 <a class="nav-link fw-normal px-0 py-1" href="mailto:xxxxx@example.com">xxxxx@example.com</a>
               </li>
             </ul>
-          </div>
+          </div> --}}
         </div>
         <div class="d-sm-flex align-items-center justify-content-between pt-4 pt-md-5 mt-2 mt-md-0 mt-lg-2 mt-xl-4">
           <div class="d-flex justify-content-center order-sm-2 me-md-n2">
