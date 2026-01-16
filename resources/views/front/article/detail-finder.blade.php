@@ -1,6 +1,6 @@
 @extends('layouts.finder.master')
 
-@section('title',  $article->seo_title ?? $article->title . ' - ' . $article->category->name.' - AI Content Detector')
+@section('title',  $article->seo_title ?? $article->title . ' - ' . $article->category->name.' - GlobalSearchGEO')
 @section('description', $article->seo_description ?? $article->seo_title ?? $article->title)
 @section('keywords', $article->seo_keywords ?? $article->seo_title ?? $article->title)
 

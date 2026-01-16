@@ -14,12 +14,12 @@ return  [
 	'register' => 'Register',
 	'logout' => 'Logout',
 	'sign_in' => 'Sign In',
-	'sign_in_description' => 'Sign In - AI Content Detector',
+	'sign_in_description' => 'Sign In - GlobalSearchGEO',
 	'sign_up' => 'Sign Up',
-	'sign_up_description' => 'Sign Up - AI Content Detector',
+	'sign_up_description' => 'Sign Up - GlobalSearchGEO',
 
 	// Index
-	'more_than_an_ai_detect' => 'AI Detector',
+	'more_than_an_ai_detect' => 'GlobalSearchGEO',
 	'preserve' => 'Preserve',
 	'word_animation_words' => [
 			'quality.',
@@ -119,12 +119,12 @@ return  [
 	'terms_and_condition_label' => 'I agree to the Terms and Conditions',
 	// 'terms_and_condition' => 'Terms and Conditions',
 
-	'page_title' => 'AI Content Detector – Free AI Checker for ChatGPT, GPT-4, DeepSeek, Claude & Gemini, Aigc Check',
-	'page_description' => 'checker is a free AI detector that identifies AI-generated text and checks for AI plagiarism, ensuring content authenticity.',
-	'page_keywords' => 'checker, gpt zero, zero gpt, ai detector, ai checker, ai content detector, chat gpt detector, check gpt, chatgpt detector',
+	'page_title' => 'GlobalSearchGEO',
+	'page_description' => 'A leading global platform for Generative Engine Optimization (GEO) insights. Stay updated with the latest news, in-depth analysis, and expert blogs on AI-driven search evolution, content generation strategies, and search ranking algorithms.',
+	'page_keywords' => 'Generative Engine Optimization, GEO, AI search optimization, generative AI, search algorithms, content strategy, future of search, search ranking, AIGC, semantic search',
 
-	'index_title' => 'AI Content Detector',
-	'index_description' => 'Detect AI-generated content with our powerful tool',
+	'index_title' => 'GlobalSearchGEO',
+	'index_description' => 'Stay updated with the latest news, in-depth analysis, and expert blogs on AI-driven search evolution, content generation strategies, and search ranking algorithms.',
 	'uncover_truth_button' => 'Uncover the Truth',
 
 	'how_to_use' => 'How to use',
@@ -152,9 +152,9 @@ return  [
 	'category' => 'Category',
 
 	// SEO
-	'seo_title' => 'AI Content Detector – Free AI Rate Checker for ChatGPT, GPT-4, DeepSeek, Claude &amp; Gemini, Aigc Check',
-	'seo_description' => 'aigcchecker is a free AI rate checker that identifies AI-generated text and checks for AI plagiarism, ensuring content authenticity.',
-	'seo_keywords' => 'aigcchecker, gpt zero, zero gpt, ai rate checker, ai rate checker, ai content detector, chat gpt detector, check gpt, chatgpt detector',
+	'seo_title' => 'GlobalSearchGEO',
+	'seo_description' => 'Stay updated with the latest news, in-depth analysis, and expert blogs on AI-driven search evolution, content generation strategies, and search ranking algorithms.',
+	'seo_keywords' => 'Generative Engine Optimization, GEO, AI search optimization, generative AI, search algorithms, content strategy, future of search, search ranking, AIGC, semantic search',
 
 	// Else
 	'please_login_first' => 'Please login first.',

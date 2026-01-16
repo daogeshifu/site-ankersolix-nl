@@ -3,21 +3,21 @@
 return [
     // Page metadata
     'meta' => [
-        'title' => 'AI Content Detector – Free AI Checker',
-        'description' => 'checker is a free AI detector that identifies AI-generated text and checks for AI plagiarism, ensuring content authenticity.',
-        'keywords' => 'checker, gpt zero, zero gpt, ai detector, ai checker, ai content detector, chat gpt detector, check gpt, chatgpt detector',
+        'title' => 'GlobalSearchGEO',
+        'description' => 'A leading global platform for Generative Engine Optimization (GEO) insights. Stay updated with the latest news, in-depth analysis, and expert blogs on AI-driven search evolution, content generation strategies, and search ranking algorithms.',
+        'keywords' => 'Generative Engine Optimization, GEO, AI search optimization, generative AI, search algorithms, content strategy, future of search, search ranking, AIGC, semantic search',
     ],
 
 
     // Hero section 
     'hero_section' => [
-        'heading' => ' Unlock new skills',
-        'subheading' => 'Reduce duplicate rate from 89% to 10% in just 1 minute.',
+        'heading' => 'Unlock new skills',
+        'subheading' => 'Stay updated with the latest news, in-depth analysis, and expert blogs on AI-driven search evolution, content generation strategies, and search ranking algorithms.',
     ],
 
 
     'free_trial' => 'Get free trial',
-    'section_reduce_rates' => 'Powerful reduction of AIGC rate and duplicate rate',
+    'section_reduce_rates' => 'Stay updated with the latest news, in-depth analysis, and expert blogs on AI-driven search evolution, content generation strategies, and search ranking algorithms.',
     'section_reduce_rates_desc' => 'You can choose《Document Detection》or《Text Detection》to meet various scene needs',
     'upload_file' => 'Upload file to be detected',
 
