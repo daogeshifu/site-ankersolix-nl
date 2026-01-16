@@ -12,7 +12,7 @@ class PagesController extends Controller
      */
     public function policy()
     {
-        return view('pages.privacy-policy');
+        return view('front.pages.privacy-policy');
     }
 
     /**
@@ -20,6 +20,30 @@ class PagesController extends Controller
      */
     public function terms()
     {
-        return view('pages.terms-of-use');
+        return view('front.pages.terms-of-use');
+    }
+
+    /**
+     * 联系我们页面
+     */
+    public function contact()
+    {
+        return view('front.pages.contact-us');
+    }
+
+    /**
+     * 关于我们页面
+     */
+    public function about()
+    {
+        return view('front.pages.about-us');
+    }
+
+    /**
+     * 帮助页面
+     */
+    public function help()
+    {
+        return view('front.pages.help');
     }
 }

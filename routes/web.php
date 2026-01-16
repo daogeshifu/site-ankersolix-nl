@@ -60,12 +60,12 @@ Route::group([
         Route::get('pricing', [IndexController::class, 'pricing'])->name('pricing');
         Route::get('price', [IndexController::class, 'price'])->name('price');
         
-        Route::get('terms', [IndexController::class, 'terms'])->name('terms');
-        Route::get('policy', [IndexController::class, 'policy'])->name('policy');
-    
-        Route::get('contact', [IndexController::class, 'contact'])->name('contact');
-    
-        Route::get('about', [IndexController::class, 'about'])->name('about');
+
+        Route::get('terms', [PagesController::class, 'terms'])->name('terms');
+        Route::get('policy', [PagesController::class, 'policy'])->name('policy');
+        Route::get('contact', [PagesController::class, 'contact'])->name('contact');
+        Route::get('about', [PagesController::class, 'about'])->name('about');
+        Route::get('help', [PagesController::class, 'help'])->name('help');
 
 
         // 博客/文章相关
