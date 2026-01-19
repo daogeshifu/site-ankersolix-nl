@@ -10,7 +10,7 @@
 <script src="/around/js/theme.min.js"></script>
 
 <!-- Language Switcher -->
-<script src="/around/js/language-switcher.js"></script>
+{{-- <script src="/around/js/language-switcher.js"></script> --}}
 
 <!-- Customizer -->
 <script src="/around/js/customizer.min.js"></script>

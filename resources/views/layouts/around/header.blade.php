@@ -12,24 +12,47 @@
     <!-- Theme & Language Controls -->
     <div class="theme-language-controls order-lg-2 ms-auto me-2">
       <!-- Language picker -->
-      <div class="dropdown language-dropdown">
-        <button class="btn btn-primary   d-flex align-items-center" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="ai-globe me-1"></i>
-          <span class="current-lang">{{ app()->getLocale() == 'en' ? 'EN' : '中' }}</span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-          <li>
-            <a class="dropdown-item {{ app()->getLocale() == 'en' ? 'active' : '' }}" href="#" data-locale="en">
-              <span class="me-2">🇺🇸</span>English
+@php
+    use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
+    $currentLocale = LaravelLocalization::getCurrentLocale();
+@endphp
+
+<div class="dropdown language-dropdown">
+    <button
+        class="btn btn-primary d-flex align-items-center"
+        type="button"
+        id="languageDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+    >
+        <i class="ai-globe me-1"></i>
+        <span class="current-lang">
+            {{ $currentLocale === 'en' ? 'EN' : '中' }}
+        </span>
+    </button>
+
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+        <li>
+            <a
+                class="dropdown-item {{ $currentLocale === 'en' ? 'active' : '' }}"
+                href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}"
+            >
+                <span class="me-2">🇺🇸</span>English
             </a>
-          </li>
-          <li>
-            <a class="dropdown-item {{ in_array(app()->getLocale(), ['zh', 'cn']) ? 'active' : '' }}" href="#" data-locale="zh">
-              <span class="me-2">🇨🇳</span>中文
+        </li>
+
+        <li>
+            <a
+                class="dropdown-item {{ in_array($currentLocale, ['zh', 'cn']) ? 'active' : '' }}"
+                href="{{ LaravelLocalization::getLocalizedURL('zh', null, [], true) }}"
+            >
+                <span class="me-2">🇨🇳</span>中文
             </a>
-          </li>
-        </ul>
-      </div>
+        </li>
+    </ul>
+</div>
+
 
     </div>
 
