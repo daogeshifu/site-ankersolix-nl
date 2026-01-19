@@ -98,7 +98,7 @@
             @endif
 
             <!-- More articles button -->
-            <a class="btn btn-primary mt-n2 mt-sm-n1 mt-md-0" href="{{ route('articles') }}">{{ __('article.read_all') }}</a>
+            <a class="btn btn-primary mt-n2 mt-sm-n1 mt-md-0" href="{{ route('index') }}">{{ __('article.read_all') }}</a>
           </div>
 
 

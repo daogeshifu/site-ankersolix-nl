@@ -94,7 +94,7 @@ class ArticleController extends Controller
             }
         }
 
-        return view('article.index', compact('articles', 'categories', 'currentCategory', 'topArticle', 'search', 'currentPage'));
+        return view('front.index.index', compact('articles', 'categories', 'currentCategory', 'topArticle', 'search', 'currentPage'));
     }
 
     private function getPaginationPath($category_name = null)
@@ -102,7 +102,7 @@ class ArticleController extends Controller
         if ($category_name && 'all' != $category_name) {
             return route('article.category', ['category_name' => $category_name]);
         }
-        return route('aigc.blog');
+        return route('index');
     }
 
     /**
