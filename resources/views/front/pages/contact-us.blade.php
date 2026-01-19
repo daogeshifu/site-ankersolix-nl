@@ -30,9 +30,22 @@
     <!-- Contact form -->
     <div class="col-lg-7">
       <h2 class="h3 mb-4">{{ __('contact-us.form_title') }}</h2>
+      @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ session('success') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      @endif
 
-      {{-- <form action="{{ route('contact-us.submit') }}" method="POST"> --}}
-      <form action="" method="POST">
+      @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ session('error') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      @endif
+
+      <form action="{{ route('save-contact') }}" method="POST">
+      {{-- <form action="" method="POST"> --}}
         @csrf
 
         <div class="row g-4">

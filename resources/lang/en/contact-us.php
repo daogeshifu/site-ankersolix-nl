@@ -16,4 +16,7 @@ return [
     'response_time' => 'Response time',
     'response_desc' => 'We usually reply within 24–48 hours.',
     'privacy_notice' => 'Your information will only be used to respond to your inquiry.',
+
+    'success_message' => 'Submission successful, we will contact you soon.',
+    'error_message'   => 'Submission failed, please try again later.',
 ];

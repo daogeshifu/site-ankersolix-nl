@@ -19,4 +19,7 @@ return [
     'response_time' => '回复时间',
     'response_desc' => '我们通常会在 24–48 小时内回复。',
     'privacy_notice' => '您的信息仅用于回复您的咨询。',
+    
+    'success_message' => '提交成功，我们会尽快与您联系。',
+    'error_message'   => '提交失败，请稍后再试。',
 ];

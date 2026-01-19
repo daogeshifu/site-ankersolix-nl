@@ -31,6 +31,11 @@ class PagesController extends Controller
         return view('front.pages.contact-us');
     }
 
+    public function save_contact(Request $request)
+    {
+        // 处理联系表单提交逻辑
+    }
+
     /**
      * 关于我们页面
      */

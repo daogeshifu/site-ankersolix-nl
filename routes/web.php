@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Front\ArticleController as FrontArticleController;
 use App\Http\Controllers\Front\PagesController;
 use Illuminate\Http\Request;
@@ -63,7 +64,8 @@ Route::group([
 
         Route::get('terms', [PagesController::class, 'terms'])->name('terms');
         Route::get('policy', [PagesController::class, 'policy'])->name('policy');
-        Route::get('contact', [PagesController::class, 'contact'])->name('contact');
+        Route::get('contact', [ContactController::class, 'contact'])->name('contact');
+        Route::post('save-contact', [ContactController::class, 'submitForm'])->name('save-contact');
         Route::get('about', [PagesController::class, 'about'])->name('about');
         Route::get('help', [PagesController::class, 'help'])->name('help');
 
