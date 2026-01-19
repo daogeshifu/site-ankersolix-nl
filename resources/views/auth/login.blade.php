@@ -1,4 +1,4 @@
-@extends('layouts.htmlstream.master_blank')
+@extends('layouts.admin.master')
 
 
 @section('title'){{ __('lang.login') }} - {{ config('app.name') }} @endsection

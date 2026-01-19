@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdminUser;
+use App\Models\User\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -83,7 +84,7 @@ class AdminUserController extends Controller
      */
     public function index(Request $request)
     {
-        $query = \App\Models\User::query();
+        $query = User::query();
 
         // 搜索功能
         if ($request->has('search')) {
@@ -106,7 +107,7 @@ class AdminUserController extends Controller
     {
         $days = $request->input('days', 30); // 默认显示30天
 
-        $data = \App\Models\User::selectRaw('DATE(created_at) as date, COUNT(*) as count')
+        $data = User::selectRaw('DATE(created_at) as date, COUNT(*) as count')
             ->where('created_at', '>=', now()->subDays($days))
             ->groupBy('date')
             ->orderBy('date', 'asc')

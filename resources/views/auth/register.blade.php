@@ -1,4 +1,4 @@
-@extends('layouts.htmlstream.master_blank')
+@extends('layouts.admin.master')
 
 
 @section('title')登录 - AIGC 智能查重，全网首发检测者 4.0 大模型-发现PPT @endsection

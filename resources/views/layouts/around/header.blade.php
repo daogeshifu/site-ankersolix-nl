@@ -43,6 +43,14 @@
         <i class="ai-phone-out fs-xl me-2 ms-n1"></i>
         {{ __('contact-us.title') }}
       </a>
+      <a class="btn btn-outline-primary btn-sm fs-sm" href="{{ route('register') }}" rel="noopener">
+        <i class="fs-xl me-2 ms-n1"></i>
+        {{ __('lang.register') }}
+      </a>
+      <a class="btn btn-outline-primary btn-sm fs-sm" href="{{ route('login') }}" rel="noopener">
+        <i class="fs-xl me-2 ms-n1"></i>
+        {{ __('lang.login') }}
+      </a>
       
 
     </div>

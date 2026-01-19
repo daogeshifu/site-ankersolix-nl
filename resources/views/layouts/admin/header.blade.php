@@ -25,9 +25,11 @@
 				<li class="profile-nav onhover-dropdown pe-0 py-0">
 					<div class="media profile-media">
 						<!-- <img style="width: 40px; height: 40px; border-radius: 50% !important;" class="b-r-10" src="/enlink/images/avatars/thumb-6.jpg" alt=""> -->
+						@if(Auth::user())
 						<div class="media-body"><span></span>
 							<p class="mb-0">{{ Auth::user()->name; }}</p>
 						</div>
+						@endif
 					</div>
 					<ul class="profile-dropdown onhover-show-div">
 						<li><a href="{{ route('logout') }}"><i data-feather="log-in"> </i><span>退出登录</span></a></li>
