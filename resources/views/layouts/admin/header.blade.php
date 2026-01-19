@@ -27,7 +27,7 @@
 						<!-- <img style="width: 40px; height: 40px; border-radius: 50% !important;" class="b-r-10" src="/enlink/images/avatars/thumb-6.jpg" alt=""> -->
 						@if(Auth::user())
 						<div class="media-body"><span></span>
-							<p class="mb-0">{{ Auth::user()->name; }}</p>
+							<p class="mb-0">{{ Auth::user()->name }}</p>
 						</div>
 						@endif
 					</div>

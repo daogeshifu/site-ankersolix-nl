@@ -265,11 +265,24 @@
                     });
     
                     // 错误回调
-                    this.on("error", function(file, message) {
-                        let errorMessage = typeof message === 'string' ? message : message.message;
-                        alert("Upload failed: " + errorMessage);
-                        this.removeFile(file); // 移除上传失败的文件卡片
+                    this.on("error", function (file, message, xhr) {
+                        let errorMessage = 'Upload failed';
+
+                        if (xhr && xhr.responseText) {
+                            try {
+                                const res = JSON.parse(xhr.responseText);
+                                errorMessage = res.msg || res.message || errorMessage;
+                            } catch (e) {
+                                errorMessage = xhr.responseText;
+                            }
+                        } else if (typeof message === 'string') {
+                            errorMessage = message;
+                        }
+
+                        alert(errorMessage);
+                        this.removeFile(file);
                     });
+
                 }
             });
         }
@@ -370,8 +383,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 获取当前光标位置
                 const range = quill.getSelection(true);
                 // 插入图片
-                const imageUrl =  data.data.path;
+                const imageUrl = "{{ asset('storage') }}/" + data.data.path;
                 quill.insertEmbed(range.index, 'image', imageUrl);
+
                 // 移动光标到图片后面
                 quill.setSelection(range.index + 1);
             } else {
