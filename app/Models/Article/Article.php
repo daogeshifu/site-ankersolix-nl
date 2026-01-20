@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use App\Models\User\User;
+use Illuminate\Support\Facades\Cache;
 
 class Article extends Model implements TranslatableContract
 {
@@ -25,8 +26,11 @@ class Article extends Model implements TranslatableContract
         'seo_keywords'
     ];
 
-    // Keep the original fillable fields that aren't translatable
-    // title 和 content 在主表中冗余存储英文版本
+    /**
+     * Keep the original fillable fields that aren't translatable
+     * title 和 content 在主表中冗余存储英文版本
+     * @var array
+     */
     protected $fillable = [
         'user_id',
         'category_id',
@@ -34,6 +38,17 @@ class Article extends Model implements TranslatableContract
         'cover',
         'title',
         'content'
+    ];
+
+    /**
+     * 类型转换
+     * @var array
+     */
+    protected $casts = [
+        'view_count' => 'integer',
+        'read_count' => 'integer',
+        'last_viewed_at' => 'datetime',
+        'last_read_at' => 'datetime',
     ];
 
     public function user()
@@ -194,4 +209,65 @@ class Article extends Model implements TranslatableContract
 
         return $this;
     }
+
+
+
+    /**
+     * 记录一次浏览（宽松规则）
+     * IP + 5 分钟去重
+     * 
+     * @param string $ip IP 地址
+     * @param int $ttlSeconds 缓存有效期（秒）
+     * @return void
+     */
+    public function recordViewByIp(string $ip, int $ttlSeconds = 300): void
+    {
+        $cacheKey = $this->viewCacheKey($ip);
+
+        if (Cache::has($cacheKey)) {
+            return;
+        }
+
+        Cache::put($cacheKey, true, $ttlSeconds);
+
+        $this->increment('view_count', 1, [
+            'last_viewed_at' => now(),
+        ]);
+    }
+
+    /**
+     * 记录一次有效阅读（一般严格规则）
+     * 依赖前端已完成停留 / 滚动判断
+     * 
+     * @param string $ip IP 地址
+     * @param int $ttlSeconds 缓存有效期（秒）
+     * @return void
+     */
+    public function recordReadByIp(string $ip, int $ttlSeconds = 300): void
+    {
+        $cacheKey = $this->readCacheKey($ip);
+
+        if (Cache::has($cacheKey)) {
+            return;
+        }
+
+        Cache::put($cacheKey, true, $ttlSeconds);
+
+        $this->increment('read_count', 1, [
+            'last_read_at' => now(),
+        ]);
+    }
+
+    /* ---------------- Cache Key 规范 ---------------- */
+
+    protected function viewCacheKey(string $ip): string
+    {
+        return "article:{$this->id}:view:{$ip}";
+    }
+
+    protected function readCacheKey(string $ip): string
+    {
+        return "article:{$this->id}:read:{$ip}";
+    }
+
 }

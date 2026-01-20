@@ -78,6 +78,9 @@ Route::group([
         Route::get('/article/{category_name}', [FrontArticleController::class, 'index'])->name('article.category');
         Route::get('/{category_name}/{link}.html', [FrontArticleController::class, 'detail'])->name('article.detail.show');
 
+        // 浏览量/阅读量
+        Route::post('/article/{article}/view', [FrontArticleController::class, 'view'])->name('article.view');
+        Route::post('/article/{article}/read', [FrontArticleController::class, 'read'])->name('article.read');
 
     });
 

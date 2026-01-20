@@ -239,4 +239,37 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
+<script>
+fetch('{{ route('article.view', $article->id) }}', {
+    method: 'POST',
+    headers: {
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    }
+});
+</script>
+<script>
+let readReported = false;
+const startTime = Date.now();
+
+window.addEventListener('scroll', () => {
+    if (readReported) return;
+
+    const scrollRatio =
+        (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
+
+    const staySeconds = (Date.now() - startTime) / 1000;
+
+    if (scrollRatio >= 0.5 && staySeconds >= 8) {
+        readReported = true;
+
+        fetch('{{ route('article.read', $article->id) }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        });
+    }
+});
+</script>
+
 @endpush
