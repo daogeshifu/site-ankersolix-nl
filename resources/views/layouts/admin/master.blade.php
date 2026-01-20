@@ -41,14 +41,14 @@
 	<div class="page-wrapper compact-wrapper" id="pageWrapper">
 		<!-- Page Header Start-->
 
-		@include('layouts.admin.header')
+		{{-- @include('layouts.admin.header') --}}
 
 		<!-- Page Header Ends                              -->
 		<!-- Page Body Start-->
 		<div class="page-body-wrapper">
 			<!-- Page Sidebar Start-->
 
-			@include('layouts.admin.sidebar')
+			{{-- @include('layouts.admin.sidebar') --}}
 			<!-- Page Sidebar Ends-->
 			<div class="page-body">
 				<div class="container-fluid p-t-20">

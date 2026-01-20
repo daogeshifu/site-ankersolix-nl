@@ -52,30 +52,64 @@
     </div>
 
     <!-- Desktop right buttons (Contact + Auth) -->
-    <div class="d-none d-lg-flex align-items-center order-lg-3 ms-2 gap-2">
-      <a class="btn btn-outline-primary btn-sm fs-sm" href="{{ route('contact') }}" rel="noopener">
-        <i class="ai-phone-out fs-xl me-2 ms-n1"></i>
-        {{ __('contact-us.title') }}
+<div class="d-none d-lg-flex align-items-center order-lg-3 ms-2 gap-2">
+  @auth
+    <div class="dropdown">
+      <a
+        href="#"
+        class="d-flex align-items-center text-decoration-none dropdown-toggle"
+        id="userDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <img
+          src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('around/image/avatar/default.png') }}"
+          alt="{{ Auth::user()->name }}"
+          width="36"
+          height="36"
+          class="rounded-circle me-2 object-fit-cover"
+        >
+        <span class="fw-medium text-dark">
+          {{ Auth::user()->name }}
+        </span>
       </a>
 
-      <a
-        class="btn btn-primary btn-sm fs-sm"
-        href="{{ route('register') }}"
-        rel="noopener"
-      >
-        <i class="ai-user-plus fs-lg me-2"></i>
-        {{ __('lang.register') }}
-      </a>
-
-      <a
-        class="btn btn-light btn-sm fs-sm"
-        href="{{ route('login') }}"
-        rel="noopener"
-      >
-        <i class="ai-log-in fs-lg me-2"></i>
-        {{ __('lang.login') }}
-      </a>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+        <li>
+          <a class="dropdown-item" href="{{ route('login') }}">
+            {{ __('lang.login') }}
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="{{ route('logout') }}"
+             onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+            {{ __('lang.logout') }}
+          </a>
+        </li>
+      </ul>
     </div>
+
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+      @csrf
+    </form>
+  @else
+    <a class="btn btn-outline-primary btn-sm fs-sm" href="{{ route('contact') }}">
+      <i class="ai-phone-out fs-xl me-2 ms-n1"></i>
+      {{ __('contact-us.title') }}
+    </a>
+
+    <a class="btn btn-primary btn-sm fs-sm" href="{{ route('register') }}">
+      <i class="ai-user-plus fs-lg me-2"></i>
+      {{ __('lang.register') }}
+    </a>
+
+    <a class="btn btn-light btn-sm fs-sm" href="{{ route('login') }}">
+      <i class="ai-log-in fs-lg me-2"></i>
+      {{ __('lang.login') }}
+    </a>
+  @endauth
+</div>
+
 
     <!-- Mobile menu toggler -->
     <button
