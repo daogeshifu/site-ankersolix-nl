@@ -14,12 +14,12 @@ return  [
 	'register' => 'Register',
 	'logout' => 'Logout',
 	'sign_in' => 'Sign In',
-	'sign_in_description' => 'Sign In - GlobalSearchGEO',
+	'sign_in_description' => 'Sign In - HelloGeo',
 	'sign_up' => 'Sign Up',
-	'sign_up_description' => 'Sign Up - GlobalSearchGEO',
+	'sign_up_description' => 'Sign Up - HelloGeo',
 
 	// Index
-	'more_than_an_ai_detect' => 'GlobalSearchGEO',
+	'more_than_an_ai_detect' => 'HelloGeo',
 	'preserve' => 'Preserve',
 	'word_animation_words' => [
 			'quality.',
@@ -119,11 +119,11 @@ return  [
 	'terms_and_condition_label' => 'I agree to the Terms and Conditions',
 	// 'terms_and_condition' => 'Terms and Conditions',
 
-	'page_title' => 'GlobalSearchGEO',
+	'page_title' => 'HelloGeo',
 	'page_description' => 'A leading global platform for Generative Engine Optimization (GEO) insights. Stay updated with the latest news, in-depth analysis, and expert blogs on AI-driven search evolution, content generation strategies, and search ranking algorithms.',
 	'page_keywords' => 'Generative Engine Optimization, GEO, AI search optimization, generative AI, search algorithms, content strategy, future of search, search ranking, AIGC, semantic search',
 
-	'index_title' => 'GlobalSearchGEO',
+	'index_title' => 'HelloGeo',
 	'index_description' => 'Stay updated with the latest news, in-depth analysis, and expert blogs on AI-driven search evolution, content generation strategies, and search ranking algorithms.',
 	'uncover_truth_button' => 'Uncover the Truth',
 
@@ -152,7 +152,7 @@ return  [
 	'category' => 'Category',
 
 	// SEO
-	'seo_title' => 'GlobalSearchGEO',
+	'seo_title' => 'HelloGeo',
 	'seo_description' => 'Stay updated with the latest news, in-depth analysis, and expert blogs on AI-driven search evolution, content generation strategies, and search ranking algorithms.',
 	'seo_keywords' => 'Generative Engine Optimization, GEO, AI search optimization, generative AI, search algorithms, content strategy, future of search, search ranking, AIGC, semantic search',
 
