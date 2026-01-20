@@ -18,6 +18,8 @@ return [
     'sign_up' => '注册',
     'sign_up_description' => '注册 - AI内容检测器',
 
+    'views' => '浏览',
+
     // Index
     'more_than_an_ai_detectir' => '不止AI检测',
     'preserve' => '我们保护',
@@ -117,11 +119,11 @@ return [
     'terms_and_condition_label' => '我已阅读并同意',
     'terms_and_condition' => '用户协议和隐私政策',
 
-    'page_title' => 'AI内容检测器 – 免费检测ChatGPT、GPT-4、DeepSeek、Claude和Gemini生成的内容',
-    'page_description' => '检测器是一款免费的AI检测工具，可识别AI生成的文本并检查AI抄袭，确保内容的真实性。',
-    'page_keywords' => '检测器,GPT检测,AI检测,AI内容检测器,ChatGPT检测器,内容检测,人工智能检测',
+    'page_title' => 'HelloGeo - GEO优化专家',
+    'page_description' => 'HelloGeo 是领先的生成式引擎优化 (GEO) 平台，提供深入的见解和实用指南，帮助内容创作者和SEO专业人士提升其AI驱动内容的搜索排名和可见性。',
+    'page_keywords' => 'GEO, GEO优化, 生成式引擎优化, AI驱动搜索, 内容生成策略, 搜索排名算法',
 
-    'index_title' => 'AI内容检测器',
+    'index_title' => 'HelloGeo',
     'index_description' => '使用我们强大的工具检测AI生成的内容',
     'uncover_truth_button' => '揭示真相',
     

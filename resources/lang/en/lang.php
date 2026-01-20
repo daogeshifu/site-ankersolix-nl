@@ -18,6 +18,8 @@ return  [
 	'sign_up' => 'Sign Up',
 	'sign_up_description' => 'Sign Up - HelloGeo',
 
+	'views' => 'Views',
+
 	// Index
 	'more_than_an_ai_detect' => 'HelloGeo',
 	'preserve' => 'Preserve',
