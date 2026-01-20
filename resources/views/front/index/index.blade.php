@@ -116,7 +116,7 @@
                   </h3>
                   <div class="d-flex flex-wrap align-items-center mt-n2">
                     <span class="text-body-secondary fs-sm fw-normal p-0 mt-2 me-3">
-                      {{ $sidebarArticle->views ?? 0 }}
+                      {{ $sidebarArticle->view_count ?? 0 }}
                       <i class="ai-eye fs-lg ms-1"></i>
                     </span>
                     <span class="fs-xs opacity-20 mt-2 mx-3">|</span>

@@ -56,7 +56,7 @@
             <h1 class="display-4 pb-2 pb-lg-3">{{ $article->title }}</h1>
             <div class="d-flex flex-wrap align-items-center mt-n2">
               <span class="text-body-secondary fs-sm fw-normal p-0 mt-2 me-3">
-                {{ $article->views ?? 0 }}
+                {{ $article->view_count ?? 0 }}
                 <i class="ai-eye fs-lg ms-1"></i>
               </span>
               <span class="fs-xs opacity-20 mt-2 mx-3">|</span>

@@ -137,7 +137,7 @@ h2 {
                       <div class="d-flex align-items-center gap-1">
                         <i class="fi-star-filled text-warning"></i>
                         <span class="fs-sm text-secondary-emphasis">4.9</span>
-                        <span class="fs-sm text-body-secondary align-self-end">({{ $article->views ?? 20 }})</span>
+                        <span class="fs-sm text-body-secondary align-self-end">({{ $article->view_count ?? 20 }})</span>
                       </div>
                     </div>
                   </div>
