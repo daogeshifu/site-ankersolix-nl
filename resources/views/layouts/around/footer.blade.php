@@ -18,14 +18,14 @@
               <span class="text-white opacity-90">      {{ __('home.super') }}</span>
             </div>
             <p class="text-body fs-sm mb-4">      {{ __('home.brand') }}</p>
-            <form class="needs-validation" novalidate="">
+            {{-- <form class="needs-validation" novalidate=""> --}}
               <div class="row g-2">
                 <div class="input-group input-group-sm rounded-pill">
                   <input class="form-control" type="text" placeholder="Email address">
-                  <button class="btn btn-primary rounded-pill" type="button">{{ __('lang.contact') }}</button>
+                  <a class="btn btn-primary rounded-pill" type="button" href="{{ route('contact') }}">{{ __('lang.contact') }}</a>
                 </div>
               </div>
-            </form>
+            {{-- </form> --}}
 {{--            <div class="input-group input-group-sm rounded-pill">--}}
 {{--              <input class="form-control" type="text" placeholder="Email address">--}}
 {{--              <button class="btn btn-primary rounded-pill" type="button">Subscribe</button>--}}
@@ -76,13 +76,13 @@
         </div>
         <div class="d-sm-flex align-items-center justify-content-between pt-4 pt-md-5 mt-2 mt-md-0 mt-lg-2 mt-xl-4">
           <div class="d-flex justify-content-center order-sm-2 me-md-n2">
-            <a class="btn btn-icon btn-sm btn-secondary btn-instagram rounded-circle mx-2" href="#" aria-label="Instagram">
+            <a class="btn btn-icon btn-sm btn-secondary btn-twitter rounded-circle mx-2" href="#" aria-label="Instagram">
               <i class="ai-instagram"></i>
             </a>
-            <a class="btn btn-icon btn-sm btn-secondary btn-facebook rounded-circle mx-2" href="#" aria-label="Facebook">
+            <a class="btn btn-icon btn-sm btn-secondary btn-facebook rounded-circle mx-2 nofollow" href="" aria-label="Facebook">
               <i class="ai-facebook"></i>
             </a>
-            <a class="btn btn-icon btn-sm btn-secondary btn-linkedin rounded-circle mx-2" href="#" aria-label="LinkedIn">
+            <a class="btn btn-icon btn-sm btn-secondary btn-linkedin rounded-circle mx-2 nofollow" href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(url()->current()) }}" aria-label="LinkedIn">
               <i class="ai-linkedin"></i>
             </a>
           </div>
