@@ -18,14 +18,14 @@
               <span class="text-white opacity-90">      {{ __('home.super') }}</span>
             </div>
             <p class="text-body fs-sm mb-4">      {{ __('home.brand') }}</p>
-            <form class="needs-validation" novalidate="">
+            {{-- <form class="needs-validation" novalidate=""> --}}
               <div class="row g-2">
                 <div class="input-group input-group-sm rounded-pill">
                   <input class="form-control" type="text" placeholder="Email address">
-                  <button class="btn btn-primary rounded-pill" type="button">{{ __('lang.contact') }}</button>
+                  <a class="btn btn-primary rounded-pill" type="button" href="{{ route('contact') }}">{{ __('lang.contact') }}</a>
                 </div>
               </div>
-            </form>
+            {{-- </form> --}}
 {{--            <div class="input-group input-group-sm rounded-pill">--}}
 {{--              <input class="form-control" type="text" placeholder="Email address">--}}
 {{--              <button class="btn btn-primary rounded-pill" type="button">Subscribe</button>--}}
@@ -42,47 +42,47 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link fw-normal px-0 py-1" href="{{ route('articles') }}">{{ __('menu.insights') }}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link fw-normal px-0 py-1" href="{{ route('about') }}">{{ __('menu.about') }}</a>
               </li> --}}
+              <li class="nav-item">
+                <a class="nav-link fw-normal px-0 py-1" href="{{ route('about') }}">{{ __('about-us.title') }}</a>
+              </li>
             </ul>
           </div>
-{{--           <div class="col-sm-4 col-lg-2 mb-4 mb-sm-0">
-            <h6 class="fw-bold">{{ __('menu.services') }}</h6>
+          <div class="col-sm-4 col-lg-2 mb-4 mb-sm-0">
+            <h6 class="fw-bold">{{ __('lang.support') }}</h6>
             <ul class="nav flex-column fs-sm">
               <li class="nav-item">
-                <a class="nav-link fw-normal px-0 py-1" href="{{ route('contact') }}">{{ __('menu.dropdown.services.brand_status_analysis.title') }}</a>
+                <a class="nav-link fw-normal px-0 py-1" href="{{ route('help') }}">{{ __('help.title') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link fw-normal px-0 py-1" href="{{ route('contact') }}">{{ __('menu.dropdown.services.prompt_evaluation.title') }}</a>
+                <a class="nav-link fw-normal px-0 py-1" href="{{ route('policy') }}">{{ __('privacy-policy.privacy_policy_title') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link fw-normal px-0 py-1" href="{{ route('contact') }}">{{ __('menu.dropdown.services.effect_optimization.title') }}</a>
+                <a class="nav-link fw-normal px-0 py-1" href="{{ route('terms') }}">{{ __('terms-of-service.terms_title') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link fw-normal px-0 py-1" href="{{ route('contact') }}">{{ __('menu.dropdown.services.effect_monitoring.title') }}</a>
+                <a class="nav-link fw-normal px-0 py-1" href="{{ route('contact') }}">{{ __('contact-us.title') }}</a>
               </li>
             </ul>
-          </div> --}}
-          <div class="col-sm-4 col-lg-3 col-xl-2">
+          </div>
+          {{-- <div class="col-sm-4 col-lg-3 col-xl-2">
             <h6 class="fw-bold">{{ __('lang.contact') }}</h6>
             <ul class="nav flex-column fs-sm">
               <li class="nav-item">
                 <a class="nav-link fw-normal px-0 py-1" href="mailto:xxxxx@example.com">xxxxx@example.com</a>
               </li>
             </ul>
-          </div>
+          </div> --}}
         </div>
         <div class="d-sm-flex align-items-center justify-content-between pt-4 pt-md-5 mt-2 mt-md-0 mt-lg-2 mt-xl-4">
           <div class="d-flex justify-content-center order-sm-2 me-md-n2">
-            <a class="btn btn-icon btn-sm btn-secondary btn-instagram rounded-circle mx-2" href="#" aria-label="Instagram">
+            <a class="btn btn-icon btn-sm btn-secondary btn-twitter rounded-circle mx-2" href="#" aria-label="Instagram">
               <i class="ai-instagram"></i>
             </a>
-            <a class="btn btn-icon btn-sm btn-secondary btn-facebook rounded-circle mx-2" href="#" aria-label="Facebook">
+            <a class="btn btn-icon btn-sm btn-secondary btn-facebook rounded-circle mx-2 nofollow" href="" aria-label="Facebook">
               <i class="ai-facebook"></i>
             </a>
-            <a class="btn btn-icon btn-sm btn-secondary btn-linkedin rounded-circle mx-2" href="#" aria-label="LinkedIn">
+            <a class="btn btn-icon btn-sm btn-secondary btn-linkedin rounded-circle mx-2 nofollow" href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(url()->current()) }}" aria-label="LinkedIn">
               <i class="ai-linkedin"></i>
             </a>
           </div>

@@ -278,14 +278,18 @@ class ArticleController extends Controller
 
             Log::info('图片上传成功', [
                 'path' => $path,
-                'admin_user_id' => Auth::guard('admin')->id()
+                // 'admin_user_id' => Auth::guard('admin')->id()
+                'admin_user_id' => Auth::id()
             ]);
 
             return response()->json([
                 'code' => 200,
                 'msg' => '上传成功',
-                'data' => ['path' =>  'storage/' . $path],
+                'data' => [
+                    'path' => $path, // 只返回 upload/article/xxx.jpg
+                ],
             ]);
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'code' => 500,

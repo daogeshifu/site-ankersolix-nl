@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Front\ArticleController as FrontArticleController;
 use App\Http\Controllers\Front\PagesController;
 use Illuminate\Http\Request;
@@ -40,7 +41,7 @@ Route::group([
             // 为了保持向后兼容，保留原有的路由别名
         Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
         Route::post('/login', [LoginController::class, 'login'])->name('login.post');
-        Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
         Route::get('/auth/password/reset', [LoginController::class, 'showResetForm'])->name('auth.password.reset');
         Route::post('/auth/password/reset', [LoginController::class, 'reset'])->name('auth.password.reset.post');
 
@@ -60,12 +61,13 @@ Route::group([
         Route::get('pricing', [IndexController::class, 'pricing'])->name('pricing');
         Route::get('price', [IndexController::class, 'price'])->name('price');
         
-        Route::get('terms', [IndexController::class, 'terms'])->name('terms');
-        Route::get('policy', [IndexController::class, 'policy'])->name('policy');
-    
-        Route::get('contact', [IndexController::class, 'contact'])->name('contact');
-    
-        Route::get('about', [IndexController::class, 'about'])->name('about');
+
+        Route::get('terms', [PagesController::class, 'terms'])->name('terms');
+        Route::get('policy', [PagesController::class, 'policy'])->name('policy');
+        Route::get('contact', [ContactController::class, 'contact'])->name('contact');
+        Route::post('save-contact', [ContactController::class, 'submitForm'])->name('save-contact');
+        Route::get('about', [PagesController::class, 'about'])->name('about');
+        Route::get('help', [PagesController::class, 'help'])->name('help');
 
 
         // 博客/文章相关
@@ -76,6 +78,9 @@ Route::group([
         Route::get('/article/{category_name}', [FrontArticleController::class, 'index'])->name('article.category');
         Route::get('/{category_name}/{link}.html', [FrontArticleController::class, 'detail'])->name('article.detail.show');
 
+        // 浏览量/阅读量
+        Route::post('/article/{article}/view', [FrontArticleController::class, 'view'])->name('article.view');
+        Route::post('/article/{article}/read', [FrontArticleController::class, 'read'])->name('article.read');
 
     });
 

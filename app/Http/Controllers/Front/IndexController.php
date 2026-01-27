@@ -29,7 +29,7 @@ class IndexController extends Controller
         $sidebarArticles = Article::with(['category'])
             ->whereTranslation('locale', $locale)
             ->orderBy('id', 'desc')
-            ->skip(3)
+            // ->skip(3)
             ->take(5)
             ->get();
 

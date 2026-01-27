@@ -25,6 +25,11 @@ class ArticleController extends Controller
 
     /**
      * 显示分类下的文章列表
+     * 
+     * @param Request $request
+     * @param string|null $category_name
+     * @param int|null $page
+     * @return \Illuminate\View\View
      */
     public function index_category_page(Request $request, $category_name = null, $page = null)
     {
@@ -33,6 +38,11 @@ class ArticleController extends Controller
 
     /**
      * 显示博客文章列表主逻辑
+     * 
+     * @param Request $request
+     * @param string|null $category_name
+     * @param int|null $page
+     * @return \Illuminate\View\View
      */
     public function index(Request $request, $category_name = null, $page = null)
     {
@@ -94,19 +104,29 @@ class ArticleController extends Controller
             }
         }
 
-        return view('article.index', compact('articles', 'categories', 'currentCategory', 'topArticle', 'search', 'currentPage'));
+        return view('front.index.index', compact('articles', 'categories', 'currentCategory', 'topArticle', 'search', 'currentPage'));
     }
 
+    /**
+     * 获取分页路径
+     * 
+     * @param string|null $category_name
+     * @return string
+     */
     private function getPaginationPath($category_name = null)
     {
         if ($category_name && 'all' != $category_name) {
-            return route('aigc.blog.category', ['category_name' => $category_name]);
+            return route('article.category', ['category_name' => $category_name]);
         }
-        return route('aigc.blog');
+        return route('index');
     }
 
     /**
      * 显示文章详细页面
+     * 
+     * @param Request $request
+     * @param string $category_name
+     * @param string $link
      */
     public function detail(Request $request, $category_name, $link)
     {
@@ -167,4 +187,29 @@ class ArticleController extends Controller
             'contentWithAnchors'
         ));
     }
+
+    /**
+     * 记录一次浏览
+     * @param Request $request
+     * @param Article $article
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function view(Request $request, Article $article)
+    {
+        $article->recordViewByIp($request->ip());
+        return response()->json(['ok' => true]);
+    }
+
+    /**
+     * 记录一次有效阅读
+     * @param Request $request
+     * @param Article $article
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function read(Request $request, Article $article)
+    {
+        $article->recordReadByIp($request->ip());
+        return response()->json(['ok' => true]);
+    }
+
 }
