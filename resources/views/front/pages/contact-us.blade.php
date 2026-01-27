@@ -150,25 +150,86 @@
         </div>
 
         <div class="max-w-3xl mx-auto space-y-4">
-            <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-primary transition-colors cursor-pointer group">
-                <div class="flex justify-between items-center">
+            <!-- FAQ 1 -->
+            <div class="bg-white dark:bg-background-dark rounded-xl border border-gray-200 dark:border-gray-800 hover:border-primary transition-colors overflow-hidden">
+                <button class="w-full p-6 flex justify-between items-center cursor-pointer group text-left faq-toggle" data-target="faq-1">
                     <h4 class="font-bold text-lg text-[#111318] dark:text-white">{{ __('contact-us.faq_1_question') }}</h4>
-                    <span class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors">add</span>
+                    <span class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors faq-icon">add</span>
+                </button>
+                <div id="faq-1" class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+                    <div class="px-6 pb-6">
+                        <p class="text-[#616f89] dark:text-gray-400 leading-relaxed">{{ __('contact-us.faq_1_answer') }}</p>
+                    </div>
                 </div>
             </div>
-            <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-primary transition-colors cursor-pointer group">
-                <div class="flex justify-between items-center">
+
+            <!-- FAQ 2 -->
+            <div class="bg-white dark:bg-background-dark rounded-xl border border-gray-200 dark:border-gray-800 hover:border-primary transition-colors overflow-hidden">
+                <button class="w-full p-6 flex justify-between items-center cursor-pointer group text-left faq-toggle" data-target="faq-2">
                     <h4 class="font-bold text-lg text-[#111318] dark:text-white">{{ __('contact-us.faq_2_question') }}</h4>
-                    <span class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors">add</span>
+                    <span class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors faq-icon">add</span>
+                </button>
+                <div id="faq-2" class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+                    <div class="px-6 pb-6">
+                        <p class="text-[#616f89] dark:text-gray-400 leading-relaxed">{{ __('contact-us.faq_2_answer') }}</p>
+                    </div>
                 </div>
             </div>
-            <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-primary transition-colors cursor-pointer group">
-                <div class="flex justify-between items-center">
+
+            <!-- FAQ 3 -->
+            <div class="bg-white dark:bg-background-dark rounded-xl border border-gray-200 dark:border-gray-800 hover:border-primary transition-colors overflow-hidden">
+                <button class="w-full p-6 flex justify-between items-center cursor-pointer group text-left faq-toggle" data-target="faq-3">
                     <h4 class="font-bold text-lg text-[#111318] dark:text-white">{{ __('contact-us.faq_3_question') }}</h4>
-                    <span class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors">add</span>
+                    <span class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors faq-icon">add</span>
+                </button>
+                <div id="faq-3" class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+                    <div class="px-6 pb-6">
+                        <p class="text-[#616f89] dark:text-gray-400 leading-relaxed">{{ __('contact-us.faq_3_answer') }}</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 </main>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const faqToggles = document.querySelectorAll('.faq-toggle');
+
+    faqToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const content = document.getElementById(targetId);
+            const icon = this.querySelector('.faq-icon');
+            const allContents = document.querySelectorAll('.faq-content');
+            const allIcons = document.querySelectorAll('.faq-icon');
+
+            // 关闭其他所有 FAQ
+            allContents.forEach(otherContent => {
+                if (otherContent.id !== targetId && otherContent.style.maxHeight && otherContent.style.maxHeight !== '0px') {
+                    otherContent.style.maxHeight = '0px';
+                }
+            });
+
+            // 重置其他所有图标
+            allIcons.forEach(otherIcon => {
+                if (otherIcon !== icon) {
+                    otherIcon.textContent = 'add';
+                }
+            });
+
+            // 切换当前 FAQ
+            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                content.style.maxHeight = '0px';
+                icon.textContent = 'add';
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                icon.textContent = 'remove';
+            }
+        });
+    });
+});
+</script>
+@endpush
