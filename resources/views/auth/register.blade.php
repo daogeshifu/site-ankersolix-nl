@@ -1,225 +1,246 @@
-@extends('layouts.admin.master')
+@extends('layouts.stitch.master')
 
+@section('title'){{ __('lang.register') }} - {{ config('app.name') }} @endsection
 
-@section('title')登录 - AIGC 智能查重，全网首发检测者 4.0 大模型-发现PPT @endsection
-
-@section('style')
- 
-@endsection
-
+@push('styles')
+<style>
+    .mesh-gradient {
+        background-color: #f6f6f8;
+        background-image:
+            radial-gradient(at 0% 0%, rgba(19, 91, 236, 0.05) 0px, transparent 50%),
+            radial-gradient(at 100% 100%, rgba(19, 91, 236, 0.08) 0px, transparent 50%),
+            radial-gradient(at 100% 0%, rgba(0, 212, 255, 0.05) 0px, transparent 50%);
+    }
+    .dark .mesh-gradient {
+        background-color: #101622;
+        background-image:
+            radial-gradient(at 0% 0%, rgba(19, 91, 236, 0.15) 0px, transparent 50%),
+            radial-gradient(at 100% 100%, rgba(19, 91, 236, 0.2) 0px, transparent 50%),
+            radial-gradient(at 100% 0%, rgba(0, 212, 255, 0.1) 0px, transparent 50%);
+    }
+</style>
+@endpush
 
 @section('content')
 
-
-<main id="content" role="main" class="flex-grow-1">
-    <!-- Form -->
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-5 col-xl-4 d-none d-lg-flex justify-content-center align-items-center min-vh-lg-100 position-relative bg-dark" style="background-image: url(static/picture/wave-pattern-light.svg);">
-          <div class="flex-grow-1 p-5">
-            <!-- Blockquote -->
-            <figure class="text-center">
-              <div class="mb-4">
-                <img class="avatar avatar-xl avatar-4x3" src="/htmlstream/static/picture/mailchimp-white.svg" alt="Logo">
-              </div>
-
-              <blockquote class="blockquote blockquote-light">“ It has many landing page variations to choose from, which one is always a big advantage. ”</blockquote>
-
-              <figcaption class="blockquote-footer blockquote-light">
-                <div class="mb-3">
-                  <img class="avatar avatar-circle" src="/htmlstream/static/picture/img91.jpg" alt="Image Description">
-                </div>
-
-                Lida Reidy
-                <span class="blockquote-footer-source">Project Manager | Mailchimp</span>
-              </figcaption>
-            </figure>
-            <!-- End Blockquote -->
-
-            <!-- Clients -->
-            <div class="position-absolute start-0 end-0 bottom-0 text-center p-5">
-              <div class="row justify-content-center">
-                <div class="col text-center py-3">
-                  <img class="avatar avatar-lg avatar-4x3" src="/htmlstream/static/picture/fitbit-white.svg" alt="Logo">
-                </div>
-                <!-- End Col -->
-
-                <div class="col text-center py-3">
-                  <img class="avatar avatar-lg avatar-4x3" src="/htmlstream/static/picture/business-insider-white.svg" alt="Logo">
-                </div>
-                <!-- End Col -->
-
-                <div class="col text-center py-3">
-                  <img class="avatar avatar-lg avatar-4x3" src="/htmlstream/static/picture/capsule-white.svg" alt="Logo">
-                </div>
-                <!-- End Col -->
-              </div>
-              <!-- End Row -->
+<main class="flex-1 flex items-center justify-center p-6 mesh-gradient min-h-[calc(100vh-140px)]">
+    <div class="w-full max-w-[500px]">
+        <!-- Register Card -->
+        <div class="bg-white dark:bg-[#1a212f] rounded-xl shadow-2xl shadow-black/5 border border-[#f0f2f4] dark:border-white/5 p-8 md:p-10">
+            <!-- Section Header -->
+            <div class="mb-2">
+                <h4 class="text-primary text-xs font-bold uppercase tracking-[0.1em] text-center">{{ __('lang.get_started') }}</h4>
             </div>
-            <!-- End Clients -->
-          </div>
-        </div>
-        <!-- End Col -->
 
-        <div class="col-lg-7 col-xl-8 d-flex justify-content-center align-items-center min-vh-lg-100">
-          <div class="flex-grow-1 mx-auto" style="max-width: 28rem;">
-            <!-- Heading -->
-            <div class="text-center mb-5 mb-md-7">
-              <h1 class="h2">Welcome to {{ config('app.name') }}</h1>
-              <p>Create an account to start using the platform.</p>
+            <!-- Title -->
+            <div class="mb-8">
+                <h2 class="text-[#111318] dark:text-white text-2xl font-bold text-center font-display">{{ __('lang.create_account') }}</h2>
+                <p class="text-[#616f89] dark:text-gray-400 text-sm text-center mt-2">{{ __('lang.register_subtitle') }}</p>
             </div>
-            <!-- End Heading -->
+
+            <!-- Google Sign Up Button -->
+            <div class="mb-6">
+                <a href="{{ route('auth.google') }}" class="w-full flex items-center justify-center gap-3 h-12 rounded-lg border border-[#e2e8f0] dark:border-white/10 bg-white dark:bg-white/5 hover:bg-gray-50 dark:hover:bg-white/10 transition-all text-[#111318] dark:text-white font-semibold">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+                    </svg>
+                    <span>{{ __('lang.sign_up_with_google') }}</span>
+                </a>
+            </div>
+
+            <!-- Divider -->
+            <div class="relative mb-8">
+                <div class="absolute inset-0 flex items-center">
+                    <span class="w-full border-t border-[#f0f2f4] dark:border-white/10"></span>
+                </div>
+                <div class="relative flex justify-center text-xs">
+                    <span class="bg-white dark:bg-[#1a212f] px-4 text-[#616f89] font-medium uppercase tracking-wider">{{ __('lang.or_sign_up_with_email') }}</span>
+                </div>
+            </div>
 
             <!-- Form -->
-            <form id="register-form" action="{{ route('register') }}" class="js-validate needs-validation mt-32" method="POST">
+            <form id="register-form" action="{{ route('register') }}" method="POST" class="space-y-4">
+                @csrf
 
-                <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
-                    <div class="col">
-                        <label class="form-label">First Name *</label>
-                        <input type="text" name="first_name" class="form-control input-with-br -h-48" value="" placeholder="First Name" maxlength="50" required="">
+                <!-- Name Fields -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-[#111318] dark:text-gray-200 mb-1.5 ml-1">{{ __('lang.first_name') }}</label>
+                        <input type="text" name="first_name" class="w-full h-12 px-4 rounded-lg border border-[#e2e8f0] dark:border-white/10 dark:bg-white/5 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm outline-none" placeholder="{{ __('lang.first_name_placeholder') }}" required>
                     </div>
-                    <div class="col">
-                        <label class="form-label">Last Name *</label>
-                        <input id="lastname" type="text" name="last_name" class="form-control input-with-br -h-48" value="" placeholder="Last Name" maxlength="50" required="">
+                    <div>
+                        <label class="block text-sm font-semibold text-[#111318] dark:text-gray-200 mb-1.5 ml-1">{{ __('lang.last_name') }}</label>
+                        <input type="text" name="last_name" class="w-full h-12 px-4 rounded-lg border border-[#e2e8f0] dark:border-white/10 dark:bg-white/5 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm outline-none" placeholder="{{ __('lang.last_name_placeholder') }}" required>
                     </div>
                 </div>
 
-
-              <!-- email -->
-              <div class="mb-4">
-                <label class="form-label" for="signupModalFormLoginEmail">Your email</label>
-                <input type="email" class="form-control form-control-lg" name="email" id="signupModalFormLoginEmail" placeholder="请输入邮箱" aria-label="请输入邮箱" required="">
-                <span class="invalid-feedback">Please enter a valid email address.</span>
-              </div>
-              <!-- End email -->
-
-              <!-- Password -->
-              <div class="mb-4">
-                <div class="d-flex justify-content-between align-items-center">
-                  <label class="form-label" for="signupModalFormLoginPassword">Password</label>
-
-                  <a class="form-label-link" href="{{ route('auth.password.reset') }}">Forgot Password?</a>
+                <!-- Email -->
+                <div>
+                    <label class="block text-sm font-semibold text-[#111318] dark:text-gray-200 mb-1.5 ml-1">{{ __('lang.email_address') }}</label>
+                    <input type="email" name="email" class="w-full h-12 px-4 rounded-lg border border-[#e2e8f0] dark:border-white/10 dark:bg-white/5 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm outline-none" placeholder="{{ __('lang.form_email_placeholder') }}" required>
                 </div>
 
-                <div class="input-group input-group-merge" data-hs-validation-validate-class="">
-                  <input type="password" class="js-toggle-password form-control form-control-lg" name="password" id="signupModalFormLoginPassword" placeholder="8+ characters required" aria-label="8+ characters required" required="" minlength="8" data-hs-toggle-password-options="{
-                         &quot;target&quot;: &quot;#changePassTarget&quot;,
-                         &quot;defaultClass&quot;: &quot;bi-eye-slash&quot;,
-                         &quot;showClass&quot;: &quot;bi-eye&quot;,
-                         &quot;classChangeTarget&quot;: &quot;#changePassIcon&quot;
-                       }">
-                  <a id="changePassTarget" class="input-group-append input-group-text" href="{{ route('auth.password.reset') }}">
-                    <i id="changePassIcon" class="bi-eye-slash"></i>
-                  </a>
-                </div>
-              </div>
-                <!-- End Password -->
-
-
-
-              <!-- Confirm Password -->
-              <div class="mb-4">
-                <div class="d-flex justify-content-between align-items-center">
-                  <label class="form-label" for="signupModalFormLoginPassword">Confirm Password</label>
-                </div>
-
-                <div class="input-group input-group-merge" data-hs-validation-validate-class="">
-                  <input type="password" class="js-toggle-password form-control form-control-lg" name="password_confirmation" id="signupModalFormLoginPassword" 
-                  placeholder=" The same as password" aria-label="The same as password" required="" minlength="8" data-hs-toggle-password-options="{
-                         &quot;target&quot;: &quot;#changePassTarget&quot;,
-                         &quot;defaultClass&quot;: &quot;bi-eye-slash&quot;,
-                         &quot;showClass&quot;: &quot;bi-eye&quot;,
-                         &quot;classChangeTarget&quot;: &quot;#changePassIcon&quot;
-                       }" data-hs-validation-equal-field="#signupModalFormLoginPassword">
-                  <a id="changePassTarget" class="input-group-append input-group-text" href="{{ route('auth.password.reset') }}">
-                    <i id="changePassIcon" class="bi-eye-slash"></i>
-                  </a>  
-                </div>
-                <!-- End Confirm Password -->
-
-
-                <span class="invalid-feedback">Please enter a valid password.</span>
-              </div>
-              <!-- End Form -->
-
-              <div class="mb-4">
-                    <!-- Captcha -->
-                    <div class="input-group mt-16 mb-16">
-                        <div class="d-flex align-items-center">
-                            <img src="{{ captcha_src('default') }}" alt="captcha"
-                                onclick="this.src='{{ captcha_src('default') }}?t='+Math.random()" 
-                                style="cursor: pointer;">
-                        </div>
-                        <input type="text" name="captcha"  class="form-control mt-2 ml-2 " style="margin-left: 10px;"   placeholder="Enter the text in the image" />
+                <!-- Password -->
+                <div>
+                    <label class="block text-sm font-semibold text-[#111318] dark:text-gray-200 mb-1.5 ml-1">{{ __('lang.password') }}</label>
+                    <div class="relative">
+                        <input type="password" name="password" id="password-input" class="w-full h-12 px-4 rounded-lg border border-[#e2e8f0] dark:border-white/10 dark:bg-white/5 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm outline-none pr-12" placeholder="{{ __('lang.form_password_requirement') }}" required minlength="8">
+                        <button type="button" onclick="togglePassword('password-input', 'password-icon')" class="absolute right-3 top-1/2 -translate-y-1/2 text-[#616f89] hover:text-primary transition-colors">
+                            <span id="password-icon" class="material-symbols-outlined text-[20px]">visibility</span>
+                        </button>
                     </div>
-              </div>
+                </div>
 
-              <div class="d-grid mb-3">
-                <button type="submit" class="btn btn-primary btn-lg" id="register-button">Register</button>
-              </div>
+                <!-- Confirm Password -->
+                <div>
+                    <label class="block text-sm font-semibold text-[#111318] dark:text-gray-200 mb-1.5 ml-1">{{ __('lang.confirm_password') }}</label>
+                    <div class="relative">
+                        <input type="password" name="password_confirmation" id="confirm-password-input" class="w-full h-12 px-4 rounded-lg border border-[#e2e8f0] dark:border-white/10 dark:bg-white/5 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm outline-none pr-12" placeholder="{{ __('lang.confirm_password_placeholder') }}" required minlength="8">
+                        <button type="button" onclick="togglePassword('confirm-password-input', 'confirm-password-icon')" class="absolute right-3 top-1/2 -translate-y-1/2 text-[#616f89] hover:text-primary transition-colors">
+                            <span id="confirm-password-icon" class="material-symbols-outlined text-[20px]">visibility</span>
+                        </button>
+                    </div>
+                </div>
 
-              <div class="text-center">
-                <p>Already have an account? <a class="link" href="{{ route('login') }}">Login here</a></p>
-              </div>
+                <!-- Captcha -->
+                <div>
+                    <label class="block text-sm font-semibold text-[#111318] dark:text-gray-200 mb-1.5 ml-1">{{ __('lang.captcha') }}</label>
+                    <div class="flex items-center gap-3">
+                        <img src="{{ captcha_src('default') }}" alt="captcha" id="captcha-img" onclick="refreshCaptcha()" class="h-12 rounded-lg cursor-pointer hover:opacity-80 transition-opacity">
+                        <input type="text" name="captcha" class="flex-1 h-12 px-4 rounded-lg border border-[#e2e8f0] dark:border-white/10 dark:bg-white/5 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm outline-none" placeholder="{{ __('lang.form_captcha_placeholder') }}" required>
+                    </div>
+                    <p class="text-xs text-[#616f89] mt-1 ml-1">{{ __('lang.click_image_refresh') }}</p>
+                </div>
+
+                <!-- Terms Agreement -->
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" name="terms" id="terms" class="mt-1 w-4 h-4 rounded border-[#e2e8f0] dark:border-white/10 text-primary focus:ring-primary" required>
+                    <label for="terms" class="text-sm text-[#616f89] dark:text-gray-400">
+                        {{ __('lang.agree_to') }}
+                        <a href="{{ route('terms') }}" class="text-primary font-medium hover:underline">{{ __('terms-of-service.terms_title') }}</a>
+                        {{ __('lang.and') }}
+                        <a href="{{ route('policy') }}" class="text-primary font-medium hover:underline">{{ __('privacy-policy.privacy_policy_title') }}</a>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="register-button" class="w-full h-12 bg-primary text-white font-bold rounded-lg shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all flex items-center justify-center gap-2 mt-2">
+                    <span>{{ __('lang.create_account_btn') }}</span>
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </button>
             </form>
-            <!-- End Form -->
-          </div>
+
+            <!-- Footer Text -->
+            <p class="text-center text-sm text-[#616f89] dark:text-gray-400 mt-8">
+                {{ __('lang.already_have_account') }}
+                <a class="text-primary font-bold hover:underline" href="{{ route('login') }}">{{ __('lang.sign_in_here_link') }}</a>
+            </p>
         </div>
-        <!-- End Col -->
-      </div>
-      <!-- End Row -->
+
+        <!-- Bottom Links -->
+        <div class="mt-8 flex justify-center gap-6">
+            <a class="text-xs text-[#616f89] dark:text-gray-400 hover:text-primary transition-colors" href="{{ route('policy') }}">{{ __('privacy-policy.privacy_policy_title') }}</a>
+            <a class="text-xs text-[#616f89] dark:text-gray-400 hover:text-primary transition-colors" href="{{ route('terms') }}">{{ __('terms-of-service.terms_title') }}</a>
+            <a class="text-xs text-[#616f89] dark:text-gray-400 hover:text-primary transition-colors" href="{{ route('help') }}">{{ __('help.title') }}</a>
+        </div>
     </div>
-    <!-- End Form -->
-  </main>
+</main>
+
 @endsection
 
-
-@section('script')
-
+@push('scripts')
 <script>
-    $(function() {
-        $('#register-form').submit(function(e) {
-            e.preventDefault(); // 阻止默认提交
-    
-            var form = $(this);
-            $.ajax({
-                url: form.attr('action'),
-                method: form.attr('method'),
-                data: form.serialize(),
-                success: function(res) {
-                    if(res.success) {
-                        alert(res.message);
-                        window.location.href = '{{ route('index') }}';
-                    } else {
-                        alert(res.message || '注册失败');
-                        refreshCaptcha();
-                    }
-                },
-                error: function(xhr) {
-                    if(xhr.status === 422) {
-                        var errors = xhr.responseJSON.errors;
-                        // 提取第一个错误提示弹窗
-                        var msg = '';
-                        if(errors.first_name) msg = errors.first_name[0];
-                        else if(errors.last_name) msg = errors.last_name[0];
-                        else if(errors.email) msg = errors.email[0];
-                        else if(errors.password) msg = errors.password[0];
-                        else if(errors.captcha) msg = errors.captcha[0];
-                        else msg = '表单验证失败';
-                        alert(msg);
-                    } else {
-                        alert('请求失败，请稍后重试');
-                    }
+    // Toggle password visibility
+    function togglePassword(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.textContent = 'visibility_off';
+        } else {
+            input.type = 'password';
+            icon.textContent = 'visibility';
+        }
+    }
+
+    // Refresh captcha
+    function refreshCaptcha() {
+        document.getElementById('captcha-img').src = '{{ captcha_src('default') }}?t=' + Math.random();
+    }
+
+    // Form submission
+    document.getElementById('register-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const form = this;
+        const formData = new FormData(form);
+        const submitBtn = document.getElementById('register-button');
+
+        // Check passwords match
+        const password = form.querySelector('input[name="password"]').value;
+        const confirmPassword = form.querySelector('input[name="password_confirmation"]').value;
+        if (password !== confirmPassword) {
+            alert("{{ __('lang.passwords_not_match') }}");
+            return;
+        }
+
+        // Check terms
+        if (!form.querySelector('input[name="terms"]').checked) {
+            alert("{{ __('lang.must_agree_terms') }}");
+            return;
+        }
+
+        // Disable button
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>';
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+            }
+        })
+        .then(response => response.json().then(data => ({ status: response.status, body: data })))
+        .then(({ status, body }) => {
+            if (status === 200 || status === 201) {
+                if (body.success || body.redirect) {
+                    alert(body.message || "{{ __('lang.register_success') }}");
+                    window.location.href = body.redirect || '{{ route("index") }}';
+                } else {
+                    alert(body.message || "{{ __('lang.register_failed') }}");
                     refreshCaptcha();
                 }
-            });
-    
-            function refreshCaptcha() {
-                $('img[alt="captcha"]').attr('src', '{{ captcha_src('default') }}?t=' + Math.random());
+            } else if (status === 422) {
+                // Validation errors
+                const errors = body.errors;
+                let errorMsg = '';
+                if (errors.first_name) errorMsg = errors.first_name[0];
+                else if (errors.last_name) errorMsg = errors.last_name[0];
+                else if (errors.email) errorMsg = errors.email[0];
+                else if (errors.password) errorMsg = errors.password[0];
+                else if (errors.captcha) errorMsg = errors.captcha[0];
+                else errorMsg = "{{ __('lang.validation_failed') }}";
+
+                alert(errorMsg);
+                refreshCaptcha();
+            } else {
+                alert("{{ __('lang.request_failed') }}");
+                refreshCaptcha();
             }
+        })
+        .catch(() => {
+            alert("{{ __('lang.request_failed') }}");
+            refreshCaptcha();
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span>{{ __("lang.create_account_btn") }}</span><span class="material-symbols-outlined text-[18px]">arrow_forward</span>';
         });
     });
 </script>
-    
-@endsection
-
+@endpush

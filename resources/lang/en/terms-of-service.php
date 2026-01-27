@@ -158,4 +158,17 @@ return [
     
     // 导航菜单
     'terms_of_service' => 'Terms of Service',
+    'navigation' => 'Navigation',
+    'introduction' => 'Introduction',
+    'usage_rights' => 'Usage Rights',
+    'data_scraping' => 'Data Scraping',
+    'data_scraping_desc' => 'Automated extraction of data from our platform is strictly prohibited.',
+    'reverse_engineering' => 'Reverse Engineering',
+    'reverse_engineering_desc' => 'Attempting to reverse engineer our algorithms or systems is not allowed.',
+    'account_sharing' => 'Account Sharing',
+    'account_sharing_desc' => 'Sharing your account credentials with others violates our terms.',
+    'system_overload' => 'System Overload',
+    'system_overload_desc' => 'Actions that may overload or disrupt our systems are prohibited.',
+    'questions' => 'Questions?',
+    'contact_legal' => 'Contact Legal Team',
 ];

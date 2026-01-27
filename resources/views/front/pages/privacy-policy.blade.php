@@ -1,167 +1,181 @@
-@extends('layouts.around.master')
+@extends('layouts.stitch.master')
 
-@section('title', __('privacy-policy.privacy_policy_title'))
+@section('title', __('privacy-policy.privacy_policy_title') . ' - ' . config('app.name'))
 @section('description', __('privacy-policy.privacy_policy_description'))
 @section('keywords', __('privacy-policy.privacy_policy_keywords'))
 
-@section('style')
+@push('styles')
 <style>
-    .privacy-content h2 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin-top: 2.5rem;
-        margin-bottom: 1rem;
+    .prose p {
+        margin-bottom: 1.5rem;
+        line-height: 1.75;
+        color: #4b5563;
     }
-    
-    .privacy-content h3 {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin-top: 2rem;
-        margin-bottom: 0.75rem;
+    .dark .prose p {
+        color: #9ca3af;
     }
-    
-    .privacy-content p {
-        margin-bottom: 1rem;
-        line-height: 1.6;
-    }
-    
-    .privacy-content ul {
-        margin-bottom: 1rem;
-        padding-left: 1.5rem;
-    }
-    
-    .privacy-content li {
-        margin-bottom: 0.5rem;
-        line-height: 1.6;
-    }
-    
-    .last-updated {
-        font-style: italic;
-        color: #6c757d;
+    .sticky-sidebar {
+        position: sticky;
+        top: 2rem;
+        max-height: calc(100vh - 4rem);
     }
 </style>
-@endsection
+@endpush
 
 @section('content')
-<main class="page-wrapper">
-    <!-- Page title -->
-    <section class="container pt-5 pb-4 pb-lg-0 my-md-2 my-lg-5">
-        <div class="row pt-5 pb-4 pb-lg-5 mb-2 mt-1 mt-sm-2 my-xl-3">
-            <div class="col-md-12">
-                <h1 class="display-3 fw-medium mb-0">{{ __('privacy-policy.privacy_policy_title') }}</h1>
-            </div>
-        </div>
-        <hr>
-    </section>
+<main class="max-w-[1280px] mx-auto px-4 lg:px-40 py-8">
+    <!-- Breadcrumbs -->
+    <div class="flex flex-wrap gap-2 mb-6">
+        <a class="text-[#616f89] dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="{{ route('index') }}">{{ __('lang.home') }}</a>
+        <span class="text-[#616f89] dark:text-slate-600 text-sm font-medium">/</span>
+        <a class="text-[#616f89] dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">{{ __('lang.legal') }}</a>
+        <span class="text-[#616f89] dark:text-slate-600 text-sm font-medium">/</span>
+        <span class="text-[#111318] dark:text-white text-sm font-medium">{{ __('privacy-policy.privacy_policy_title') }}</span>
+    </div>
 
-    <!-- Privacy Policy Content -->
-    <section class="container py-5 my-md-2 my-lg-3 my-xl-4 my-xxl-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-10 col-xl-9 privacy-content">
-                <p class="last-updated mb-4">{{ __('privacy-policy.last_updated') }}: {{ __('privacy-policy.last_updated_date') }}</p>
-                
-                <p>{{ __('privacy-policy.privacy_intro') }}</p>
-                
-                <h2>{{ __('privacy-policy.information_we_collect') }}</h2>
-                <p>{{ __('privacy-policy.collect_description') }}</p>
-                
-                <h3>{{ __('privacy-policy.personal_information') }}</h3>
-                <p>{{ __('privacy-policy.personal_info_description') }}</p>
-                <ul>
-                    <li>{{ __('privacy-policy.personal_info_1') }}</li>
-                    <li>{{ __('privacy-policy.personal_info_2') }}</li>
-                    <li>{{ __('privacy-policy.personal_info_3') }}</li>
-                    <li>{{ __('privacy-policy.personal_info_4') }}</li>
-                    <li>{{ __('privacy-policy.personal_info_5') }}</li>
-                    <li>{{ __('privacy-policy.personal_info_6') }}</li>
-                </ul>
-                
-                <h3>{{ __('privacy-policy.usage_data') }}</h3>
-                <p>{{ __('privacy-policy.usage_data_description') }}</p>
-                <ul>
-                    <li>{{ __('privacy-policy.usage_data_1') }}</li>
-                    <li>{{ __('privacy-policy.usage_data_2') }}</li>
-                    <li>{{ __('privacy-policy.usage_data_3') }}</li>
-                    <li>{{ __('privacy-policy.usage_data_4') }}</li>
-                    <li>{{ __('privacy-policy.usage_data_5') }}</li>
-                </ul>
-                
-                <h2>{{ __('privacy-policy.how_we_use_information') }}</h2>
-                <p>{{ __('privacy-policy.use_information_description') }}</p>
-                <ul>
-                    <li>{{ __('privacy-policy.use_info_1') }}</li>
-                    <li>{{ __('privacy-policy.use_info_2') }}</li>
-                    <li>{{ __('privacy-policy.use_info_3') }}</li>
-                    <li>{{ __('privacy-policy.use_info_4') }}</li>
-                    <li>{{ __('privacy-policy.use_info_5') }}</li>
-                    <li>{{ __('privacy-policy.use_info_6') }}</li>
-                    <li>{{ __('privacy-policy.use_info_7') }}</li>
-                </ul>
-                
-                <h2>{{ __('privacy-policy.cookies_and_tracking') }}</h2>
-                <p>{{ __('privacy-policy.cookies_description') }}</p>
-                <p>{{ __('privacy-policy.cookies_types_description') }}</p>
-                <ul>
-                    <li><strong>{{ __('privacy-policy.essential_cookies') }}:</strong> {{ __('privacy-policy.essential_cookies_description') }}</li>
-                    <li><strong>{{ __('privacy-policy.preference_cookies') }}:</strong> {{ __('privacy-policy.preference_cookies_description') }}</li>
-                    <li><strong>{{ __('privacy-policy.analytics_cookies') }}:</strong> {{ __('privacy-policy.analytics_cookies_description') }}</li>
-                    <li><strong>{{ __('privacy-policy.marketing_cookies') }}:</strong> {{ __('privacy-policy.marketing_cookies_description') }}</li>
-                </ul>
-                
-                <h2>{{ __('privacy-policy.data_sharing_disclosure') }}</h2>
-                <p>{{ __('privacy-policy.sharing_description') }}</p>
-                <ul>
-                    <li>{{ __('privacy-policy.sharing_1') }}</li>
-                    <li>{{ __('privacy-policy.sharing_2') }}</li>
-                    <li>{{ __('privacy-policy.sharing_3') }}</li>
-                    <li>{{ __('privacy-policy.sharing_4') }}</li>
-                    <li>{{ __('privacy-policy.sharing_5') }}</li>
-                </ul>
-                
-                <h2>{{ __('privacy-policy.data_security') }}</h2>
-                <p>{{ __('privacy-policy.security_description') }}</p>
-                <p>{{ __('privacy-policy.security_measures') }}</p>
-                
-                <h2>{{ __('privacy-policy.your_rights') }}</h2>
-                <p>{{ __('privacy-policy.your_rights_description') }}</p>
-                <ul>
-                    <li>{{ __('privacy-policy.right_1') }}</li>
-                    <li>{{ __('privacy-policy.right_2') }}</li>
-                    <li>{{ __('privacy-policy.right_3') }}</li>
-                    <li>{{ __('privacy-policy.right_4') }}</li>
-                    <li>{{ __('privacy-policy.right_5') }}</li>
-                    <li>{{ __('privacy-policy.right_6') }}</li>
-                    <li>{{ __('privacy-policy.right_7') }}</li>
-                </ul>
-                
-                <h2>{{ __('privacy-policy.children_privacy') }}</h2>
-                <p>{{ __('privacy-policy.children_description') }}</p>
-                
-                <h2>{{ __('privacy-policy.changes_to_policy') }}</h2>
-                <p>{{ __('privacy-policy.changes_description') }}</p>
-                
-                <h2>{{ __('privacy-policy.contact_us') }}</h2>
-                <p>{{ __('privacy-policy.contact_description') }}</p>
-                <p>
-                    <strong>{{ __('privacy-policy.email') }}:</strong> {{ __('privacy-policy.contact_email') }}<br>
-                    <strong>{{ __('privacy-policy.phone') }}:</strong> {{ __('privacy-policy.contact_phone') }}<br>
-                    <strong>{{ __('privacy-policy.address') }}:</strong> {{ __('privacy-policy.contact_address') }}
-                </p>
-                
-                <div class="mt-5 pt-4 border-top">
-                    <p class="text-muted">{{ __('privacy-policy.privacy_closing') }}</p>
+    <!-- Page Heading -->
+    <div class="flex flex-wrap justify-between items-end gap-3 mb-12">
+        <div class="flex flex-col gap-3">
+            <h1 class="text-[#111318] dark:text-white text-5xl font-black leading-tight tracking-[-0.033em]">{{ __('privacy-policy.privacy_policy_title') }}</h1>
+            <p class="text-[#616f89] dark:text-slate-400 text-base font-normal">{{ __('privacy-policy.privacy_subtitle') }}</p>
+        </div>
+        <div class="flex flex-col items-end gap-3">
+            <p class="text-[#616f89] dark:text-slate-400 text-sm font-medium">{{ __('privacy-policy.last_updated') }}: {{ __('privacy-policy.last_updated_date') }}</p>
+            <button class="flex min-w-[140px] cursor-pointer items-center justify-center gap-2 rounded-lg h-10 px-4 bg-[#f0f2f4] dark:bg-slate-800 text-[#111318] dark:text-white text-sm font-bold hover:bg-[#e4e6e8] dark:hover:bg-slate-700 transition-colors">
+                <span class="material-symbols-outlined text-[18px]">download</span>
+                <span>{{ __('lang.download_pdf') }}</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-12">
+        <!-- Sticky Side Navigation -->
+        <aside class="hidden lg:block w-64 flex-shrink-0">
+            <div class="sticky-sidebar flex flex-col gap-4">
+                <div class="flex flex-col">
+                    <h3 class="text-[#111318] dark:text-white text-base font-bold leading-normal">{{ __('privacy-policy.sections_title') }}</h3>
+                    <p class="text-[#616f89] dark:text-slate-400 text-xs font-normal uppercase tracking-wider">{{ __('privacy-policy.quick_nav') }}</p>
                 </div>
+                <nav class="flex flex-col gap-1">
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary group" href="#introduction">
+                        <span class="material-symbols-outlined text-[20px]">info</span>
+                        <span class="text-sm font-bold">{{ __('privacy-policy.introduction') }}</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#616f89] dark:text-slate-400 hover:bg-[#f0f2f4] dark:hover:bg-slate-800 transition-colors group" href="#data-collection">
+                        <span class="material-symbols-outlined text-[20px] group-hover:text-primary">database</span>
+                        <span class="text-sm font-medium group-hover:text-primary">{{ __('privacy-policy.information_we_collect') }}</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#616f89] dark:text-slate-400 hover:bg-[#f0f2f4] dark:hover:bg-slate-800 transition-colors group" href="#ai-processing">
+                        <span class="material-symbols-outlined text-[20px] group-hover:text-primary">memory</span>
+                        <span class="text-sm font-medium group-hover:text-primary">{{ __('privacy-policy.how_we_use_information') }}</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#616f89] dark:text-slate-400 hover:bg-[#f0f2f4] dark:hover:bg-slate-800 transition-colors group" href="#cookie-policy">
+                        <span class="material-symbols-outlined text-[20px] group-hover:text-primary">cookie</span>
+                        <span class="text-sm font-medium group-hover:text-primary">{{ __('privacy-policy.cookies_and_tracking') }}</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#616f89] dark:text-slate-400 hover:bg-[#f0f2f4] dark:hover:bg-slate-800 transition-colors group" href="#user-rights">
+                        <span class="material-symbols-outlined text-[20px] group-hover:text-primary">verified_user</span>
+                        <span class="text-sm font-medium group-hover:text-primary">{{ __('privacy-policy.your_rights') }}</span>
+                    </a>
+                </nav>
             </div>
-        </div>
-    </section>
-</main>
-@endsection
+        </aside>
 
-@section('script')
-<script>
-    // 添加平滑滚动效果
-    document.querySelectorAll('h2, h3').forEach(heading => {
-        heading.style.scrollMarginTop = '80px';
-    });
-</script>
+        <!-- Content Area -->
+        <div class="flex-1 max-w-3xl prose prose-slate dark:prose-invert">
+            <!-- Section: Introduction -->
+            <section class="mb-16" id="introduction">
+                <div class="mb-6 p-5 rounded-xl border border-primary/20 bg-primary/5 @container">
+                    <div class="flex flex-1 flex-col items-start justify-between gap-4 @[480px]:flex-row @[480px]:items-center">
+                        <div class="flex flex-col gap-1">
+                            <p class="text-primary text-base font-bold leading-tight">{{ __('privacy-policy.key_summary') }}</p>
+                            <p class="text-[#616f89] dark:text-slate-400 text-base font-normal leading-normal">
+                                {{ __('privacy-policy.privacy_intro') }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="text-2xl font-bold text-[#111318] dark:text-white mb-4">1. {{ __('privacy-policy.introduction') }}</h2>
+                <p>{{ __('privacy-policy.intro_content') }}</p>
+            </section>
+
+            <!-- Section: Data Collection -->
+            <section class="mb-16" id="data-collection">
+                <h2 class="text-2xl font-bold text-[#111318] dark:text-white mb-4">2. {{ __('privacy-policy.information_we_collect') }}</h2>
+                <p>{{ __('privacy-policy.collect_description') }}</p>
+                <ul class="list-disc pl-6 mb-4 space-y-2 text-[#616f89] dark:text-slate-400">
+                    <li><strong>{{ __('privacy-policy.personal_information') }}:</strong> {{ __('privacy-policy.personal_info_description') }}</li>
+                    <li><strong>{{ __('privacy-policy.usage_data') }}:</strong> {{ __('privacy-policy.usage_data_description') }}</li>
+                    <li><strong>{{ __('privacy-policy.geo_data') }}:</strong> {{ __('privacy-policy.geo_data_description') }}</li>
+                    <li><strong>{{ __('privacy-policy.ai_logs') }}:</strong> {{ __('privacy-policy.ai_logs_description') }}</li>
+                </ul>
+            </section>
+
+            <!-- Section: AI Processing -->
+            <section class="mb-16" id="ai-processing">
+                <div class="mb-6 p-5 rounded-xl border border-[#dbdfe6] dark:border-slate-700 bg-white dark:bg-slate-900/50">
+                    <div class="flex gap-4 items-start">
+                        <div class="bg-primary/10 p-2 rounded-lg text-primary">
+                            <span class="material-symbols-outlined">psychology</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#111318] dark:text-white mb-1">{{ __('privacy-policy.ai_ethics') }}</h4>
+                            <p class="text-sm text-[#616f89] dark:text-slate-400">{{ __('privacy-policy.ai_ethics_desc') }}</p>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="text-2xl font-bold text-[#111318] dark:text-white mb-4">3. {{ __('privacy-policy.how_we_use_information') }}</h2>
+                <p>{{ __('privacy-policy.use_information_description') }}</p>
+            </section>
+
+            <!-- Section: Cookie Policy -->
+            <section class="mb-16" id="cookie-policy">
+                <h2 class="text-2xl font-bold text-[#111318] dark:text-white mb-4">4. {{ __('privacy-policy.cookies_and_tracking') }}</h2>
+                <p>{{ __('privacy-policy.cookies_description') }}</p>
+                <div class="overflow-x-auto rounded-lg border border-[#f0f2f4] dark:border-slate-800 mt-4">
+                    <table class="min-w-full divide-y divide-[#f0f2f4] dark:divide-slate-800">
+                        <thead class="bg-[#f8f9fb] dark:bg-slate-900">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-[#616f89] uppercase tracking-wider">{{ __('privacy-policy.cookie_type') }}</th>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-[#616f89] uppercase tracking-wider">{{ __('privacy-policy.cookie_purpose') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-[#f0f2f4] dark:divide-slate-800 text-sm">
+                            <tr>
+                                <td class="px-6 py-4 font-medium text-[#111318] dark:text-white">{{ __('privacy-policy.essential_cookies') }}</td>
+                                <td class="px-6 py-4 text-[#616f89] dark:text-slate-400">{{ __('privacy-policy.essential_cookies_description') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-medium text-[#111318] dark:text-white">{{ __('privacy-policy.analytics_cookies') }}</td>
+                                <td class="px-6 py-4 text-[#616f89] dark:text-slate-400">{{ __('privacy-policy.analytics_cookies_description') }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Section: User Rights -->
+            <section class="mb-16" id="user-rights">
+                <h2 class="text-2xl font-bold text-[#111318] dark:text-white mb-4">5. {{ __('privacy-policy.your_rights') }}</h2>
+                <p>{{ __('privacy-policy.your_rights_description') }}</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                    <div class="p-4 border border-[#f0f2f4] dark:border-slate-800 rounded-lg">
+                        <h5 class="font-bold mb-2 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-[20px]">visibility</span>
+                            {{ __('privacy-policy.right_access') }}
+                        </h5>
+                        <p class="text-xs text-[#616f89] dark:text-slate-400">{{ __('privacy-policy.right_access_desc') }}</p>
+                    </div>
+                    <div class="p-4 border border-[#f0f2f4] dark:border-slate-800 rounded-lg">
+                        <h5 class="font-bold mb-2 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-[20px]">delete</span>
+                            {{ __('privacy-policy.right_erasure') }}
+                        </h5>
+                        <p class="text-xs text-[#616f89] dark:text-slate-400">{{ __('privacy-policy.right_erasure_desc') }}</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
 @endsection

@@ -43,6 +43,9 @@ return [
     'faq_and_terms_of_use' => '常见问题解答和使用条款',
     'last_updated' => '最后更新',
     'last_updated_at' => '2025年6月23日',
+    'effective_date' => '生效日期',
+    'menu' => '菜单',
+    'link_to_section' => '链接到此部分',
     'table_of_contents' => '目录',
     'sections' => [
         'agreement_to_terms' => [

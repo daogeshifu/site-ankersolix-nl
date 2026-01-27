@@ -142,7 +142,7 @@
               $tag = $currentCategory->id != 0 ? $currentCategory->name : null;
             @endphp
 
-            {{-- 上一页 --}}
+            {{-- Previous Page --}}
             @if ($current > 1)
               <li class="page-item">
                 <a class="page-link" 
@@ -172,7 +172,7 @@
               @endif
             @endfor
 
-            {{-- 下一页 --}}
+            {{-- Next Page --}}
             @if ($current < $last)
               <li class="page-item">
                 <a class="page-link" 

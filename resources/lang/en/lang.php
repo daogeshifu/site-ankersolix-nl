@@ -100,6 +100,11 @@ return  [
 	
 	// Footer
 	'contact' => 'Contact',
+	'search' => 'Search',
+	'subscribe' => 'Subscribe',
+	'subscribe_desc' => 'Get the latest articles and insights delivered to your inbox',
+	'subscribe_btn' => 'Subscribe Now',
+	'join_newsletter' => 'Join Newsletter',
 
 	'login_page_title' => 'Login to access your cheker account',
 	'email_address' => 'Email Address',
@@ -241,4 +246,10 @@ return  [
 	'upgrade_engine_desc' => 'Brand new comparison engine efficient and stable, comparison accurate, not inflated, not missed, able to effectively check images, tables, formulas, code',
 	'section_professional_trust' => 'More Trustworthy Because of Professionalism',
 	'btn_use_now' => 'Use Now',
+	'back_to_top' => 'Back to Top',
+	'legal' => 'Legal',
+	'download_pdf' => 'Download PDF',
+	'print' => 'Print',
+	'help_keywords' => 'help, support, FAQ, assistance, guide',
+	'about_keywords' => 'about us, company, team, mission, vision',
 ];

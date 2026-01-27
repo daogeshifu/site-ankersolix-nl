@@ -104,7 +104,7 @@ class ArticleController extends Controller
             }
         }
 
-        return view('front.index.index', compact('articles', 'categories', 'currentCategory', 'topArticle', 'search', 'currentPage'));
+        return view('front.article.index', compact('articles', 'categories', 'currentCategory', 'topArticle', 'search', 'currentPage'));
     }
 
     /**
@@ -177,7 +177,7 @@ class ArticleController extends Controller
             $contentWithAnchors
         );
 
-        return view('front.article.detail-around', compact(
+        return view('front.article.detail', compact(
             'category_name',
             'article',
             'sidebarArticles',

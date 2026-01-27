@@ -107,4 +107,21 @@ return [
     
     // 导航菜单
     'privacy_policy' => '隐私政策',
+    'privacy_subtitle' => '您的隐私对我们很重要。了解我们如何保护您的数据。',
+    'sections_title' => '快速导航',
+    'quick_nav' => '跳转到章节',
+    'key_summary' => '要点',
+    'intro_content' => '欢迎阅读我们的隐私政策。本文档说明了您使用我们的服务时，我们如何处理您的个人信息。',
+    'geo_data' => '地理位置数据',
+    'geo_data_description' => '如果您启用了定位服务，我们可能会收集位置信息。',
+    'ai_logs' => 'AI 交互日志',
+    'ai_logs_description' => '我们记录与 AI 功能的交互，以改善服务质量。',
+    'ai_ethics' => 'AI 伦理与透明度',
+    'ai_ethics_desc' => '我们致力于符合伦理的 AI 实践和透明的数据使用。',
+    'cookie_type' => 'Cookie 类型',
+    'cookie_purpose' => '用途',
+    'right_access' => '访问您的数据',
+    'right_access_desc' => '请求我们持有的关于您的所有个人数据的副本。',
+    'right_erasure' => '请求删除',
+    'right_erasure_desc' => '要求我们从系统中删除您的个人信息。',
 ];

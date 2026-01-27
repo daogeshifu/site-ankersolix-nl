@@ -1,4 +1,4 @@
-@extends('layouts.htmlstream.master')
+@extends('layouts.stitch.master')
 
 @php
     $pageTitle = $currentCategory->name . ' - ' . __('article.blog_title');
@@ -16,315 +16,271 @@
 @section('description', $pageDescription)
 @section('keywords', $currentCategory->seo_keywords ?? __('article.seo_keywords'))
 
-@section('opengraph')
-    @php
-        $ogTitle = $currentCategory->name . ' - ' . __('article.blog_title');
-        $ogDescription = $currentCategory->name . ' ' . ($currentCategory->seo_description ?? __('article.seo_description'));
-
-        if (isset($currentPage) && $currentPage > 1) {
-            $pageSuffix = ' - ' . __('article.page', ['page' => $currentPage]);
-            $ogTitle .= $pageSuffix;
-            $ogDescription = __('article.page', ['page' => $currentPage]) . ' - ' . $ogDescription;
-        }
-    @endphp
-
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:url" content="{{ URL::full() }}">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="{{ $ogTitle }}">
-    <meta property="og:description" content="{{ $ogDescription }}">
-    <meta property="og:image" content="https://www.aigcchecker.com/storage/og.jpg">
-    <meta property="og:image:width" content="1864">
-    <meta property="og:image:height" content="829">
-
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta property="twitter:domain" content="aigcchecker.com">
-    <meta property="twitter:url" content="{{ URL::full() }}">
-    <meta name="twitter:title" content="{{ $ogTitle }}">
-    <meta name="twitter:description" content="{{ $ogDescription }}">
-    <meta name="twitter:image" content="https://www.aigcchecker.com/storage/og.jpg">
-@endsection
-
-@section('schema')
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "{{ __('article.blog_title') }}",
-        "url": "{{ URL::full() }}",
-        "logo": "https://www.aigcchecker.com/aigc/htmlstream/static/image/logo.png",
-        "description": "{{ ($currentCategory->seo_description ?? __('article.seo_description')) }}"
+@push('styles')
+<style>
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
-    </script>
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "{{ __('article.blog_title') }}",
-        "url": "{{ URL::full() }}",
-        "inLanguage": "{{ app()->getLocale() }}"
-    }
-    </script>
-@endsection
+</style>
+@endpush
 
 @section('content')
 
+<main class="max-w-[1280px] mx-auto px-6 md:px-20 py-8">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-6 text-sm">
+        <a class="text-[#616f89] hover:text-primary flex items-center gap-1" href="{{ route('index') }}">
+            <span class="material-symbols-outlined text-base">home</span> {{ __('menu.home') }}
+        </a>
+        <span class="text-[#616f89]">/</span>
+        <a class="text-[#616f89] hover:text-primary" href="{{ route('articles') }}">{{ __('menu.insights') }}</a>
+        <span class="text-[#616f89]">/</span>
+        <span class="text-primary font-medium">{{ $currentCategory->name }}</span>
+    </nav>
 
-<main id="content" role="main">
-  <!-- Hero -->
-  <div class="container content-space-t-2 content-space-b-1 content-space-b-md-2">
-    <div class="w-md-75 w-lg-50 text-center mx-md-auto">
-      <h1 class="display-4">{{ __('article.newsroom') }}</h1>
-      <p class="lead">{{ __('article.newsroom_description') }}</p>
+    <!-- Page Heading -->
+    <div class="mb-12">
+        <h1 class="text-4xl md:text-5xl font-black leading-tight tracking-tight mb-4">{{ $currentCategory->name }}</h1>
+        <p class="text-[#616f89] dark:text-[#94a3b8] text-lg max-w-2xl">
+            {{ $currentCategory->seo_description ?? __('article.newsroom_description') }}
+        </p>
     </div>
-  </div>
-  <!-- End Hero -->
 
-  <!-- Card Grid -->
-  <div class="container content-space-b-2 content-space-b-lg-3">
-    <div class="row justify-content-md-between align-items-md-center mb-7">
-      <div class="col-md-5 mb-5 mb-md-0">
-        <!-- Tags -->
-        <div class="d-md-flex align-items-md-center text-center text-md-start">
-          <span class="d-block me-md-3 mb-2 mb-md-1">{{ __('article.categories') }}:</span>
-          <a class="btn btn-soft-secondary btn-xs rounded-pill m-1" href="{{ route('aigc.blog') }}">{{ __('article.all_categories') }}</a>
-          @foreach($categories as $category)
-            <a class="btn btn-soft-secondary btn-xs rounded-pill m-1" href="{{ route('aigc.blog.category', $category->name) }}">{{ $category->name }}</a>
-          @endforeach
+    <div class="flex flex-col lg:flex-row gap-12">
+        <!-- Left Content: Article Feed -->
+        <div class="flex-[2] flex flex-col gap-8">
+
+            <!-- Search Results Info -->
+            @if($search)
+            <div class="bg-primary/10 border border-primary/20 rounded-xl p-4 flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary">search</span>
+                <div class="flex-1">
+                    <span>{{ __('article.search_results_for') }} "<strong>{{ $search }}</strong>" - {{ $articles->total() }} {{ __('article.results_found') }}</span>
+                </div>
+                <a href="{{ route('article.category', $currentCategory->name) }}" class="text-primary font-medium text-sm hover:underline">{{ __('article.clear_search') }}</a>
+            </div>
+            @endif
+
+            <!-- Featured Article (Top Article) -->
+            @if(!$search && isset($topArticle) && $topArticle)
+            <article class="group flex flex-col md:flex-row items-stretch gap-6 bg-white dark:bg-[#1e293b] rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow border border-[#f0f2f4] dark:border-[#334155]">
+                <a href="{{ route('article.detail.show', [$topArticle->category->name ?? 'blog', $topArticle->link]) }}" class="w-full md:w-72 h-48 bg-cover bg-center rounded-lg flex-shrink-0 block" style="background-image: url('{{ $topArticle->cover ? Storage::url($topArticle->cover) : '/around/picture/0126.jpg' }}');"></a>
+                <div class="flex flex-col justify-between py-1 flex-1">
+                    <div class="flex flex-col gap-3">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded">{{ __('home.trending') }}</span>
+                            <span class="text-[#616f89] text-xs">{{ $topArticle->view_count ?? 0 }} {{ __('lang.views') }}</span>
+                        </div>
+                        <h2 class="text-2xl font-bold group-hover:text-primary transition-colors leading-tight">
+                            <a href="{{ route('article.detail.show', [$topArticle->category->name ?? 'blog', $topArticle->link]) }}">{{ $topArticle->title }}</a>
+                        </h2>
+                        <p class="text-[#616f89] dark:text-[#94a3b8] text-sm line-clamp-3">
+                            {{ Str::limit($topArticle->summary ?? strip_tags($topArticle->content), 200) }}
+                        </p>
+                    </div>
+                    <div class="flex items-center justify-between mt-4">
+                        <div class="flex items-center gap-2">
+                            <div class="size-6 rounded-full bg-cover bg-gray-200" style="background-image: url('{{ $topArticle->user->avatar ?? '/around/image/avatar/default.png' }}');"></div>
+                            <span class="text-xs font-medium">{{ $topArticle->user->name ?? __('article.admin') }}</span>
+                            <span class="text-xs text-[#616f89]">&bull; {{ $topArticle->created_at->diffForHumans() }}</span>
+                        </div>
+                        <a href="{{ route('article.detail.show', [$topArticle->category->name ?? 'blog', $topArticle->link]) }}" class="flex items-center gap-1 text-primary text-sm font-bold hover:gap-2 transition-all">
+                            {{ __('article.read_more') }} <span class="material-symbols-outlined text-base">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+            @endif
+
+            <!-- Article List -->
+            @forelse($articles as $article)
+            <article class="group flex flex-col md:flex-row items-stretch gap-6 bg-white dark:bg-[#1e293b] rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow border border-[#f0f2f4] dark:border-[#334155]">
+                <a href="{{ route('article.detail.show', [$article->category->name ?? 'blog', $article->link]) }}" class="w-full md:w-72 h-48 bg-cover bg-center rounded-lg flex-shrink-0 block" style="background-image: url('{{ $article->cover ? Storage::url($article->cover) : '/around/picture/0126.jpg' }}');"></a>
+                <div class="flex flex-col justify-between py-1 flex-1">
+                    <div class="flex flex-col gap-3">
+                        <div class="flex items-center gap-3">
+                            @if($article->category)
+                            <span class="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded">{{ $article->category->name }}</span>
+                            @endif
+                            <span class="text-[#616f89] text-xs">{{ $article->view_count ?? 0 }} {{ __('lang.views') }}</span>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold group-hover:text-primary transition-colors leading-tight">
+                            <a href="{{ route('article.detail.show', [$article->category->name ?? 'blog', $article->link]) }}">{{ $article->title }}</a>
+                        </h3>
+                        <p class="text-[#616f89] dark:text-[#94a3b8] text-sm line-clamp-3">
+                            {{ Str::limit($article->summary ?? strip_tags($article->content), 150) }}
+                        </p>
+                    </div>
+                    <div class="flex items-center justify-between mt-4">
+                        <div class="flex items-center gap-2">
+                            <div class="size-6 rounded-full bg-cover bg-gray-200" style="background-image: url('{{ $article->user->avatar ?? '/around/image/avatar/default.png' }}');"></div>
+                            <span class="text-xs font-medium">{{ $article->user->name ?? __('article.admin') }}</span>
+                            <span class="text-xs text-[#616f89]">&bull; {{ $article->created_at->diffForHumans() }}</span>
+                        </div>
+                        <a href="{{ route('article.detail.show', [$article->category->name ?? 'blog', $article->link]) }}" class="flex items-center gap-1 text-primary text-sm font-bold hover:gap-2 transition-all">
+                            {{ __('article.read_more') }} <span class="material-symbols-outlined text-base">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+            @empty
+            <div class="text-center py-12">
+                <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">article</span>
+                <p class="text-gray-500">{{ __('article.no_articles') }}</p>
+            </div>
+            @endforelse
+
+            <!-- Pagination -->
+            @if($articles->hasPages())
+            <div class="flex items-center justify-center gap-2 mt-8 py-6">
+                {{-- Previous Page --}}
+                @if($articles->onFirstPage())
+                <span class="size-10 flex items-center justify-center rounded-lg border border-[#f0f2f4] dark:border-[#334155] text-gray-300 cursor-not-allowed">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </span>
+                @else
+                <a href="{{ $articles->previousPageUrl() }}" class="size-10 flex items-center justify-center rounded-lg border border-[#f0f2f4] dark:border-[#334155] hover:bg-white dark:hover:bg-[#1e293b] transition-colors">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </a>
+                @endif
+
+                {{-- Page Numbers --}}
+                @php
+                    $currentPage = $articles->currentPage();
+                    $lastPage = $articles->lastPage();
+                    $start = max(1, $currentPage - 2);
+                    $end = min($lastPage, $currentPage + 2);
+                @endphp
+
+                @if($start > 1)
+                <a href="{{ $articles->url(1) }}" class="size-10 flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-[#1e293b] transition-colors font-medium">1</a>
+                    @if($start > 2)
+                    <span class="px-2 text-[#616f89]">...</span>
+                    @endif
+                @endif
+
+                @for($i = $start; $i <= $end; $i++)
+                    @if($i == $currentPage)
+                    <span class="size-10 flex items-center justify-center rounded-lg bg-primary text-white font-bold">{{ $i }}</span>
+                    @else
+                    <a href="{{ $articles->url($i) }}" class="size-10 flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-[#1e293b] transition-colors font-medium">{{ $i }}</a>
+                    @endif
+                @endfor
+
+                @if($end < $lastPage)
+                    @if($end < $lastPage - 1)
+                    <span class="px-2 text-[#616f89]">...</span>
+                    @endif
+                <a href="{{ $articles->url($lastPage) }}" class="size-10 flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-[#1e293b] transition-colors font-medium">{{ $lastPage }}</a>
+                @endif
+
+                {{-- Next Page --}}
+                @if($articles->hasMorePages())
+                <a href="{{ $articles->nextPageUrl() }}" class="size-10 flex items-center justify-center rounded-lg border border-[#f0f2f4] dark:border-[#334155] hover:bg-white dark:hover:bg-[#1e293b] transition-colors">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </a>
+                @else
+                <span class="size-10 flex items-center justify-center rounded-lg border border-[#f0f2f4] dark:border-[#334155] text-gray-300 cursor-not-allowed">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </span>
+                @endif
+            </div>
+            @endif
         </div>
-        <!-- End Tags -->
-      </div>
-      <!-- End Col -->
 
-      <div class="col-md-5 col-lg-4">
-        <form action="{{ route('aigc.blog') }}" method="get">
-          <!-- Input Card -->
-          <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="{{ __('article.search_articles') }}" aria-label="{{ __('article.search_articles') }}" value="{{ $search ?? '' }}">
-            <button type="submit" class="btn btn-primary"><i class="bi-search"></i></button>
-          </div>
-          <!-- End Input Card -->
-        </form>
-      </div>
-      <!-- End Col -->
+        <!-- Right Content: Sidebar -->
+        <aside class="flex-1 flex flex-col gap-10">
+            <!-- Category Filter -->
+            <div class="bg-white dark:bg-[#1e293b] rounded-xl p-6 border border-[#f0f2f4] dark:border-[#334155]">
+                <h4 class="text-lg font-bold mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">category</span> {{ __('article.categories') }}
+                </h4>
+                <div class="flex flex-col gap-1">
+                    <a class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-background-light dark:hover:bg-[#334155] transition-colors group" href="{{ route('articles') }}">
+                        <span class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-xl text-[#616f89]">newspaper</span> {{ __('article.all_categories') }}
+                        </span>
+                    </a>
+                    @foreach($categories as $category)
+                    <a class="flex items-center justify-between px-3 py-2 rounded-lg {{ $currentCategory->id == $category->id ? 'bg-primary/5 text-primary font-medium' : 'hover:bg-background-light dark:hover:bg-[#334155]' }} transition-colors group" href="{{ route('article.category', $category->name) }}">
+                        <span class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-xl {{ $currentCategory->id == $category->id ? '' : 'text-[#616f89]' }}">folder</span> {{ $category->name }}
+                        </span>
+                        <span class="text-xs {{ $currentCategory->id == $category->id ? 'bg-primary text-white px-2 py-0.5 rounded-full' : 'text-[#616f89]' }}">{{ $category->articles_count ?? $category->articles()->count() }}</span>
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+
+            <!-- Trending Keywords (Tag Cloud) -->
+            @if(isset($tags) && $tags->count() > 0)
+            <div class="bg-white dark:bg-[#1e293b] rounded-xl p-6 border border-[#f0f2f4] dark:border-[#334155]">
+                <h4 class="text-lg font-bold mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">tag</span> {{ __('article.trending_keywords') }}
+                </h4>
+                <div class="flex flex-wrap gap-2">
+                    @foreach($tags->take(10) as $tag)
+                    <a href="{{ route('articles', ['tag' => $tag->name]) }}" class="px-3 py-1 bg-[#f0f2f4] dark:bg-[#334155] rounded-full text-xs font-medium cursor-pointer hover:bg-primary hover:text-white transition-all">
+                        #{{ $tag->name }}
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+            @else
+            <!-- Default Keywords when no tags available -->
+            <div class="bg-white dark:bg-[#1e293b] rounded-xl p-6 border border-[#f0f2f4] dark:border-[#334155]">
+                <h4 class="text-lg font-bold mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">tag</span> {{ __('article.trending_keywords') }}
+                </h4>
+                <div class="flex flex-wrap gap-2">
+                    @foreach($categories->take(6) as $cat)
+                    <a href="{{ route('article.category', $cat->name) }}" class="px-3 py-1 bg-[#f0f2f4] dark:bg-[#334155] rounded-full text-xs font-medium cursor-pointer hover:bg-primary hover:text-white transition-all">
+                        #{{ $cat->name }}
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+
+            <!-- Hot Topics -->
+            @if(isset($popularArticles) && $popularArticles->count() > 0)
+            <div class="bg-white dark:bg-[#1e293b] rounded-xl p-6 border border-[#f0f2f4] dark:border-[#334155]">
+                <h4 class="text-lg font-bold mb-5 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">local_fire_department</span> {{ __('article.most_popular') }}
+                </h4>
+                <div class="flex flex-col gap-6">
+                    @foreach($popularArticles->take(5) as $index => $popArticle)
+                    <a href="{{ route('article.detail.show', [$popArticle->category->name ?? 'blog', $popArticle->link]) }}" class="flex gap-4 group">
+                        <span class="text-3xl font-black text-primary/20 shrink-0">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                        <div>
+                            <h5 class="text-sm font-bold leading-tight group-hover:text-primary transition-colors">{{ Str::limit($popArticle->title, 60) }}</h5>
+                            <p class="text-[10px] text-[#616f89] mt-1">{{ $popArticle->created_at->diffForHumans() }} &bull; {{ $popArticle->view_count ?? 0 }} {{ __('lang.views') }}</p>
+                        </div>
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+
+            <!-- Newsletter CTA -->
+            <div class="bg-primary rounded-xl p-6 text-white overflow-hidden relative group">
+                <div class="absolute -right-8 -bottom-8 size-32 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-all"></div>
+                <div class="relative z-10">
+                    <h4 class="text-xl font-bold mb-2">{{ __('lang.subscribe') }}</h4>
+                    <p class="text-white/80 text-sm mb-4">{{ __('lang.subscribe_desc') }}</p>
+                    <form action="{{ route('contact') }}" method="GET">
+                        <input type="email" name="email" class="w-full bg-white/20 border-none rounded-lg text-white placeholder:text-white/60 mb-3 text-sm focus:ring-0 py-2 px-3" placeholder="{{ __('contact.email_placeholder') }}"/>
+                        <button type="submit" class="w-full bg-white text-primary font-bold py-2 rounded-lg text-sm hover:bg-white/90 transition-colors">
+                            {{ __('lang.join_newsletter') }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </aside>
     </div>
-    <!-- End Row -->
-
-    @if($search)
-      <!-- Search Results Info -->
-      <div class="alert alert-soft-primary mb-5" role="alert">
-        <div class="d-flex align-items-center">
-          <div class="flex-shrink-0">
-            <i class="bi-search"></i>
-          </div>
-          <div class="flex-grow-1 ms-3">
-            <span>{{ __('article.search_results_for') }} "<strong>{{ $search ?? '' }}</strong>" - {{ $articles->total() }} {{ __('article.results_found') }}</span>
-            <a href="{{ route('aigc.blog') }}" class="alert-link ms-2">{{ __('article.clear_search') }}</a>
-          </div>
-        </div>
-      </div>
-      <!-- End Search Results Info -->
-    @endif
-
-    @if( !$search && $topArticle)
-    <!-- Card -->
-    <div class="card card-stretched-vertical mb-10">
-      <div class="row gx-0">
-        <div class="col-lg-8">
-          <div class="shape-container overflow-hidden">
-            <img class="card-img"
-                 src="{{ asset('assets/images/cover/default-cover.jpg') }}"
-                 data-src="{{ asset('storage/' . $topArticle->cover) }}"
-                 alt="{{ $topArticle->title }}"
-                 loading="lazy">
-
-            <!-- Shape -->
-            <div class="shape shape-end d-none d-lg-block zi-1">
-              <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 100.1 1920" height="101%">
-                <path fill="#fff" d="M0,1920c0,0,93.4-934.4,0-1920h100.1v1920H0z"></path>
-              </svg>
-            </div>
-            <!-- End Shape -->
-
-            <!-- Shape -->
-            <div class="shape shape-bottom d-lg-none zi-1" style="margin-bottom: -.25rem">
-              <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1920 100.1">
-                <path fill="#fff" d="M0,0c0,0,934.4,93.4,1920,0v100.1H0L0,0z"></path>
-              </svg>
-            </div>
-            <!-- End Shape -->
-          </div>
-        </div>
-        <!-- End Col -->
-
-        <div class="col-lg-4">
-          <!-- Card Body -->
-          <div class="card-body">
-            <h3 class="card-title">
-              <a class="text-dark" href="{{ route('aigc.blog.detail.show', [$topArticle->category->name, $topArticle->link]) }}">{{ $topArticle->title }}</a>
-            </h3>
-
-            <p class="card-text">{{ $topArticle->excerpt }}</p>
-
-            <!-- Card Footer -->
-            <div class="card-footer" style="padding: 0.75rem 1.25rem;">
-              <div class="d-flex align-items-center">
-                <div class="flex-shrink-0 avatar-group avatar-group-xs">
-                  <a class="avatar avatar-xs avatar-circle" href="#" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Aaron Larsson" data-bs-original-title="Aaron Larsson">
-                    <img class="avatar-img"
-                         src="{{ asset('assets/images/cover/default-cover.jpg') }}"
-                         data-src="{{ $topArticle->user->avatar }}"
-                         alt="{{ $topArticle->user->name }}"
-                         loading="lazy">
-                  </a>
-                </div>
-
-                <div class="flex-grow-1">
-                  <div class="d-flex justify-content-end">
-                    <p class="card-text">{{ $topArticle->created_at->diffForHumans() }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- End Card Footer -->
-          </div>
-          <!-- End Card Body -->
-        </div>
-        <!-- End Col -->
-      </div>
-      <!-- End Row -->
-    </div>
-    <!-- End Card -->
-    @endif
-
-    <div class="row mb-7">
-
-      @foreach($articles as $article)
-        <div class="col-sm-6 col-lg-4 mb-4">
-          <!-- Card -->
-          <div class="card h-100">
-            <div class="shape-container">
-              <img class="card-img-top"
-                   src="{{ asset('assets/images/cover/default-cover.jpg') }}"
-                   data-src="{{ asset('storage/' . $article->cover) }}"
-                   alt="{{ $article->title }}"
-                   loading="lazy">
-
-              <!-- Shape -->
-              <div class="shape shape-bottom zi-1" style="margin-bottom: -.25rem">
-                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1920 100.1">
-                  <path fill="#fff" d="M0,0c0,0,934.4,93.4,1920,0v100.1H0L0,0z"></path>
-                </svg>
-              </div>
-              <!-- End Shape -->
-            </div>
-
-            <!-- Card Body -->
-            <div class="card-body">
-              <h3 class="card-title">
-                <a class="text-dark" href="{{ route('aigc.blog.detail.show', [$article->category->name, $article->link]) }}">{{ $article->title }}</a>
-              </h3>
-
-              <p class="card-text">{{ $article->excerpt }}</p>
-            </div>
-            <!-- End Card Body -->
-
-            <!-- Card Footer -->
-            <div class="card-footer" style="padding: 0.75rem 1.25rem;">
-              <div class="d-flex align-items-center">
-                <div class="flex-shrink-0 avatar-group avatar-group-xs">
-                  <a class="avatar avatar-xs avatar-circle" href="#" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Nataly Gaga" data-bs-original-title="Nataly Gaga">
-                    <img class="avatar-img"
-                         src="{{ asset('assets/images/cover/default-cover.jpg') }}"
-                         data-src="{{ $article->user->avatar }}"
-                         alt="{{ $article->user->name }}"
-                         loading="lazy">
-                  </a>
-                </div>
-
-                <div class="flex-grow-1">
-                  <div class="d-flex justify-content-end">
-                    <p class="card-text">{{ $article->created_at->diffForHumans() }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- End Card Footer -->
-          </div>
-          <!-- End Card -->
-        </div>
-      @endforeach
-    </div>
-    <!-- End Row -->
-
-    <!-- Pagination -->
-    @include('components.pagination-static', ['paginator' => $articles])
-    <!-- End Pagination -->
-  </div>
-  <!-- End Card Grid -->
 </main>
 
-
-
-
-@endsection
-
-@section('script')
-<script>
-  // 图片懒加载功能
-  document.addEventListener('DOMContentLoaded', function() {
-    const lazyImages = document.querySelectorAll('img[data-src]');
-    const defaultCover = '{{ asset('assets/images/cover/default-cover.jpg') }}';
-
-    // 图片加载失败时的处理函数
-    function handleImageError(img) {
-      // 如果当前图片不是默认图片，则替换为默认图片
-      if (img.src !== defaultCover) {
-        img.src = defaultCover;
-      }
-    }
-
-    // 加载图片的函数
-    function loadImage(img) {
-      const dataSrc = img.dataset.src;
-      if (dataSrc) {
-        // 添加错误处理监听器
-        img.onerror = function() {
-          handleImageError(img);
-        };
-
-        // 设置图片源
-        img.src = dataSrc;
-        img.removeAttribute('data-src');
-      }
-    }
-
-    // 使用 Intersection Observer API 实现懒加载
-    if ('IntersectionObserver' in window) {
-      const imageObserver = new IntersectionObserver(function(entries, observer) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            const img = entry.target;
-            loadImage(img);
-            imageObserver.unobserve(img);
-          }
-        });
-      }, {
-        rootMargin: '50px 0px',
-        threshold: 0.01
-      });
-
-      lazyImages.forEach(function(img) {
-        imageObserver.observe(img);
-      });
-    } else {
-      // 降级方案：直接加载所有图片
-      lazyImages.forEach(function(img) {
-        loadImage(img);
-      });
-    }
-  });
-</script>
 @endsection

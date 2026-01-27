@@ -158,4 +158,17 @@ return [
 
     // 导航菜单
     'terms_of_service' => '服务条款',
+    'navigation' => '导航',
+    'introduction' => '介绍',
+    'usage_rights' => '使用权利',
+    'data_scraping' => '数据抓取',
+    'data_scraping_desc' => '严禁从我们的平台自动提取数据。',
+    'reverse_engineering' => '逆向工程',
+    'reverse_engineering_desc' => '不允许尝试对我们的算法或系统进行逆向工程。',
+    'account_sharing' => '账户共享',
+    'account_sharing_desc' => '与他人共享您的账户凭据违反我们的条款。',
+    'system_overload' => '系统过载',
+    'system_overload_desc' => '禁止可能导致系统过载或中断的操作。',
+    'questions' => '有问题？',
+    'contact_legal' => '联系法务团队',
 ];

@@ -60,8 +60,8 @@
     <div class="bg-img-start" style="background-image: url(/htmlstream/static/picture/card-11.svg);">
       <div class="container content-space-t-3 content-space-t-lg-5 content-space-b-2">
         <div class="w-md-75 w-lg-50 text-center mx-md-auto">
-          <h1>Terms of Service</h1>
-          <p>Effective date: {{ date('F d, Y') }}</p>
+          <h1>{{ __('terms.page_title') }}</h1>
+          <p>{{ __('terms.effective_date') }}: {{ date('F d, Y') }}</p>
         </div>
       </div>
     </div>
@@ -77,7 +77,7 @@
             <div class="d-grid">
               <button type="button" class="navbar-toggler btn btn-white mb-3" data-bs-toggle="collapse" data-bs-target="#navbarVerticalNavMenu" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarVerticalNavMenu">
                 <span class="d-flex justify-content-between align-items-center">
-                  <span class="text-dark">Menu</span>
+                  <span class="text-dark">{{ __('terms.menu') }}</span>
 
                   <span class="navbar-toggler-default">
                     <i class="bi-list"></i>

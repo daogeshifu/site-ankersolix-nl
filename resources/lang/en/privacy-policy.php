@@ -107,4 +107,21 @@ return [
     
     // 导航菜单
     'privacy_policy' => 'Privacy Policy',
+    'privacy_subtitle' => 'Your privacy matters to us. Learn how we protect your data.',
+    'sections_title' => 'Quick Navigation',
+    'quick_nav' => 'Jump to section',
+    'key_summary' => 'Key Points',
+    'intro_content' => 'Welcome to our Privacy Policy. This document explains how we handle your personal information when you use our services.',
+    'geo_data' => 'Geolocation Data',
+    'geo_data_description' => 'We may collect location information if you enable location services.',
+    'ai_logs' => 'AI Interaction Logs',
+    'ai_logs_description' => 'We log interactions with our AI features to improve service quality.',
+    'ai_ethics' => 'AI Ethics & Transparency',
+    'ai_ethics_desc' => 'We are committed to ethical AI practices and transparent data usage.',
+    'cookie_type' => 'Cookie Type',
+    'cookie_purpose' => 'Purpose',
+    'right_access' => 'Access Your Data',
+    'right_access_desc' => 'Request a copy of all personal data we hold about you.',
+    'right_erasure' => 'Request Deletion',
+    'right_erasure_desc' => 'Ask us to delete your personal information from our systems.',
 ];

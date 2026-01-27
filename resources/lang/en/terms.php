@@ -43,6 +43,9 @@ return [
     'faq_and_terms_of_use' => 'FAQ and terms of use',
     'last_updated' => 'Last updated',
     'last_updated_at' => 'June 23, 2025',
+    'effective_date' => 'Effective date',
+    'menu' => 'Menu',
+    'link_to_section' => 'Link to this section',
     'table_of_contents' => 'TABLE OF CONTENTS',
     'sections' => [
         'agreement_to_terms' => [

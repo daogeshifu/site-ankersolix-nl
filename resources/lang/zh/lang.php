@@ -99,6 +99,11 @@ return [
 
 	// Footer
     'contact' => '联系我们',
+    'search' => '搜索',
+    'subscribe' => '订阅',
+    'subscribe_desc' => '获取最新文章和见解，直接发送到您的收件箱',
+    'subscribe_btn' => '立即订阅',
+    'join_newsletter' => '加入邮件列表',
 
     'login_page_title' => '登录访问您的账户',
     'email_address' => '电子邮件地址',
@@ -239,4 +244,10 @@ return [
     'upgrade_engine_desc' => '全新对比引擎高效稳定，比对准确，不虚飘，不漏飘，能够对比图片、表格、公式、代码进行有效查重',
     'section_professional_trust' => '因为专业所以更值得信赖',
     'btn_use_now' => '立即使用',
+    'back_to_top' => '返回顶部',
+    'legal' => '法律',
+    'download_pdf' => '下载 PDF',
+    'print' => '打印',
+    'help_keywords' => '帮助, 支持, 常见问题, 协助, 指南',
+    'about_keywords' => '关于我们, 公司, 团队, 使命, 愿景',
 ];

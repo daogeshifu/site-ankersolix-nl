@@ -1,4 +1,4 @@
-@extends('layouts.around.master')
+@extends('layouts.stitch.master')
 
 
 @section('title', __('lang.seo_title'))
@@ -8,262 +8,172 @@
 
 @section('content')
 
-      <!-- Page title -->
-      <section class="container pt-5 pb-4 pb-lg-0 my-md-2 my-lg-5">
-        <div class="row pt-5 pb-4 pb-lg-5 mb-2 mt-1 mt-sm-2 my-xl-3">
-          <div class="col-md-7">
-            <h1 class="display-3 fw-medium text-uppercase mb-0">{{ __('home.blog_title') }}</h1>
-          </div>
-          <div class="col-md-5 col-lg-4 offset-lg-1 pt-3 pt-md-2">
-            <p class="mb-0">{{ __('home.blog_description') }}</p>
-          </div>
-        </div>
-        <hr>
-      </section>
-
-
-      <!-- Featured posts -->
-      <section class="container mt-2 mt-md-0 pb-5 mb-md-2 mb-lg-3 mb-xl-4 mb-xxl-5">
-
-        <!-- Filters -->
-        <div class="row align-items-center">
-          <div class="col-sm-8 col-lg-4 col-xl-3 offset-xl-1 order-sm-2 mb-3 mb-sm-0">
-            <form action="{{ route('articles') }}" method="GET">
-              <div class="position-relative mb-lg-2">
-                <i class="ai-search fs-lg position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                <input class="form-control rounded-pill ps-5" type="search" name="search" placeholder="{{ __('article.search_placeholder') }}">
-              </div>
-            </form>
-          </div>
-          <div class="col-sm-4 col-lg-8 order-sm-1">
-
-            <!-- Visible on screens > 991px -->
-            <div class="d-none d-lg-flex flex-wrap align-items-center">
-              <h3 class="h6 mb-2 me-4">{{ __('article.topics') }}:</h3>
-              @if(isset($categories) && $categories->count() > 0)
-                @foreach($categories->take(6) as $category)
-                <a class="btn btn-outline-secondary px-4 rounded-pill mb-2 me-3" href="{{ route('article.category', $category->name) }}">{{ $category->name }}</a>
-                @endforeach
-              @endif
-            </div>
-
-            <!-- Visible on screens < 992px -->
-            <div class="dropdown d-lg-none">
-              <button class="btn btn-outline-secondary dropdown-toggle rounded-pill w-100" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ __('article.topics') }}</button>
-              <div class="dropdown-menu my-1">
-                @if(isset($categories) && $categories->count() > 0)
-                  @foreach($categories as $category)
-                  <a class="dropdown-item" href="{{ route('article.category', $category->name) }}">{{ $category->name }}</a>
-                  @endforeach
-                @endif
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row mt-sm-2 mt-lg-0 pt-4 pt-lg-5 pb-md-4">
-          <div class="col-md-7 pb-2 pb-md-0 mb-4 mb-md-0">
-
-            @if(isset($featuredArticles) && $featuredArticles->count() > 0)
-              @foreach($featuredArticles as $article)
-              <!-- Article -->
-              <article class="pb-5 pt-sm-1 mb-lg-3 mb-xl-4">
-                <a href="{{ route('article.detail.show', [$article->category->name ?? 'blog', $article->link]) }}">
-                  @if($article->cover)
-                  <img class="rounded-5" src="{{ Storage::url($article->cover) }}" alt="{{ $article->title }}" style="width: 100%; max-height: 400px; object-fit: cover;">
-                  @else
-                  <img class="rounded-5" src="/around/picture/0126.jpg" alt="{{ $article->title }}">
-                  @endif
-                </a>
-                <h2 class="h3 pt-3 mt-2 mt-md-3">
-                  <a href="{{ route('article.detail.show', [$article->category->name ?? 'blog', $article->link]) }}">{{ $article->title }}</a>
-                </h2>
-                <p>{{ Str::limit($article->summary ?? strip_tags($article->content), 200) }}</p>
-                <div class="d-flex flex-wrap align-items-center pt-1 mt-n2">
-                  <span class="text-body-secondary fs-sm fw-normal p-0 mt-2 me-3">
-                    {{ $article->view_count ?? 0 }} {{ __('lang.views') }}
-                    <i class="ai-eye fs-lg ms-1"></i>
-                  </span>
-                  <span class="fs-xs opacity-20 mt-2 mx-3">|</span>
-                  <span class="fs-sm text-body-secondary mt-2">{{ $article->created_at->diffForHumans() }}</span>
-                  <span class="fs-xs opacity-20 mt-2 mx-3">|</span>
-                  @if($article->category)
-                  <a class="badge text-nav fs-xs border mt-2" href="{{ route('article.category', $article->category->name) }}">{{ $article->category->name }}</a>
-                  @endif
+    <!-- Hero Section -->
+    <div class="max-w-[1280px] mx-auto px-6 py-8">
+        <div class="@container">
+            <div class="relative min-h-[520px] flex flex-col items-start justify-end p-8 lg:p-16 rounded-2xl overflow-hidden bg-cover bg-center transition-all shadow-2xl" style="background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.7) 100%), url('https://lh3.googleusercontent.com/aida-public/AB6AXuAQmOYe6-KeE5DDkUHJ_6C8MYxWy8JViUnE5ZQx07prO_pLER34G8kvCpeDzOLmvdsoXK22Du2JWxgUXrycn8Bx3G-DOwvB0ibt6E-hYtrd-mVogYATIW5BOIkt15-y8zTwNEnHRs-eAqVE3vjdhrDe7E3CzxwWMbXoYXGLsH9c3SOC4sHt7IWeGyk7Cygj044hSyLsdLxnLtbPAcKdgPpVHM0jfmt0gZQnAkgIloQTxjWo3CY2KWUaJnuqrb0d4QXr_B1lKxHwUlU');">
+                <div class="z-10 max-w-2xl space-y-6">
+                    <span class="inline-block px-3 py-1 bg-primary text-white text-xs font-bold tracking-widest uppercase rounded-full">{{ __('home.trending') }}</span>
+                    <h1 class="text-white text-4xl lg:text-6xl font-black leading-[1.1] tracking-tight">
+                        {{ __('home.blog_title') }}
+                    </h1>
+                    <p class="text-gray-200 text-lg lg:text-xl font-normal max-w-xl">
+                        {{ __('home.blog_description') }}
+                    </p>
+                    <!-- Semantic Search Bar -->
+                    <form action="{{ route('articles') }}" method="GET" class="glass-effect p-2 rounded-xl flex items-center w-full max-w-xl group focus-within:ring-2 focus-within:ring-primary transition-all">
+                        <div class="flex-1 flex items-center px-4">
+                            <span class="material-symbols-outlined text-white/70 mr-3">psychology</span>
+                            <input class="bg-transparent border-none text-white placeholder:text-white/60 focus:ring-0 w-full text-base" name="search" placeholder="{{ __('article.search_placeholder') }}" type="text"/>
+                        </div>
+                        <button type="submit" class="bg-primary text-white font-bold py-3 px-6 rounded-lg transition-transform hover:scale-105 active:scale-95">
+                            {{ __('lang.search') }}
+                        </button>
+                    </form>
                 </div>
-              </article>
-              @endforeach
-            @else
-              <p class="text-muted">{{ __('article.no_articles') }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- News Grid & Sidebar Layout -->
+    <div class="max-w-[1280px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 pb-20">
+        <!-- Main Content (8 cols) -->
+        <div class="lg:col-span-8 space-y-8">
+            <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-4">
+                <h2 class="text-2xl font-bold tracking-tight">{{ __('article.latest_posts') }}</h2>
+                <a class="text-primary text-sm font-semibold flex items-center gap-1" href="{{ route('articles') }}">{{ __('article.read_all') }} <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a>
+            </div>
+
+            <!-- Featured Articles Grid -->
+            @if(isset($featuredArticles) && $featuredArticles->count() > 0)
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                @foreach($featuredArticles->take(2) as $article)
+                <!-- Featured Article Card -->
+                <div class="flex flex-col gap-4 group cursor-pointer">
+                    <a href="{{ route('article.detail.show', [$article->category->name ?? 'blog', $article->link]) }}" class="relative overflow-hidden rounded-xl aspect-video">
+                        <div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('{{ $article->cover ? Storage::url($article->cover) : '/around/picture/0126.jpg' }}');"></div>
+                        @if($article->category)
+                        <div class="absolute top-3 left-3 bg-white/90 dark:bg-black/80 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">{{ $article->category->name }}</div>
+                        @endif
+                    </a>
+                    <div class="space-y-2">
+                        <h3 class="text-xl font-bold group-hover:text-primary transition-colors">
+                            <a href="{{ route('article.detail.show', [$article->category->name ?? 'blog', $article->link]) }}">{{ $article->title }}</a>
+                        </h3>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{{ Str::limit($article->summary ?? strip_tags($article->content), 120) }}</p>
+                        <div class="flex items-center gap-3 pt-2 text-xs font-medium text-gray-400">
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span> {{ $article->view_count ?? 0 }} {{ __('lang.views') }}</span>
+                            <span>&bull;</span>
+                            <span>{{ $article->created_at->diffForHumans() }}</span>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
             @endif
 
-            <!-- More articles button -->
-            <a class="btn btn-primary mt-n2 mt-sm-n1 mt-md-0" href="{{ route('index') }}">{{ __('article.read_all') }}</a>
-          </div>
+            <!-- Horizontal Secondary News -->
+            @if(isset($sidebarArticles) && $sidebarArticles->count() > 0)
+            <div class="space-y-6 pt-6">
+                @foreach($sidebarArticles->take(4) as $sidebarArticle)
+                <a href="{{ route('article.detail.show', [$sidebarArticle->category->name ?? 'blog', $sidebarArticle->link]) }}" class="flex gap-6 items-start border-t border-gray-100 dark:border-gray-800 pt-6 group cursor-pointer">
+                    <div class="w-32 h-24 rounded-lg bg-cover bg-center flex-shrink-0" style="background-image: url('{{ $sidebarArticle->cover ? Storage::url($sidebarArticle->cover) : '/around/picture/0127.jpg' }}');"></div>
+                    <div class="space-y-1">
+                        @if($sidebarArticle->category)
+                        <span class="text-primary text-[10px] font-bold uppercase">{{ $sidebarArticle->category->name }}</span>
+                        @endif
+                        <h4 class="text-lg font-bold group-hover:text-primary transition-colors">{{ Str::limit($sidebarArticle->title, 60) }}</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{{ Str::limit($sidebarArticle->summary ?? strip_tags($sidebarArticle->content), 100) }}</p>
+                    </div>
+                </a>
+                @endforeach
+            </div>
+            @endif
+        </div>
 
+        <!-- Sidebar (4 cols) -->
+        <div class="lg:col-span-4 space-y-10">
+            <!-- Categories Widget -->
+            @if(isset($categories) && $categories->count() > 0)
+            <div class="bg-white dark:bg-[#1c2331] rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm">
+                <div class="flex items-center gap-2 mb-6">
+                    <span class="material-symbols-outlined text-primary">category</span>
+                    <h2 class="text-lg font-bold">{{ __('article.topics') }}</h2>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    @foreach($categories->take(8) as $category)
+                    <a href="{{ route('article.category', $category->name) }}" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 rounded-full text-sm font-medium hover:bg-primary hover:text-white transition-colors">
+                        {{ $category->name }}
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+            @endif
 
-          <!-- Relevant articles sidebar -->
-          <aside class="col-md-5 col-xl-4 offset-xl-1" style="margin-top: -115px;">
-            <div class="position-sticky top-0 ps-md-4 ps-xl-0" style="padding-top: 125px;">
-              <h2 class="h4">{{ __('article.relevant_articles') }}</h2>
+            <!-- Popular Articles -->
+            @if(isset($popularArticles) && $popularArticles->count() > 0)
+            <div class="space-y-6">
+                <h2 class="text-xl font-bold border-b border-gray-100 dark:border-gray-800 pb-3">{{ __('article.most_popular') }}</h2>
+                @foreach($popularArticles->take(3) as $popArticle)
+                <a href="{{ route('article.detail.show', [$popArticle->category->name ?? 'blog', $popArticle->link]) }}" class="flex items-start gap-4 group">
+                    <div class="size-16 rounded-lg bg-gray-200 bg-cover flex-shrink-0" style="background-image: url('{{ $popArticle->cover ? Storage::url($popArticle->cover) : '/around/picture/0127.jpg' }}');"></div>
+                    <div class="space-y-1">
+                        <h4 class="text-sm font-bold leading-tight group-hover:text-primary transition-colors">{{ Str::limit($popArticle->title, 50) }}</h4>
+                        <p class="text-xs text-gray-500">{{ $popArticle->created_at->diffForHumans() }}</p>
+                    </div>
+                </a>
+                @endforeach
+            </div>
+            @endif
 
-              @if(isset($sidebarArticles) && $sidebarArticles->count() > 0)
-                @foreach($sidebarArticles as $sidebarArticle)
-                <!-- Article -->
-                <article class="my-1 my-lg-0 py-2 py-lg-3">
-                  <h3 class="h6 mb-2 mb-lg-3">
-                    <a href="{{ route('article.detail.show', [$sidebarArticle->category->name ?? 'blog', $sidebarArticle->link]) }}">{{ $sidebarArticle->title }}</a>
-                  </h3>
-                  <div class="d-flex flex-wrap align-items-center mt-n2">
-                    <span class="text-body-secondary fs-sm fw-normal p-0 mt-2 me-3">
-                      {{ $sidebarArticle->view_count ?? 0 }} {{ __('lang.views') }}
-                      <i class="ai-eye fs-lg ms-1"></i>
-                    </span>
-                    <span class="fs-xs opacity-20 mt-2 mx-3">|</span>
-                    <span class="fs-sm text-body-secondary mt-2">{{ $sidebarArticle->created_at->diffForHumans() }}</span>
-                  </div>
+            <!-- CTA Widget -->
+            <div class="bg-gradient-to-br from-primary to-[#0c39a6] rounded-2xl p-6 text-white overflow-hidden relative">
+                <div class="relative z-10">
+                    <h3 class="text-lg font-bold mb-2">{{ __('lang.subscribe') }}</h3>
+                    <p class="text-sm opacity-90 mb-4">{{ __('lang.subscribe_desc') }}</p>
+                    <a href="{{ route('contact') }}" class="inline-block bg-white text-primary px-4 py-2 rounded font-bold text-xs uppercase tracking-wider hover:bg-opacity-90 transition-all">
+                        {{ __('lang.contact') }}
+                    </a>
+                </div>
+                <span class="material-symbols-outlined absolute -right-4 -bottom-4 text-[120px] opacity-10">mail</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Latest Posts Section -->
+    @if(isset($latestArticles) && $latestArticles->count() > 0)
+    <section class="bg-gray-50 dark:bg-[#1c2331] py-16">
+        <div class="max-w-[1280px] mx-auto px-6">
+            <div class="flex items-center justify-between mb-10">
+                <h2 class="text-3xl font-bold">{{ __('article.latest_posts') }}</h2>
+                <a href="{{ route('articles') }}" class="text-primary text-sm font-semibold flex items-center gap-1">
+                    {{ __('article.read_all') }} <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @foreach($latestArticles->take(6) as $latestArticle)
+                <article class="bg-white dark:bg-[#0c121d] rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group">
+                    <a href="{{ route('article.detail.show', [$latestArticle->category->name ?? 'blog', $latestArticle->link]) }}" class="block aspect-video overflow-hidden">
+                        <div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('{{ $latestArticle->cover ? Storage::url($latestArticle->cover) : '/around/picture/0126.jpg' }}');"></div>
+                    </a>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-xs text-gray-500">{{ $latestArticle->created_at->diffForHumans() }}</span>
+                            @if($latestArticle->category)
+                            <a href="{{ route('article.category', $latestArticle->category->name) }}" class="text-xs text-primary font-medium">{{ $latestArticle->category->name }}</a>
+                            @endif
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors">
+                            <a href="{{ route('article.detail.show', [$latestArticle->category->name ?? 'blog', $latestArticle->link]) }}">{{ Str::limit($latestArticle->title, 60) }}</a>
+                        </h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{{ Str::limit($latestArticle->summary ?? strip_tags($latestArticle->content), 100) }}</p>
+                    </div>
                 </article>
                 @endforeach
-              @endif
             </div>
-          </aside>
         </div>
-      </section>
-
-
-      <!-- Popular articles (Carousel) -->
-      @if(isset($popularArticles) && $popularArticles->count() > 0)
-      <section class="bg-secondary py-5">
-        <div class="container d-flex align-items-center pt-lg-2 pt-xl-4 pt-xxl-5 pb-3 mt-1 mt-sm-3 mb-3 my-md-4">
-          <h2 class="h1 mb-0">{{ __('article.most_popular') }}</h2>
-
-          <!-- Slider control buttons (Prev / Next) -->
-          <div class="d-flex ms-auto">
-            <button class="btn btn-sm btn-icon btn-outline-primary rounded-circle ms-3" type="button" id="prev-popular" aria-label="Previous slide">
-              <i class="ai-arrow-left"></i>
-            </button>
-            <button class="btn btn-sm btn-icon btn-outline-primary rounded-circle ms-3" type="button" id="next-popular" aria-label="Next slide">
-              <i class="ai-arrow-right"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Swiper slider -->
-        <div class="container-start">
-          <div class="swiper" data-swiper-options='{
-            "slidesPerView": 1,
-            "spaceBetween": 24,
-            "loop": true,
-            "navigation": {
-              "prevEl": "#prev-popular",
-              "nextEl": "#next-popular"
-            },
-            "breakpoints": {
-              "576": {
-                "slidesPerView": "auto"
-              }
-            }
-          }'>
-            <div class="swiper-wrapper">
-              @foreach($popularArticles as $popArticle)
-              <!-- Item -->
-              <article class="swiper-slide w-sm-auto h-auto">
-                <div class="card h-100 border-0 mx-auto" style="max-width: 416px;">
-                  <a href="{{ route('article.detail.show', [$popArticle->category->name ?? 'blog', $popArticle->link]) }}">
-                    @if($popArticle->cover)
-                    <img class="card-img-top" src="{{ Storage::url($popArticle->cover) }}" alt="{{ $popArticle->title }}" style="height: 250px; object-fit: cover;">
-                    @else
-                    <img class="card-img-top" src="/around/picture/0127.jpg" alt="{{ $popArticle->title }}">
-                    @endif
-                  </a>
-                  <div class="card-body pb-4">
-                    <div class="d-flex align-items-center mb-4 mt-n1">
-                      <span class="fs-sm text-body-secondary">{{ $popArticle->created_at->diffForHumans() }}</span>
-                      <span class="fs-xs opacity-20 mx-3">|</span>
-                      @if($popArticle->category)
-                      <a class="badge text-nav fs-xs border" href="{{ route('article.category', $popArticle->category->name) }}">{{ $popArticle->category->name }}</a>
-                      @endif
-                    </div>
-                    <h3 class="h4 card-title">
-                      <a href="{{ route('article.detail.show', [$popArticle->category->name ?? 'blog', $popArticle->link]) }}">{{ Str::limit($popArticle->title, 50) }}</a>
-                    </h3>
-                    <p class="card-text">{{ Str::limit($popArticle->summary ?? strip_tags($popArticle->content), 100) }}</p>
-                  </div>
-                  <div class="card-footer pt-3">
-                    <div class="d-flex align-items-center text-decoration-none pb-2">
-                      <img class="rounded-circle" src="/around/picture/064.jpg" width="48" alt="Post author">
-                      <h6 class="ps-3 mb-0">{{ $popArticle->user->name ?? 'Admin' }}</h6>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              @endforeach
-            </div>
-          </div>
-        </div>
-
-        <!-- All articles button -->
-        <div class="container text-center pt-4 pb-1 pb-sm-3 pb-md-4 py-lg-5 mb-xl-1 mb-xxl-4 mt-2 mt-lg-0">
-          <a class="btn btn-primary mb-1" href="{{ route('articles') }}">{{ __('article.read_all') }}</a>
-        </div>
-      </section>
-      @endif
-
-
-      <!-- Latest posts -->
-      @if(isset($latestArticles) && $latestArticles->count() > 0)
-      <section class="container py-5 my-md-2 my-lg-3 my-xl-4 my-xxl-5">
-        <h2 class="h1 pb-3 py-md-4">{{ __('article.latest_posts') }}</h2>
-        <div class="row pb-md-4 pb-lg-5">
-
-          <!-- Featured article -->
-          @if($latestArticles->first())
-          @php $featuredLatest = $latestArticles->first(); @endphp
-          <div class="col-lg-6 pb-2 pb-lg-0 mb-4 mb-lg-0">
-            <article class="card h-100 border-0 position-relative overflow-hidden bg-size-cover bg-position-center me-lg-4" style="background-image: url({{ $featuredLatest->cover ? Storage::url($featuredLatest->cover) : '/around/picture/0416.jpg' }});">
-              <div class="bg-dark position-absolute top-0 start-0 w-100 h-100 opacity-60"></div>
-              <div class="card-body d-flex flex-column position-relative z-2 mt-sm-5">
-                <h3 class="pt-5 mt-4 mt-sm-5 mt-lg-auto">
-                  <a class="stretched-link text-light" href="{{ route('article.detail.show', [$featuredLatest->category->name ?? 'blog', $featuredLatest->link]) }}">{{ $featuredLatest->title }}</a>
-                </h3>
-                <p class="card-text text-light opacity-70">{{ Str::limit($featuredLatest->summary ?? strip_tags($featuredLatest->content), 150) }}</p>
-                <div class="d-flex align-items-center">
-                  <span class="fs-sm text-light opacity-50">{{ $featuredLatest->created_at->diffForHumans() }}</span>
-                  <span class="fs-xs text-light opacity-30 mx-3">|</span>
-                  @if($featuredLatest->category)
-                  <a class="badge text-light fs-xs border border-light" href="{{ route('article.category', $featuredLatest->category->name) }}">{{ $featuredLatest->category->name }}</a>
-                  @endif
-                </div>
-              </div>
-            </article>
-          </div>
-          @endif
-
-          <!-- Other articles -->
-          <div class="col-lg-6">
-            <div class="row row-cols-1 row-cols-sm-2 g-4">
-              @foreach($latestArticles->skip(1)->take(4) as $latestArticle)
-              <!-- Article -->
-              <article class="col py-1 py-xl-2">
-                <div class="border-bottom pb-4 ms-xl-3">
-                  <h3 class="h4">
-                    <a href="{{ route('article.detail.show', [$latestArticle->category->name ?? 'blog', $latestArticle->link]) }}">{{ Str::limit($latestArticle->title, 60) }}</a>
-                  </h3>
-                  <p>{{ Str::limit($latestArticle->summary ?? strip_tags($latestArticle->content), 100) }}</p>
-                  <div class="d-flex align-items-center">
-                    <span class="fs-sm text-body-secondary">{{ $latestArticle->created_at->diffForHumans() }}</span>
-                    <span class="fs-xs opacity-20 mx-3">|</span>
-                    @if($latestArticle->category)
-                    <a class="badge text-nav fs-xs border" href="{{ route('article.category', $latestArticle->category->name) }}">{{ $latestArticle->category->name }}</a>
-                    @endif
-                  </div>
-                </div>
-              </article>
-              @endforeach
-            </div>
-          </div>
-        </div>
-      </section>
-      @endif
+    </section>
+    @endif
 
 @endsection
