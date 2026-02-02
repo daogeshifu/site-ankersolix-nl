@@ -46,8 +46,11 @@
                 <div class="flex flex-col gap-2 border-t border-solid border-[#dbdfe6] dark:border-gray-800 pt-6">
                     <p class="text-primary text-sm font-bold uppercase tracking-widest">{{ __('contact-us.partnerships') }}</p>
                     <p class="text-[#111318] dark:text-white text-lg font-medium">
-                        <a href="mailto:partners@{{ parse_url(config('app.url'), PHP_URL_HOST) ?? 'example.com' }}" class="hover:text-primary transition-colors">
-                            partners@{{ parse_url(config('app.url'), PHP_URL_HOST) ?? 'example.com' }}
+                        @php
+                            $host = parse_url(config('app.url'), PHP_URL_HOST) ?: 'example.com';
+                        @endphp
+                        <a href="mailto:partners@{{ $host }}" class="hover:text-primary transition-colors">
+                            partners@   {{ $host }}
                         </a>
                     </p>
                 </div>

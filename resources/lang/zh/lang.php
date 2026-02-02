@@ -123,6 +123,8 @@ return [
     'already_have_an_account' => '已经有账户？ 登录',
     'terms_and_condition_label' => '我已阅读并同意',
     'terms_and_condition' => '用户协议和隐私政策',
+    'create_account_btn' => '创建账户',
+    'get_started' => '开始',
 
     'page_title' => 'HelloGeo - GEO优化专家',
     'page_description' => 'HelloGeo 是领先的生成式引擎优化 (GEO) 平台，提供深入的见解和实用指南，帮助内容创作者和SEO专业人士提升其AI驱动内容的搜索排名和可见性。',
@@ -182,10 +184,20 @@ return [
     'dont_have_account_prefix' => '还没有账户？',
     'sign_up_here_link' => '立即注册',
     'sign_in_with_google' => '使用 Google 登录',
+    'sign_up_with_google' => '使用 Google 注册',
     'login_success' => '登录成功',
     'validation_failed' => '验证失败',
     'authentication_failed' => '身份验证失败',
     'request_failed' => '请求失败，请重试',
+    'already_have_account' => '已有账户？',
+
+    'captcha' => '验证码',
+
+    'or_sign_in_with_email' => '或使用电子邮件登录',
+    'click_image_refresh' => '点击刷新图片',
+    'confirm_password_placeholder' => '确认密码',
+    'agree_to' => '同意',
+    'and' => '和',
 
     // Error
     'custom' => [
@@ -250,4 +262,5 @@ return [
     'print' => '打印',
     'help_keywords' => '帮助, 支持, 常见问题, 协助, 指南',
     'about_keywords' => '关于我们, 公司, 团队, 使命, 愿景',
+    'company' => '公司'
 ];

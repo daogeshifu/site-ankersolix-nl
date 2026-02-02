@@ -34,8 +34,8 @@
 
             <!-- Title -->
             <div class="mb-8">
-                <h2 class="text-[#111318] dark:text-white text-2xl font-bold text-center font-display">{{ __('lang.create_account') }}</h2>
-                <p class="text-[#616f89] dark:text-gray-400 text-sm text-center mt-2">{{ __('lang.register_subtitle') }}</p>
+                <h2 class="text-[#111318] dark:text-white text-2xl font-bold text-center font-display">{{ __('lang.create_account_btn') }}</h2>
+                <p class="text-[#616f89] dark:text-gray-400 text-sm text-center mt-2">{{ __('lang.register_page_title') }}</p>
             </div>
 
             <!-- Google Sign Up Button -->
@@ -57,7 +57,7 @@
                     <span class="w-full border-t border-[#f0f2f4] dark:border-white/10"></span>
                 </div>
                 <div class="relative flex justify-center text-xs">
-                    <span class="bg-white dark:bg-[#1a212f] px-4 text-[#616f89] font-medium uppercase tracking-wider">{{ __('lang.or_sign_up_with_email') }}</span>
+                    <span class="bg-white dark:bg-[#1a212f] px-4 text-[#616f89] font-medium uppercase tracking-wider">{{ __('lang.or_sign_in_with_email') }}</span>
                 </div>
             </div>
 
@@ -69,11 +69,11 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-semibold text-[#111318] dark:text-gray-200 mb-1.5 ml-1">{{ __('lang.first_name') }}</label>
-                        <input type="text" name="first_name" class="w-full h-12 px-4 rounded-lg border border-[#e2e8f0] dark:border-white/10 dark:bg-white/5 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm outline-none" placeholder="{{ __('lang.first_name_placeholder') }}" required>
+                        <input type="text" name="first_name" class="w-full h-12 px-4 rounded-lg border border-[#e2e8f0] dark:border-white/10 dark:bg-white/5 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm outline-none" placeholder="{{ __('lang.first_name') }}" required>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-[#111318] dark:text-gray-200 mb-1.5 ml-1">{{ __('lang.last_name') }}</label>
-                        <input type="text" name="last_name" class="w-full h-12 px-4 rounded-lg border border-[#e2e8f0] dark:border-white/10 dark:bg-white/5 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm outline-none" placeholder="{{ __('lang.last_name_placeholder') }}" required>
+                        <input type="text" name="last_name" class="w-full h-12 px-4 rounded-lg border border-[#e2e8f0] dark:border-white/10 dark:bg-white/5 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm outline-none" placeholder="{{ __('lang.last_name') }}" required>
                     </div>
                 </div>
 
@@ -136,7 +136,7 @@
             <!-- Footer Text -->
             <p class="text-center text-sm text-[#616f89] dark:text-gray-400 mt-8">
                 {{ __('lang.already_have_account') }}
-                <a class="text-primary font-bold hover:underline" href="{{ route('login') }}">{{ __('lang.sign_in_here_link') }}</a>
+                <a class="text-primary font-bold hover:underline" href="{{ route('login') }}">{{ __('lang.sign_in') }}</a>
             </p>
         </div>
 

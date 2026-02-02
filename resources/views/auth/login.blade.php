@@ -29,7 +29,7 @@
         <div class="bg-white dark:bg-[#1a212f] rounded-xl shadow-2xl shadow-black/5 border border-[#f0f2f4] dark:border-white/5 p-8 md:p-10">
             <!-- Section Header -->
             <div class="mb-2">
-                <h4 class="text-primary text-xs font-bold uppercase tracking-[0.1em] text-center">{{ __('lang.welcome_back') }}</h4>
+                <h4 class="text-primary text-xs font-bold uppercase tracking-[0.1em] text-center">{{ __('lang.welcome_to') }}</h4>
             </div>
 
             <!-- Title -->

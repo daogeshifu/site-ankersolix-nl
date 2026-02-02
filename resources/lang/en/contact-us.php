@@ -17,6 +17,8 @@ return [
     'response_desc' => 'We usually reply within 24–48 hours.',
     'privacy_notice' => 'Your information will only be used to respond to your inquiry.',
 
+
+
     'success_message' => 'Submission successful, we will contact you soon.',
     'error_message'   => 'Submission failed, please try again later.',
     
@@ -41,4 +43,7 @@ return [
     'faq_1_question' => 'How quickly will I receive a response?',
     'faq_2_question' => 'What information should I include in my message?',
     'faq_3_question' => 'Can I schedule a call or meeting?',
+    'faq_1_answer' => 'You will typically receive a response within 24-48 hours during business days. Our team works diligently to reply as quickly as possible, but response time may vary depending on the complexity of the inquiry.',
+    'faq_2_answer' => 'To ensure a quicker and more accurate response, please include the following details: the issue you are facing, any relevant error messages, steps to reproduce the problem (if applicable), and your contact information.',
+    'faq_3_answer' => 'Yes, you can schedule a call or meeting with us. Please let us know your preferred time and we will do our best to accommodate your schedule. You can also use our booking system to find available time slots.',
 ];

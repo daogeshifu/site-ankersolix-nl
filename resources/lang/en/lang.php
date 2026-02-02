@@ -17,6 +17,8 @@ return  [
 	'sign_in_description' => 'Sign In - HelloGeo',
 	'sign_up' => 'Sign Up',
 	'sign_up_description' => 'Sign Up - HelloGeo',
+    'create_account_btn' => 'Create Account',
+    'get_started' => 'Get Started',
 
 	'views' => 'Views',
 
@@ -115,6 +117,7 @@ return  [
 	'change_password' => 'Change Password',
 	'remember_me' => 'Remember Me',
 	'dont_have_an_account' => 'Don\'t have an account? Sign Up Now',
+    'already_have_account' => 'Already have an account?',
 
 	'register_page_title' => 'Sign up. It\'s Free!',
 	'first_name' => 'First Name',
@@ -184,11 +187,18 @@ return  [
 	'dont_have_account_prefix' => "Don't have an account yet?",
 	'sign_up_here_link' => 'Sign up here',
 	'sign_in_with_google' => 'Sign in with Google',
+    'sign_up_with_google' => 'Sign up with Google',
 	'login_success' => 'Login successful',
 	'validation_failed' => 'Validation failed',
 	'authentication_failed' => 'Authentication failed',
 	'request_failed' => 'Request failed. Please try again.',
+    'captcha' => 'captcha',
+    'or_sign_in_with_email' => 'Or sign in with your email',
+    'confirm_password_placeholder' => 'Confirm your password',
+    'agree_to' => 'I agree',
+    'and' => 'and',
 
+    'click_image_refresh' => 'Click to refresh the image',
 	// Error
 	'custom' => [
 		'captcha' => [
@@ -252,4 +262,5 @@ return  [
 	'print' => 'Print',
 	'help_keywords' => 'help, support, FAQ, assistance, guide',
 	'about_keywords' => 'about us, company, team, mission, vision',
+    'company' => 'company'
 ];
