@@ -199,6 +199,10 @@ return [
     'agree_to' => '同意',
     'and' => '和',
 
+    // SEO
+    'seo_news_title' => '{品牌} | 生成引擎优化（GEO）与人工智能搜索引擎优化（AI SEO）',
+    'seo_news_description' => '随时了解最新的生成式引擎优化（GEO）新闻和指南。学习实用技巧和专家见解，提升您在生成式搜索引擎中的可见度。',
+    'seo_news_keywords' => 'GEO行业资讯',
     // Error
     'custom' => [
         'captcha' => [
