@@ -162,8 +162,8 @@ return  [
 	'category' => 'Category',
 
 	// SEO
-	'seo_title' => 'HelloGeo',
-	'seo_description' => 'Stay updated with the latest news, in-depth analysis, and expert blogs on AI-driven search evolution, content generation strategies, and search ranking algorithms.',
+	'seo_title' => '{Brand} | Generative Engine Optimization (GEO) & AI SEO',
+	'seo_description' => 'Stay updated with the latest Generative Engine Optimization (GEO) news and guides. Learn actionable tips and expert insights to enhance your visibility in generative search engines.',
 	'seo_keywords' => 'Generative Engine Optimization, GEO, AI search optimization, generative AI, search algorithms, content strategy, future of search, search ranking, AIGC, semantic search',
 
 	// Else

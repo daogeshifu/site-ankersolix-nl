@@ -14,6 +14,7 @@ use App\Http\Controllers\Front\ArticleController as FrontArticleController;
 use App\Http\Controllers\Front\PagesController;
 use Illuminate\Http\Request;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use App\Http\Controllers\Front\NewsController;
 
 
 // ===============================================
@@ -35,7 +36,7 @@ Route::group([
     Route::group(['middleware' => ['web']], function () {
         // 首页
         Route::get('/', [IndexController::class, 'index'])->name('index');
-        Route::get('/index', [IndexController::class, 'index'])->name('page.index');
+        Route::get('/index', [IndexController::class, 'in dex'])->name('page.index');
 
 
             // 为了保持向后兼容，保留原有的路由别名
@@ -60,7 +61,6 @@ Route::group([
 
         Route::get('pricing', [IndexController::class, 'pricing'])->name('pricing');
         Route::get('price', [IndexController::class, 'price'])->name('price');
-        
 
         Route::get('terms', [PagesController::class, 'terms'])->name('terms');
         Route::get('policy', [PagesController::class, 'policy'])->name('policy');
@@ -69,6 +69,13 @@ Route::group([
         Route::get('about', [PagesController::class, 'about'])->name('about');
         Route::get('help', [PagesController::class, 'help'])->name('help');
 
+        Route::get('/news', [NewsController::class, 'index'])->name('news');
+        Route::get('/news/page/{page}', [NewsController::class, 'page'])
+            ->whereNumber('page')
+            ->name('news.page');
+        Route::prefix('news')->group(function () {
+            Route::get('{link}.html', [NewsController::class, 'detail'])->name('news.detail.show');
+        });
 
         // 博客/文章相关
         // 注意：更具体的路由要放在前面，避免被通配路由捕获
@@ -76,7 +83,11 @@ Route::group([
         Route::get('/article/page/{page}', [FrontArticleController::class, 'index_page'])->name('article.page')->where('page', '[0-9]+');
         Route::get('/article/{category_name}/page/{page}', [FrontArticleController::class, 'index_category_page'])->name('article.category.page')->where('page', '[0-9]+');
         Route::get('/article/{category_name}', [FrontArticleController::class, 'index'])->name('article.category');
+
         Route::get('/{category_name}/{link}.html', [FrontArticleController::class, 'detail'])->name('article.detail.show');
+
+
+
 
         // 浏览量/阅读量
         Route::post('/article/{article}/view', [FrontArticleController::class, 'view'])->name('article.view');
