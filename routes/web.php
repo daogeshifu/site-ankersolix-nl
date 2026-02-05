@@ -80,7 +80,7 @@ Route::group([
         });
 
         Route::get('/guides', [GuidesController::class, 'index'])->name('guides');
-        Route::get('/guides/page/{page}', [NewsController::class, 'page'])
+        Route::get('/guides/page/{page}', [GuidesController::class, 'page'])
             ->whereNumber('page')
             ->name('guides.page');
         Route::prefix('guides')->group(function () {
@@ -88,7 +88,7 @@ Route::group([
         });
 
         Route::get('/cases', [CasesController::class, 'index'])->name('cases');
-        Route::get('/cases/page/{page}', [NewsController::class, 'page'])
+        Route::get('/cases/page/{page}', [CasesController::class, 'page'])
             ->whereNumber('page')
             ->name('cases.page');
         Route::prefix('cases')->group(function () {

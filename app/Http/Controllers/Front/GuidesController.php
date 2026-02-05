@@ -44,17 +44,19 @@ class GuidesController extends Controller
 
         // 分类
         $categories = ArticleCategory::withCount('articles')->get();
-        if ($categories->isEmpty()) {
-            abort(404);
-        }
 
-        // 找到 news 分类（按 name 匹配）
+        // 找到 guides 分类（按 name 匹配），不存在时用默认值显示空页面
         $currentCategory = $categories->firstWhere('name', $this->categoryName);
         if (!$currentCategory) {
-            abort(404);
+            $currentCategory = (object)[
+                'id'             => null,
+                'name'           => ucfirst($this->categoryName),
+                'title'          => ucfirst($this->categoryName),
+                'seo_description' => null,
+            ];
         }
 
-        // 基础查询（只查 news）
+        // 基础查询（只查 guides，category 不存在时 where null 自然返回空）
         $query = Article::with(['category', 'user'])
             ->whereTranslation('locale', $locale)
             ->where('category_id', $currentCategory->id);
