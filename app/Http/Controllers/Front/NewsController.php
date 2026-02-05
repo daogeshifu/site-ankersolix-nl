@@ -77,13 +77,13 @@ class NewsController extends Controller
 
         $topArticle = null;
         if (!$search && $currentPage == 1) {
-            $topArticle = Article::whereTranslation('locale', $locale)->where('id', 12)->first();
-            if (!$topArticle) {
-                $topArticle = Article::whereTranslation('locale', $locale)->orderBy('id', 'desc')->first();
-            }
+            $topArticle = Article::with(['category', 'user'])
+                ->whereTranslation('locale', $locale)
+                ->where('category_id', $currentCategory->id)
+                ->orderBy('id', 'desc')
+                ->first();
         }
 
-        // ✅ 新的 news 页面视图（你要新建）
         return view('front.news.list', compact(
             'articles',
             'categories',
