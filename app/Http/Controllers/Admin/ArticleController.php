@@ -192,7 +192,8 @@ class ArticleController extends Controller
         $article = Article::findOrFail($id);
 
         DB::beginTransaction();
-
+        
+        $lang = $request->input('lang');
         try {
             $article->update([
                 'link' => $validated['link'],
@@ -200,7 +201,7 @@ class ArticleController extends Controller
                 'cover' => $validated['cover'] ?? $article->cover,
             ]);
 
-            $article->updateTranslation(app()->getLocale(), [
+            $article->updateTranslation($lang, [
                 'title' => $validated['title'],
                 'content' => $validated['content'],
                 'summary' => $validated['summary'] ?? null,

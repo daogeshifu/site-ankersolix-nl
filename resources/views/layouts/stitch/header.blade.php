@@ -20,8 +20,8 @@
         <nav class="hidden md:flex items-center gap-8">
             <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('index') ? 'text-primary' : '' }}" href="{{ route('index') }}">{{ __('menu.home') }}</a>
             <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('news') }}">News</a>
-{{--            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('articles') }}">Guides</a>--}}
-{{--            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('articles') }}">Cases</a>--}}
+            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('guides') }}">Guides</a>
+            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('cases') }}">Cases</a>
 {{--            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('articles') }}">Free GEO Tools	</a>--}}
 {{--            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('articles') }}">Platforms</a>--}}
 {{--            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('articles') }}">Industry Index</a>--}}

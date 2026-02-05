@@ -162,9 +162,21 @@ return  [
 	'category' => 'Category',
 
 	// SEO
-	'seo_title' => 'HelloGeo',
-	'seo_description' => 'Stay updated with the latest news, in-depth analysis, and expert blogs on AI-driven search evolution, content generation strategies, and search ranking algorithms.',
-	'seo_keywords' => 'Generative Engine Optimization, GEO, AI search optimization, generative AI, search algorithms, content strategy, future of search, search ranking, AIGC, semantic search',
+	'seo_title' => 'HelloGeo | Generative Engine Optimization (GEO) & AI SEO',
+	'seo_description' => 'Stay updated with the latest Generative Engine Optimization (GEO) news and guides. Learn actionable tips and expert insights to enhance your visibility in generative search engines.',
+	'seo_keywords' => '',
+
+    'seo_news_title' => 'Latest GEO News - HelloGeo',
+    'seo_news_description' => 'Access the latest GEO industry news and trends.Stay ahead of the curve in Answer Engine Optimization.',
+    'seo_news_keywords' => 'GEO Industry News',
+
+    'seo_guides_title' => 'AI Search Optimization Guides - HelloGeo',
+    'seo_guides_description' => 'Your ultimate guide to Generative Engine Optimization (GEO). Master AI search optimization and expert insights to boost AI visibility.',
+    'seo_guides_keywords' => 'GEO Guide',
+
+    'seo_cases_title' => 'AI SEO Cases - HelloGeo',
+    'seo_cases_description' => 'How does Generative Engine Optimization work? Check out the "{Brand}" cases to see real-world GEO strategies in action.',
+    'seo_cases_keywords' => 'GEO Cases',
 
 	// Else
 	'please_login_first' => 'Please login first.',
@@ -263,8 +275,4 @@ return  [
 	'help_keywords' => 'help, support, FAQ, assistance, guide',
 	'about_keywords' => 'about us, company, team, mission, vision',
     'company' => 'company',
-
-    'seo_news_title' => '{Brand} | Generative Engine Optimization (GEO) & AI SEO',
-    'seo_news_description' => 'Stay updated with the latest Generative Engine Optimization (GEO) news and guides. Learn actionable tips and expert insights to enhance your visibility in generative search engines.',
-    'seo_news_keywords' => 'GEO Industry News',
 ];

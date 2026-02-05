@@ -1,20 +1,9 @@
 @extends('layouts.stitch.master')
 
-@php
-    $pageTitle = $currentCategory->name . ' - ' . __('article.blog_title');
-    $pageDescription = $currentCategory->name . ($currentCategory->seo_description ?? __('article.seo_description'));
 
-    // 如果是第2页及以上，在标题和描述中添加页码
-    if (isset($currentPage) && $currentPage > 1) {
-        $pageSuffix = ' - ' . __('article.page', ['page' => $currentPage]);
-        $pageTitle .= $pageSuffix;
-        $pageDescription = __('article.page', ['page' => $currentPage]) . ' - ' . $pageDescription;
-    }
-@endphp
-
-@section('title', $pageTitle)
-@section('description', $pageDescription)
-@section('keywords', $currentCategory->seo_keywords ?? __('article.seo_keywords'))
+@section('title', __('lang.seo_guides_title'))
+@section('description', __('lang.seo_guides_description'))
+@section('keywords', __('lang.seo_guides_keywords'))
 
 @push('styles')
 <style>
@@ -36,9 +25,9 @@
             <span class="material-symbols-outlined text-base">home</span> {{ __('menu.home') }}
         </a>
         <span class="text-[#616f89]">/</span>
-        <a class="text-[#616f89] hover:text-primary" href="{{ route('articles') }}">{{ __('menu.insights') }}</a>
+        <a class="text-[#616f89] hover:text-primary" href="{{ route('guides') }}">guides</a>
         <span class="text-[#616f89]">/</span>
-        <span class="text-primary font-medium">{{ $currentCategory->name }}</span>
+        <span class="text-primary font-medium">{{ $currentCategory->title ?? __('article.newsroom') }}</span>
     </nav>
 
     <!-- Page Heading -->
@@ -194,26 +183,7 @@
         <!-- Right Content: Sidebar -->
         <aside class="flex-1 flex flex-col gap-10">
             <!-- Category Filter -->
-            <div class="bg-white dark:bg-[#1e293b] rounded-xl p-6 border border-[#f0f2f4] dark:border-[#334155]">
-                <h4 class="text-lg font-bold mb-4 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">category</span> {{ __('article.categories') }}
-                </h4>
-                <div class="flex flex-col gap-1">
-                    <a class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-background-light dark:hover:bg-[#334155] transition-colors group" href="{{ route('articles') }}">
-                        <span class="flex items-center gap-3">
-                            <span class="material-symbols-outlined text-xl text-[#616f89]">newspaper</span> {{ __('article.all_categories') }}
-                        </span>
-                    </a>
-                    @foreach($categories as $category)
-                    <a class="flex items-center justify-between px-3 py-2 rounded-lg {{ $currentCategory->id == $category->id ? 'bg-primary/5 text-primary font-medium' : 'hover:bg-background-light dark:hover:bg-[#334155]' }} transition-colors group" href="{{ route('article.category', $category->name) }}">
-                        <span class="flex items-center gap-3">
-                            <span class="material-symbols-outlined text-xl {{ $currentCategory->id == $category->id ? '' : 'text-[#616f89]' }}">folder</span> {{ $category->name }}
-                        </span>
-                        <span class="text-xs {{ $currentCategory->id == $category->id ? 'bg-primary text-white px-2 py-0.5 rounded-full' : 'text-[#616f89]' }}">{{ $category->articles_count ?? $category->articles()->count() }}</span>
-                    </a>
-                    @endforeach
-                </div>
-            </div>
+
 
             <!-- Trending Keywords (Tag Cloud) -->
 {{--            @if(isset($tags) && $tags->count() > 0)--}}

@@ -15,6 +15,8 @@ use App\Http\Controllers\Front\PagesController;
 use Illuminate\Http\Request;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use App\Http\Controllers\Front\NewsController;
+use App\Http\Controllers\Front\CasesController;
+use App\Http\Controllers\Front\GuidesController;
 
 
 // ===============================================
@@ -77,15 +79,31 @@ Route::group([
             Route::get('{link}.html', [NewsController::class, 'detail'])->name('news.detail.show');
         });
 
+        Route::get('/guides', [GuidesController::class, 'index'])->name('guides');
+        Route::get('/guides/page/{page}', [NewsController::class, 'page'])
+            ->whereNumber('page')
+            ->name('guides.page');
+        Route::prefix('guides')->group(function () {
+            Route::get('{link}.html', [GuidesController::class, 'detail'])->name('guides.detail.show');
+        });
+
+        Route::get('/cases', [CasesController::class, 'index'])->name('cases');
+        Route::get('/cases/page/{page}', [NewsController::class, 'page'])
+            ->whereNumber('page')
+            ->name('cases.page');
+        Route::prefix('cases')->group(function () {
+            Route::get('{link}.html', [CasesController::class, 'detail'])->name('cases.detail.show');
+        });
+
         // 博客/文章相关
         // 注意：更具体的路由要放在前面，避免被通配路由捕获
         Route::get('/article', [FrontArticleController::class, 'index'])->name('articles');
         Route::get('/article/page/{page}', [FrontArticleController::class, 'index_page'])->name('article.page')->where('page', '[0-9]+');
         Route::get('/article/{category_name}/page/{page}', [FrontArticleController::class, 'index_category_page'])->name('article.category.page')->where('page', '[0-9]+');
         Route::get('/article/{category_name}', [FrontArticleController::class, 'index'])->name('article.category');
-
+//
         Route::get('/{category_name}/{link}.html', [FrontArticleController::class, 'detail'])->name('article.detail.show');
-
+//
 
 
 

@@ -25,7 +25,7 @@
             <span class="material-symbols-outlined text-base">home</span> {{ __('menu.home') }}
         </a>
         <span class="text-[#616f89]">/</span>
-        <a class="text-[#616f89] hover:text-primary" href="{{ route('articles') }}">news</a>
+        <a class="text-[#616f89] hover:text-primary" href="{{ route('news') }}">news</a>
         <span class="text-[#616f89]">/</span>
         <span class="text-primary font-medium">{{ $currentCategory->title ?? __('article.newsroom') }}</span>
     </nav>
@@ -186,34 +186,34 @@
 
 
             <!-- Trending Keywords (Tag Cloud) -->
-            @if(isset($tags) && $tags->count() > 0)
-            <div class="bg-white dark:bg-[#1e293b] rounded-xl p-6 border border-[#f0f2f4] dark:border-[#334155]">
-                <h4 class="text-lg font-bold mb-4 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">tag</span> {{ __('article.trending_keywords') }}
-                </h4>
-                <div class="flex flex-wrap gap-2">
-                    @foreach($tags->take(10) as $tag)
-                    <a href="{{ route('articles', ['tag' => $tag->name]) }}" class="px-3 py-1 bg-[#f0f2f4] dark:bg-[#334155] rounded-full text-xs font-medium cursor-pointer hover:bg-primary hover:text-white transition-all">
-                        #{{ $tag->name }}
-                    </a>
-                    @endforeach
-                </div>
-            </div>
-            @else
-            <!-- Default Keywords when no tags available -->
-            <div class="bg-white dark:bg-[#1e293b] rounded-xl p-6 border border-[#f0f2f4] dark:border-[#334155]">
-                <h4 class="text-lg font-bold mb-4 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">tag</span> {{ __('article.trending_keywords') }}
-                </h4>
-                <div class="flex flex-wrap gap-2">
-                    @foreach($categories->take(6) as $cat)
-                    <a href="{{ route('article.category', $cat->name) }}" class="px-3 py-1 bg-[#f0f2f4] dark:bg-[#334155] rounded-full text-xs font-medium cursor-pointer hover:bg-primary hover:text-white transition-all">
-                        #{{ $cat->name }}
-                    </a>
-                    @endforeach
-                </div>
-            </div>
-            @endif
+{{--            @if(isset($tags) && $tags->count() > 0)--}}
+{{--            <div class="bg-white dark:bg-[#1e293b] rounded-xl p-6 border border-[#f0f2f4] dark:border-[#334155]">--}}
+{{--                <h4 class="text-lg font-bold mb-4 flex items-center gap-2">--}}
+{{--                    <span class="material-symbols-outlined text-primary">tag</span> {{ __('article.trending_keywords') }}--}}
+{{--                </h4>--}}
+{{--                <div class="flex flex-wrap gap-2">--}}
+{{--                    @foreach($tags->take(10) as $tag)--}}
+{{--                    <a href="{{ route('articles', ['tag' => $tag->name]) }}" class="px-3 py-1 bg-[#f0f2f4] dark:bg-[#334155] rounded-full text-xs font-medium cursor-pointer hover:bg-primary hover:text-white transition-all">--}}
+{{--                        #{{ $tag->name }}--}}
+{{--                    </a>--}}
+{{--                    @endforeach--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            @else--}}
+{{--            <!-- Default Keywords when no tags available -->--}}
+{{--            <div class="bg-white dark:bg-[#1e293b] rounded-xl p-6 border border-[#f0f2f4] dark:border-[#334155]">--}}
+{{--                <h4 class="text-lg font-bold mb-4 flex items-center gap-2">--}}
+{{--                    <span class="material-symbols-outlined text-primary">tag</span> {{ __('article.trending_keywords') }}--}}
+{{--                </h4>--}}
+{{--                <div class="flex flex-wrap gap-2">--}}
+{{--                    @foreach($categories->take(6) as $cat)--}}
+{{--                    <a href="{{ route('article.category', $cat->name) }}" class="px-3 py-1 bg-[#f0f2f4] dark:bg-[#334155] rounded-full text-xs font-medium cursor-pointer hover:bg-primary hover:text-white transition-all">--}}
+{{--                        #{{ $cat->name }}--}}
+{{--                    </a>--}}
+{{--                    @endforeach--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            @endif--}}
 
             <!-- Hot Topics -->
             @if(isset($popularArticles) && $popularArticles->count() > 0)

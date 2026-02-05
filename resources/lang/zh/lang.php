@@ -159,9 +159,22 @@ return [
     'category' => '目录',
 
     // SEO
-    'seo_title' => 'AI内容检测器 – 免费AI率检测工具，支持ChatGPT、GPT-4、DeepSeek、Claude和Gemini，Aigc检测',
-    'seo_description' => 'aigcchecker是一款免费的AI率检测工具，可识别AI生成的文本并检查AI抄袭，确保内容真实性。',
-    'seo_keywords' => '检测器, gpt zero, zero gpt, ai率检测器, ai率检查器, ai内容检测器, chat gpt检测器, 检查gpt, chatgpt检测器',
+    'seo_title' => 'HelloGeo | 生成引擎优化（GEO）与AI SEO',
+    'seo_description' => '及时了解最新的生成式引擎优化（GEO）新闻和指南。学习实用技巧和专家见解，提升您在生成式搜索引擎中的可见度',
+    'seo_keywords' => '',
+
+    // SEO
+    'seo_news_title' => '最新GEO新闻 - HelloGeo',
+    'seo_news_description' => '获取最新的地理信息（GEO）行业新闻和趋势。在问答引擎优化方面保持领先。',
+    'seo_news_keywords' => 'GEO行业资讯',
+
+    'seo_guides_title' => 'AI搜索优化指南 - HelloGeo',
+    'seo_guides_description' => '您的生成引擎优化（GEO）终极指南。掌握人工智能搜索优化和专家见解，提升人工智能可见性。',
+    'seo_guides_keywords' => 'GEO指南',
+
+    'seo_cases_title' => 'AI SEO案例 - HelloGeo',
+    'seo_cases_description' => '生成引擎优化是如何运作的？查看“{Brand}”案例，了解真实的生成引擎优化（GEO）策略在实际中的应用。',
+    'seo_cases_keywords' => 'GEO案例',
 
     // Else
     'please_login_first' => '请先登录',
@@ -199,10 +212,7 @@ return [
     'agree_to' => '同意',
     'and' => '和',
 
-    // SEO
-    'seo_news_title' => '{品牌} | 生成引擎优化（GEO）与人工智能搜索引擎优化（AI SEO）',
-    'seo_news_description' => '随时了解最新的生成式引擎优化（GEO）新闻和指南。学习实用技巧和专家见解，提升您在生成式搜索引擎中的可见度。',
-    'seo_news_keywords' => 'GEO行业资讯',
+
     // Error
     'custom' => [
         'captcha' => [

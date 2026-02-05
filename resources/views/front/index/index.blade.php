@@ -94,21 +94,21 @@
         <!-- Sidebar (4 cols) -->
         <div class="lg:col-span-4 space-y-10">
             <!-- Categories Widget -->
-            @if(isset($categories) && $categories->count() > 0)
-            <div class="bg-white dark:bg-[#1c2331] rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm">
-                <div class="flex items-center gap-2 mb-6">
-                    <span class="material-symbols-outlined text-primary">category</span>
-                    <h2 class="text-lg font-bold">{{ __('article.topics') }}</h2>
-                </div>
-                <div class="flex flex-wrap gap-2">
-                    @foreach($categories->take(8) as $category)
-                    <a href="{{ route('article.category', $category->name) }}" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 rounded-full text-sm font-medium hover:bg-primary hover:text-white transition-colors">
-                        {{ $category->name }}
-                    </a>
-                    @endforeach
-                </div>
-            </div>
-            @endif
+{{--            @if(isset($categories) && $categories->count() > 0)--}}
+{{--            <div class="bg-white dark:bg-[#1c2331] rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm">--}}
+{{--                <div class="flex items-center gap-2 mb-6">--}}
+{{--                    <span class="material-symbols-outlined text-primary">category</span>--}}
+{{--                    <h2 class="text-lg font-bold">{{ __('article.topics') }}</h2>--}}
+{{--                </div>--}}
+{{--                <div class="flex flex-wrap gap-2">--}}
+{{--                    @foreach($categories->take(8) as $category)--}}
+{{--                    <a href="{{ route('article.category', $category->name) }}" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 rounded-full text-sm font-medium hover:bg-primary hover:text-white transition-colors">--}}
+{{--                        {{ $category->name }}--}}
+{{--                    </a>--}}
+{{--                    @endforeach--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            @endif--}}
 
             <!-- Popular Articles -->
             @if(isset($popularArticles) && $popularArticles->count() > 0)

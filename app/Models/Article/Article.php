@@ -93,13 +93,15 @@ class Article extends Model implements TranslatableContract
         $translation->seo_title = $data['seo_title'] ?? null;
         $translation->seo_description = $data['seo_description'] ?? null;
         $translation->seo_keywords = $data['seo_keywords'] ?? null;
-        $article->save();
+        $translation->save();
 
         // 如果是英文版本，同时更新主表的 title 和 content（冗余存储）
+        // 注意：不能用 $article->title = ... ，Translatable 会代理到当前 locale 的翻译行
         if ($lang === 'en') {
-            $article->title = $data['title'];
-            $article->content = $data['content'];
-            $article->save();
+            self::where('id', $article->id)->update([
+                'title' => $data['title'],
+                'content' => $data['content'],
+            ]);
         }
 
         return $article;
@@ -194,17 +196,21 @@ class Article extends Model implements TranslatableContract
             $translation->seo_keywords = $data['seo_keywords'];
         }
 
-        $this->save();
+        $translation->save();
 
         // 如果是英文版本，同时更新主表的 title 和 content（冗余存储）
+        // 注意：不能用 $this->title = ... ，Translatable 会代理到当前 locale 的翻译行
         if ($lang === 'en') {
+            $updates = [];
             if (isset($data['title'])) {
-                $this->title = $data['title'];
+                $updates['title'] = $data['title'];
             }
             if (isset($data['content'])) {
-                $this->content = $data['content'];
+                $updates['content'] = $data['content'];
             }
-            $this->save();
+            if (!empty($updates)) {
+                self::where('id', $this->id)->update($updates);
+            }
         }
 
         return $this;
