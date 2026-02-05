@@ -69,7 +69,7 @@ class NewsController extends Controller
         }
 
         $articles = $query->orderBy('id', 'desc')
-            ->paginate(5)
+            ->paginate(1)
             ->appends(['search' => $search]);
 
         // 让分页链接变成 /news/page/2 这种
