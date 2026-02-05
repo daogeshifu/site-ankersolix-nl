@@ -84,7 +84,7 @@ class NewsController extends Controller
         }
 
         // ✅ 新的 news 页面视图（你要新建）
-        return view('front.news.list', compact(
+        return view('front.news.index', compact(
             'articles',
             'categories',
             'currentCategory',

@@ -67,7 +67,7 @@
               </div>
               <h1>{{ $topArticle->title }}</h1>
               <p class="pb-sm-1 pb-md-2 pb-lg-3 pb-xl-0 mb-4 mb-xl-5">{{ $topArticle->excerpt }}</p>
-{{--              <a class="btn btn-lg btn-dark" href="{{ route('aigc.blog.detail.show', [$topArticle->category->name, $topArticle->link]) }}">{{ __('article.read_more') }}</a>--}}
+              <a class="btn btn-lg btn-dark" href="{{ route('aigc.blog.detail.show', [$topArticle->category->name, $topArticle->link]) }}">{{ __('article.read_more') }}</a>
             </div>
           </div>
         </div>
