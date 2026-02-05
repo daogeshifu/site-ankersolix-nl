@@ -180,27 +180,37 @@ class ArticleController extends Controller
     public function update(Request $request)
     {
         $id = $request->id;
-        $validated = $request->validate([
-            'link' => 'required|string|unique:articles,link,' . $id,
+        $lang = $request->input('lang');
+
+        $rules = [
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'category_id' => 'required|exists:article_categorys,id',
             'summary' => 'nullable|string|max:500',
-            'cover' => 'nullable|string',
-        ]);
+        ];
+
+        // link / category_id / cover 仅在英文模式下提交和校验
+        if ($lang === 'en') {
+            $rules['link'] = 'required|string|unique:articles,link,' . $id;
+            $rules['category_id'] = 'required|exists:article_categorys,id';
+            $rules['cover'] = 'nullable|string';
+        }
+
+        $validated = $request->validate($rules);
 
         $article = Article::findOrFail($id);
 
         DB::beginTransaction();
-        
-        $lang = $request->input('lang');
         try {
-            $article->update([
-                'link' => $validated['link'],
-                'category_id' => $validated['category_id'],
-                'cover' => $validated['cover'] ?? $article->cover,
-            ]);
+            // 主表字段仅在英文模式下更新
+            if ($lang === 'en') {
+                $article->update([
+                    'link' => $validated['link'],
+                    'category_id' => $validated['category_id'],
+                    'cover' => $validated['cover'] ?? $article->cover,
+                ]);
+            }
 
+            // 只更新当前语言的翻译
             $article->updateTranslation($lang, [
                 'title' => $validated['title'],
                 'content' => $validated['content'],
