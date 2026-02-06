@@ -141,7 +141,7 @@
     </div>
 
     <!-- Latest Posts Section -->
-    @if(isset($$randomArticles ) && $$randomArticles ->count() > 0)
+    @if(isset($randomArticles ) && $randomArticles ->count() > 0)
     <section class="bg-gray-50 dark:bg-[#1c2331] py-16">
         <div class="max-w-[1280px] mx-auto px-6">
             <div class="flex items-center justify-between mb-10">
