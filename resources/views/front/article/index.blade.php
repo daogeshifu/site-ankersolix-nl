@@ -60,7 +60,7 @@
                 <div class="flex-1">
                     <span>{{ __('article.search_results_for') }} "<strong>{{ $search }}</strong>" - {{ $articles->total() }} {{ __('article.results_found') }}</span>
                 </div>
-                <a href="{{ route('article.category', $currentCategory->name) }}" class="text-primary font-medium text-sm hover:underline">{{ __('article.clear_search') }}</a>
+                <a href="{{ route('article.category2', $currentCategory->name) }}" class="text-primary font-medium text-sm hover:underline">{{ __('article.clear_search') }}</a>
             </div>
             @endif
 
@@ -205,7 +205,7 @@
                         </span>
                     </a>
                     @foreach($categories as $category)
-                    <a class="flex items-center justify-between px-3 py-2 rounded-lg {{ $currentCategory->id == $category->id ? 'bg-primary/5 text-primary font-medium' : 'hover:bg-background-light dark:hover:bg-[#334155]' }} transition-colors group" href="{{ route('article.category', $category->name) }}">
+                    <a class="flex items-center justify-between px-3 py-2 rounded-lg {{ $currentCategory->id == $category->id ? 'bg-primary/5 text-primary font-medium' : 'hover:bg-background-light dark:hover:bg-[#334155]' }} transition-colors group" href="{{ route('article.category2', $category->name) }}">
                         <span class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-xl {{ $currentCategory->id == $category->id ? '' : 'text-[#616f89]' }}">folder</span> {{ $category->name }}
                         </span>
@@ -237,7 +237,7 @@
 {{--                </h4>--}}
 {{--                <div class="flex flex-wrap gap-2">--}}
 {{--                    @foreach($categories->take(6) as $cat)--}}
-{{--                    <a href="{{ route('article.category', $cat->name) }}" class="px-3 py-1 bg-[#f0f2f4] dark:bg-[#334155] rounded-full text-xs font-medium cursor-pointer hover:bg-primary hover:text-white transition-all">--}}
+{{--                    <a href="{{ route('article.category2', $cat->name) }}" class="px-3 py-1 bg-[#f0f2f4] dark:bg-[#334155] rounded-full text-xs font-medium cursor-pointer hover:bg-primary hover:text-white transition-all">--}}
 {{--                        #{{ $cat->name }}--}}
 {{--                    </a>--}}
 {{--                    @endforeach--}}

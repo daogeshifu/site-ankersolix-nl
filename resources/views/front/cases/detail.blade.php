@@ -206,7 +206,7 @@
                 <header class="mb-8">
                     <!-- Category Badge -->
                     @if($article->category)
-                        <a href="{{ route('article.category', $article->category->name) }}" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-4">
+                        <a href="{{ route('article.category2', $article->category->name) }}" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-4">
                             <span class="material-symbols-outlined text-[14px]">folder</span>
                             {{ $article->category->name }}
                         </a>

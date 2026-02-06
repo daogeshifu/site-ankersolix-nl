@@ -116,7 +116,7 @@ class ArticleController extends Controller
     private function getPaginationPath($category_name = null)
     {
         if ($category_name && 'all' != $category_name) {
-            return route('article.category', ['category_name' => $category_name]);
+            return route('article.category2', ['category_name' => $category_name]);
         }
         return route('index');
     }

@@ -49,7 +49,7 @@
                 <div class="flex-1">
                     <span>{{ __('article.search_results_for') }} "<strong>{{ $search }}</strong>" - {{ $articles->total() }} {{ __('article.results_found') }}</span>
                 </div>
-                <a href="{{ route('article.category', $currentCategory->name) }}" class="text-primary font-medium text-sm hover:underline">{{ __('article.clear_search') }}</a>
+                <a href="{{ route('article.category2', $currentCategory->name) }}" class="text-primary font-medium text-sm hover:underline">{{ __('article.clear_search') }}</a>
             </div>
             @endif
 
@@ -207,7 +207,7 @@
 {{--                </h4>--}}
 {{--                <div class="flex flex-wrap gap-2">--}}
 {{--                    @foreach($categories->take(6) as $cat)--}}
-{{--                    <a href="{{ route('article.category', $cat->name) }}" class="px-3 py-1 bg-[#f0f2f4] dark:bg-[#334155] rounded-full text-xs font-medium cursor-pointer hover:bg-primary hover:text-white transition-all">--}}
+{{--                    <a href="{{ route('article.category2', $cat->name) }}" class="px-3 py-1 bg-[#f0f2f4] dark:bg-[#334155] rounded-full text-xs font-medium cursor-pointer hover:bg-primary hover:text-white transition-all">--}}
 {{--                        #{{ $cat->name }}--}}
 {{--                    </a>--}}
 {{--                    @endforeach--}}

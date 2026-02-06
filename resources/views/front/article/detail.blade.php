@@ -171,7 +171,7 @@
                 <a href="{{ route('articles') }}" class="text-[#616f89] hover:text-primary transition-colors">{{ __('article.blog') }}</a>
                 <span class="material-symbols-outlined text-[16px] text-gray-400">chevron_right</span>
                 @if($article->category)
-                    <a href="{{ route('article.category', $article->category->name) }}" class="text-[#616f89] hover:text-primary transition-colors">{{ $article->category->name }}</a>
+                    <a href="{{ route('article.category2', $article->category->name) }}" class="text-[#616f89] hover:text-primary transition-colors">{{ $article->category->name }}</a>
                     <span class="material-symbols-outlined text-[16px] text-gray-400">chevron_right</span>
                 @endif
                 <span class="text-[#111318] dark:text-white font-medium truncate max-w-[200px]">{{ $article->title }}</span>
@@ -210,7 +210,7 @@
                 <header class="mb-8">
                     <!-- Category Badge -->
                     @if($article->category)
-                        <a href="{{ route('article.category', $article->category->name) }}" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-4">
+                        <a href="{{ route('article.category2', $article->category->name) }}" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-4">
                             <span class="material-symbols-outlined text-[14px]">folder</span>
                             {{ $article->category->name }}
                         </a>

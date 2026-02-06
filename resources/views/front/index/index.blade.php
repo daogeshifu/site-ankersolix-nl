@@ -102,7 +102,7 @@
 {{--                </div>--}}
 {{--                <div class="flex flex-wrap gap-2">--}}
 {{--                    @foreach($categories->take(8) as $category)--}}
-{{--                    <a href="{{ route('article.category', $category->name) }}" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 rounded-full text-sm font-medium hover:bg-primary hover:text-white transition-colors">--}}
+{{--                    <a href="{{ route('article.category2', $category->name) }}" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 rounded-full text-sm font-medium hover:bg-primary hover:text-white transition-colors">--}}
 {{--                        {{ $category->name }}--}}
 {{--                    </a>--}}
 {{--                    @endforeach--}}
@@ -161,7 +161,7 @@
                         <div class="flex items-center gap-3 mb-3">
                             <span class="text-xs text-gray-500">{{ $latestArticle->created_at->diffForHumans() }}</span>
                             @if($latestArticle->category)
-                            <a href="{{ route('article.category', $latestArticle->category->name) }}" class="text-xs text-primary font-medium">{{ $latestArticle->category->name }}</a>
+                            <a href="{{ route('article.category2', $latestArticle->category->name) }}" class="text-xs text-primary font-medium">{{ $latestArticle->category->name }}</a>
                             @endif
                         </div>
                         <h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors">

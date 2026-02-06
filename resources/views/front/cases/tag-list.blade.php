@@ -162,7 +162,7 @@
                     <ul class="flex flex-col gap-2">
                         @foreach($categories as $category)
                         <li>
-                            <a class="flex items-center justify-between group p-2 rounded-lg hover:bg-[#f0f2f4] dark:hover:bg-gray-700 transition-colors {{ $currentCategory->id == $category->id ? 'bg-primary/10 text-primary' : '' }}" href="{{ route('article.category', $category->name) }}">
+                            <a class="flex items-center justify-between group p-2 rounded-lg hover:bg-[#f0f2f4] dark:hover:bg-gray-700 transition-colors {{ $currentCategory->id == $category->id ? 'bg-primary/10 text-primary' : '' }}" href="{{ route('article.category2', $category->name) }}">
                                 <span class="text-sm font-medium">{{ $category->name }}</span>
                                 <span class="material-symbols-outlined text-sm opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
                             </a>

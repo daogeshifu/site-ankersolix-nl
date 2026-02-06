@@ -103,9 +103,9 @@ Route::group([
         Route::get('/article/{category_name}', [FrontArticleController::class, 'index'])->name('article.category');
 //
         Route::get('/{category_name}/{link}.html', [FrontArticleController::class, 'detail'])->name('article.detail.show');
+        Route::get('/{category_name}/page/{page}', [FrontArticleController::class, 'index_category_page'])->name('article.category.page2')->where('page', '[0-9]+');
+        Route::get('/{category_name}', [FrontArticleController::class, 'index'])->name('article.category2');
 //
-
-
 
         // 浏览量/阅读量
         Route::post('/article/{article}/view', [FrontArticleController::class, 'view'])->name('article.view');
