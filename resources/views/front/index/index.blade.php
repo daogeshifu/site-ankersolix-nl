@@ -146,9 +146,9 @@
         <div class="max-w-[1280px] mx-auto px-6">
             <div class="flex items-center justify-between mb-10">
                 <h2 class="text-3xl font-bold">{{ __('article.latest_posts') }}</h2>
-                <a href="{{ route('articles') }}" class="text-primary text-sm font-semibold flex items-center gap-1">
-                    {{ __('article.read_all') }} <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-                </a>
+{{--                <a href="{{ route('articles') }}" class="text-primary text-sm font-semibold flex items-center gap-1">--}}
+{{--                    {{ __('article.read_all') }} <span class="material-symbols-outlined text-[16px]">arrow_forward</span>--}}
+{{--                </a>--}}
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

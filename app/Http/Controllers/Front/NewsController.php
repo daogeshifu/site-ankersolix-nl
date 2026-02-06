@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Article\Article;
 use App\Models\Article\ArticleCategory;
+use App\Models\Article\ArticleTag;
 
 class NewsController extends Controller
 {
@@ -156,6 +157,12 @@ class NewsController extends Controller
             $contentWithAnchors
         );
 
+        // 获取最热门的5个标签（按文章数量排序）
+        $tags = ArticleTag::withCount('articles')
+            ->orderBy('articles_count', 'desc')
+            ->take(5)
+            ->get();
+
         // 返回视图
         return view('front.news.detail', compact(
             'category_name',   // 现在 category_name 固定为 'news'
@@ -164,7 +171,8 @@ class NewsController extends Controller
             'abstract',
             'navbar',
             'headings',
-            'contentWithAnchors'
+            'contentWithAnchors',
+            'tags'
         ));
     }
 
