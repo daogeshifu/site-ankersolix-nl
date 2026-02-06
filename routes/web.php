@@ -38,7 +38,7 @@ Route::group([
     Route::group(['middleware' => ['web']], function () {
         // 首页
         Route::get('/', [IndexController::class, 'index'])->name('index');
-        Route::get('/index', [IndexController::class, 'in dex'])->name('page.index');
+//        Route::get('/index', [IndexController::class, 'in dex'])->name('page.index');
 
 
             // 为了保持向后兼容，保留原有的路由别名
@@ -58,7 +58,7 @@ Route::group([
 
         // 静态页面
    
-        Route::get('/index', [IndexController::class, 'index'])->name('index');
+        Route::get('/', [IndexController::class, 'index'])->name('index');
 
 
         Route::get('pricing', [IndexController::class, 'pricing'])->name('pricing');
