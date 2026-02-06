@@ -32,7 +32,7 @@ return [
     'clear_search' => 'Clear search',
     'page' => 'Page :page',
 
-    'newsroom' => 'Newsroom',
+    'newsroom' => 'News',
     'newsroom_description' => 'Latest updates and Hand-picked resources.',
     'topics' => 'Topics',
     'search_placeholder' => 'Search articles...',

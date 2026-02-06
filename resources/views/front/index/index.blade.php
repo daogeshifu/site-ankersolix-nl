@@ -41,7 +41,7 @@
         <div class="lg:col-span-8 space-y-8">
             <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-4">
                 <h2 class="text-2xl font-bold tracking-tight">{{ __('article.latest_posts') }}</h2>
-                <a class="text-primary text-sm font-semibold flex items-center gap-1" href="{{ route('articles') }}">{{ __('article.read_all') }} <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a>
+{{--                <a class="text-primary text-sm font-semibold flex items-center gap-1" href="{{ route('articles') }}">{{ __('article.read_all') }} <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a>--}}
             </div>
 
             <!-- Featured Articles Grid -->
