@@ -141,18 +141,18 @@
     </div>
 
     <!-- Latest Posts Section -->
-    @if(isset($latestArticles) && $latestArticles->count() > 0)
+    @if(isset($$randomArticles ) && $$randomArticles ->count() > 0)
     <section class="bg-gray-50 dark:bg-[#1c2331] py-16">
         <div class="max-w-[1280px] mx-auto px-6">
             <div class="flex items-center justify-between mb-10">
-                <h2 class="text-3xl font-bold">{{ __('article.latest_posts') }}</h2>
+                <h2 class="text-3xl font-bold">{{ __('article.rander_posts') }}</h2>
 {{--                <a href="{{ route('articles') }}" class="text-primary text-sm font-semibold flex items-center gap-1">--}}
 {{--                    {{ __('article.read_all') }} <span class="material-symbols-outlined text-[16px]">arrow_forward</span>--}}
 {{--                </a>--}}
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @foreach($latestArticles->take(6) as $latestArticle)
+                @foreach($randomArticles->take(6) as $latestArticle)
                 <article class="bg-white dark:bg-[#0c121d] rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group">
                     <a href="{{ route('article.detail.show', [$latestArticle->category->name ?? 'blog', $latestArticle->link]) }}" class="block aspect-video overflow-hidden">
                         <div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('{{ $latestArticle->cover ? Storage::url($latestArticle->cover) : '/around/picture/0126.jpg' }}');"></div>

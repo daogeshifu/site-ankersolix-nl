@@ -41,6 +41,7 @@ return [
     'relevant_articles' => 'Relevant Articles',
     'most_popular' => 'Most Popular',
     'latest_posts' => 'Latest Posts',
+    'rander_posts' => 'Random Posts',
     'uncategorized' => 'Uncategorized',
     'author_image' => 'Author Image',
     'admin' => 'Admin',

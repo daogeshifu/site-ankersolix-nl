@@ -47,6 +47,13 @@ class IndexController extends Controller
             ->take(5)
             ->get();
 
+        // 获取随机文章
+        $randomArticles = Article::with(['category'])
+            ->whereTranslation('locale', $locale)
+            ->inRandomOrder()
+            ->take(5)
+            ->get();
+
         // 获取分类
         $categories = ArticleCategory::withCount('articles')->get();
 
@@ -56,6 +63,7 @@ class IndexController extends Controller
             'sidebarArticles' => $sidebarArticles,
             'popularArticles' => $popularArticles,
             'latestArticles' => $latestArticles,
+            'randomArticles' => $randomArticles,
             'categories' => $categories,
         ]);
     }
