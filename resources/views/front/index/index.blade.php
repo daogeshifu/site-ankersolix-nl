@@ -114,7 +114,7 @@
             @if(isset($popularArticles) && $popularArticles->count() > 0)
             <div class="space-y-6">
                 <h2 class="text-xl font-bold border-b border-gray-100 dark:border-gray-800 pb-3">{{ __('article.most_popular') }}</h2>
-                @foreach($popularArticles->take(3) as $popArticle)
+                @foreach($popularArticles as $popArticle)
                 <a href="{{ route('article.detail.show', [$popArticle->category->name ?? 'blog', $popArticle->link]) }}" class="flex items-start gap-4 group">
                     <div class="size-16 rounded-lg bg-gray-200 bg-cover flex-shrink-0" style="background-image: url('{{ $popArticle->cover ? Storage::url($popArticle->cover) : '/around/picture/0127.jpg' }}');"></div>
                     <div class="space-y-1">
