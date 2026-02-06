@@ -41,6 +41,7 @@ return [
     'relevant_articles' => '相关文章',
     'most_popular' => '最受欢迎',
     'latest_posts' => '最新发布',
+    'rander_posts' => '随机发布',
     'uncategorized' => '未分类',
     'author_image' => '作者头像',
     'admin' => '管理员',
