@@ -222,7 +222,7 @@
                     <span class="material-symbols-outlined text-primary">local_fire_department</span> {{ __('article.most_popular') }}
                 </h4>
                 <div class="flex flex-col gap-6">
-                    @foreach($popularArticles->take(5) as $index => $popArticle)
+                    @foreach($popularArticles as $index => $popArticle)
                     <a href="{{ route('article.detail.show', [$popArticle->category->name ?? 'blog', $popArticle->link]) }}" class="flex gap-4 group">
                         <span class="text-3xl font-black text-primary/20 shrink-0">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
                         <div>
