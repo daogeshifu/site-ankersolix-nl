@@ -119,7 +119,7 @@
                     <div class="size-16 rounded-lg bg-gray-200 bg-cover flex-shrink-0" style="background-image: url('{{ $popArticle->cover ? Storage::url($popArticle->cover) : '/around/picture/0127.jpg' }}');"></div>
                     <div class="space-y-1">
                         <h4 class="text-sm font-bold leading-tight group-hover:text-primary transition-colors">{{ Str::limit($popArticle->title, 50) }}</h4>
-                        <p class="text-xs text-gray-500">{{ $popArticle->created_at->diffForHumans() }}</p>
+                        <p class="text-xs text-gray-500">{{ $popArticle->created_at->format('Y-m-d') }}</p>
                     </div>
                 </a>
                 @endforeach
