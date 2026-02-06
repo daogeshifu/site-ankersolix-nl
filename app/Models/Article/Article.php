@@ -66,6 +66,20 @@ class Article extends Model implements TranslatableContract
     }
 
     /**
+     * 文章标签（多对多）
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(
+            ArticleTag::class,
+            'article_tag_pivot',
+            'article_id',
+            'article_tag_id'
+        );
+    }
+
+    /**
      * 创建多语言文章
      *
      * @param array $data 文章数据

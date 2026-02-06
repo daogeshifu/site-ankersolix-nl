@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Article\Article;
 use App\Models\Article\ArticleCategory;
+use App\Models\Article\ArticleTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -51,12 +52,13 @@ class ArticleController extends Controller
     {
         try {
             $categories = ArticleCategory::orderBy('name')->get();
+            $tags = ArticleTag::orderBy('name')->get();
 
             if ($categories->isEmpty()) {
                 return back()->with('error', '请先创建文章分类');
             }
 
-            return view('admin.article.create', compact('categories'));
+            return view('admin.article.create', compact('categories', 'tags'));
         } catch (\Exception $e) {
             Log::error('加载文章创建页面失败: ' . $e->getMessage());
             return back()->with('error', '加载页面失败，请稍后重试');
@@ -78,6 +80,8 @@ class ArticleController extends Controller
             'seo_title' => 'nullable|string|max:255',
             'seo_description' => 'nullable|string|max:500',
             'seo_keywords' => 'nullable|string|max:255',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:article_tags,id',
         ];
 
         $validated = $request->validate($rules);
@@ -107,6 +111,11 @@ class ArticleController extends Controller
             ];
 
             $article = Article::createWithTranslations($articleData, $translations);
+
+            // 同步标签关系
+            if (!empty($validated['tags'])) {
+                $article->tags()->sync($validated['tags']);
+            }
 
             DB::commit();
 
@@ -160,10 +169,11 @@ class ArticleController extends Controller
     public function edit($id)
     {
         try {
-            $article = Article::findOrFail($id);
+            $article = Article::with('tags')->findOrFail($id);
             $categories = ArticleCategory::orderBy('name')->get();
+            $tags = ArticleTag::orderBy('name')->get();
 
-            return view('admin.article.edit', compact('article', 'categories'));
+            return view('admin.article.edit', compact('article', 'categories', 'tags'));
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             Log::warning('文章不存在', ['article_id' => $id]);
             return redirect()->route('admin.article.create')
@@ -188,11 +198,13 @@ class ArticleController extends Controller
             'summary' => 'nullable|string|max:500',
         ];
 
-        // link / category_id / cover 仅在英文模式下提交和校验
+        // link / category_id / cover / tags 仅在英文模式下提交和校验
         if ($lang === 'en') {
             $rules['link'] = 'required|string|unique:articles,link,' . $id;
             $rules['category_id'] = 'required|exists:article_categorys,id';
             $rules['cover'] = 'nullable|string';
+            $rules['tags'] = 'nullable|array';
+            $rules['tags.*'] = 'exists:article_tags,id';
         }
 
         $validated = $request->validate($rules);
@@ -208,6 +220,9 @@ class ArticleController extends Controller
                     'category_id' => $validated['category_id'],
                     'cover' => $validated['cover'] ?? $article->cover,
                 ]);
+
+                // 同步标签关系
+                $article->tags()->sync($validated['tags'] ?? []);
             }
 
             // 只更新当前语言的翻译

@@ -133,6 +133,20 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label class="form-label">Tags</label>
+                                    <div class="border rounded p-3" style="max-height: 200px; overflow-y: auto; background: #fff;">
+                                        @forelse ($tags as $tag)
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="tags[]" value="{{ $tag->id }}" id="tag_{{ $tag->id }}">
+                                                <label class="form-check-label" for="tag_{{ $tag->id }}">{{ $tag->name }}</label>
+                                            </div>
+                                        @empty
+                                            <span class="text-muted">No tags available</span>
+                                        @endforelse
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
                                     <label class="form-label">Link<span class="required-star">*</span></label>
                                     <div class="input-group">
                                         <input class="form-control" name="link" id="link" readonly required>

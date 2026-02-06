@@ -239,6 +239,28 @@
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                {{-- 标签 --}}
+                                <div class="mb-3">
+                                    <label class="form-label">标签</label>
+                                    @php
+                                        $selectedTags = old('tags', $article->tags->pluck('id')->toArray());
+                                    @endphp
+                                    <div class="border rounded p-3 @error('tags') border-danger @enderror" style="max-height: 200px; overflow-y: auto; background: #fff;">
+                                        @forelse($tags as $tag)
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="tags[]" value="{{ $tag->id }}" id="tag_{{ $tag->id }}"
+                                                    {{ in_array($tag->id, $selectedTags) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="tag_{{ $tag->id }}">{{ $tag->name }}</label>
+                                            </div>
+                                        @empty
+                                            <span class="text-muted">暂无可用标签</span>
+                                        @endforelse
+                                    </div>
+                                    @error('tags')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 @endif
 
                                 {{-- 摘要 --}}

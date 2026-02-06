@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Paypal\PayPalController;
 use Illuminate\Support\Facades\Route;
@@ -36,5 +37,15 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [CategoryController::class, 'update'])->name('update');
         Route::get('/destroy/{id}', [CategoryController::class, 'destroy'])->name('destroy');
+    });
+
+    // 标签管理
+    Route::prefix('tag')->name('tag.')->group(function () {
+        Route::get('/', [TagController::class, 'index'])->name('index');
+        Route::get('/create', [TagController::class, 'create'])->name('create');
+        Route::post('/store', [TagController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [TagController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [TagController::class, 'update'])->name('update');
+        Route::get('/destroy/{id}', [TagController::class, 'destroy'])->name('destroy');
     });
 });
