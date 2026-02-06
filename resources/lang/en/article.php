@@ -66,7 +66,7 @@ return [
     'popular' => 'Popular',
     'min_read' => 'min read',
     'print' => 'Print',
-    'tag_cloud' => 'Tag Cloud',
+    'tag_cloud' => 'Hot Tags',
     'trending_keywords' => 'Trending Keywords',
     'trending_now' => 'Trending Now',
     'browse_articles' => 'Browse Articles',

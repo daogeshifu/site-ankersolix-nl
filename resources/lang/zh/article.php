@@ -66,7 +66,7 @@ return [
     'popular' => '最受欢迎',
     'min_read' => '分钟阅读',
     'print' => '打印',
-    'tag_cloud' => '标签云',
+    'tag_cloud' => '热门标签',
     'trending_keywords' => '热门关键词',
     'trending_now' => '正在流行',
     'browse_articles' => '浏览文章',

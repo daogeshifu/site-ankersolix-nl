@@ -36,8 +36,8 @@
             <span class="material-symbols-outlined text-base">home</span> {{ __('menu.home') }}
         </a>
         <span class="text-[#616f89]">/</span>
-        <a class="text-[#616f89] hover:text-primary" href="{{ route('articles') }}">{{ __('menu.insights') }}</a>
-        <span class="text-[#616f89]">/</span>
+{{--        <a class="text-[#616f89] hover:text-primary" href="{{ route('articles') }}">{{ __('menu.insights') }}</a>--}}
+{{--        <span class="text-[#616f89]">/</span>--}}
         <span class="text-primary font-medium">{{ $currentCategory->name }}</span>
     </nav>
 
