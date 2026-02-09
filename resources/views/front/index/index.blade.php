@@ -159,7 +159,7 @@
                     </a>
                     <div class="p-6">
                         <div class="flex items-center gap-3 mb-3">
-                            <span class="text-xs text-gray-500">{{ $latestArticle->created_at->diffForHumans() }}</span>
+                            <span class="text-xs text-gray-500">{{ $latestArticle->created_at->format('Y-m-d H:i')}}</span>
                             @if($latestArticle->category)
                             <a href="{{ route('article.category2', $latestArticle->category->name) }}" class="text-xs text-primary font-medium">{{ $latestArticle->category->name }}</a>
                             @endif
