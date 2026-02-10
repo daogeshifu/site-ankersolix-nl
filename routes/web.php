@@ -100,7 +100,7 @@ Route::group([
         Route::get('/article', [FrontArticleController::class, 'index'])->name('articles');
         Route::get('/article/page/{page}', [FrontArticleController::class, 'index_page'])->name('article.page')->where('page', '[0-9]+');
         Route::get('/article/{category_name}/page/{page}', [FrontArticleController::class, 'index_category_page'])->name('article.category.page')->where('page', '[0-9]+');
-        Route::get('/article/{category_name}', [FrontArticleController::class, 'index'])->name('article.category');
+//        Route::get('/article/{category_name}', [FrontArticleController::class, 'index'])->name('article.category');
 //
         Route::get('/{category_name}/{link}.html', [FrontArticleController::class, 'detail'])->name('article.detail.show');
         Route::get('/{category_name}/page/{page}', [FrontArticleController::class, 'index_category_page'])->name('article.category.page2')->where('page', '[0-9]+');

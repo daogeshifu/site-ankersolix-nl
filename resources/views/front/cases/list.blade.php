@@ -83,7 +83,7 @@
                         <div class="flex items-center gap-2">
                             <div class="size-6 rounded-full bg-cover bg-gray-200" style="background-image: url('{{ $topArticle->user?->avatar ?? '/around/image/avatar/default.png' }}');"></div>
                             <span class="text-xs font-medium">{{ $topArticle->user?->name ?? __('article.admin') }}</span>
-                            <span class="text-xs text-[#616f89]">&bull; {{ $topArticle->created_at->diffForHumans() }}</span>
+                            <span class="text-xs text-[#616f89]">&bull; {{ $topArticle->created_at->format('Y-m-d H:i')  }}</span>
                         </div>
                         <a href="{{ route('cases.detail.show', $topArticle->link) }}" class="flex items-center gap-1 text-primary text-sm font-bold hover:gap-2 transition-all">
                             {{ __('article.read_more') }} <span class="material-symbols-outlined text-base">arrow_forward</span>
