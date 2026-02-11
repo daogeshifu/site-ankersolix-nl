@@ -103,14 +103,14 @@ class GuidesController extends Controller
         $category_name = 'guides';
 
         // 根据链接查找文章
-        $article = Article::where('link', $link)->first();
+        $article = Article::with(['category', 'user', 'tags'])->where('link', $link)->first();
 
         if (!$article) {
             abort(404);
         }
 
         // 获取相关文章的侧边栏
-        $sidebarArticles = $article->category->articles()->take(5)->get();
+        $sidebarArticles = $article->category->articles()->with(['category', 'user'])->where('id', '!=', $article->id)->take(5)->get();
 
         // 获取文章摘要
         $plainText = strip_tags($article->content);

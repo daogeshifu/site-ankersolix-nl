@@ -485,13 +485,22 @@
     });
 </script>
 
-<!-- View tracking -->
+<!-- Lazy-load article content images -->
 <script>
-    fetch('{{ route('article.view', $article->id) }}', {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        }
+    document.querySelectorAll('.article-content img').forEach(function(img) {
+        img.setAttribute('loading', 'lazy');
+    });
+</script>
+
+<!-- View tracking (deferred) -->
+<script>
+    requestIdleCallback(function() {
+        fetch('{{ route('article.view', $article->id) }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        });
     });
 </script>
 

@@ -130,13 +130,13 @@ class ArticleController extends Controller
      */
     public function detail(Request $request, $category_name, $link)
     {
-        $article = Article::where('link', $link)->first();
+        $article = Article::with(['category', 'user', 'tags'])->where('link', $link)->first();
 
         if (!$article) {
             abort(404);
         }
 
-        $sidebarArticles = $article->category->articles()->take(5)->get();
+        $sidebarArticles = $article->category->articles()->with(['category', 'user'])->where('id', '!=', $article->id)->take(5)->get();
         $plainText = strip_tags($article->content);
 
         if (mb_strlen($plainText) <= 100) {
