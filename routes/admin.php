@@ -8,7 +8,7 @@ use App\Http\Controllers\Paypal\PayPalController;
 use Illuminate\Support\Facades\Route;
 
 // 后台管理（需要认证）
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
 
     // 仪表盘
     Route::get('/', [AdminUserController::class, 'index'])->name('index');
