@@ -155,6 +155,22 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label class="form-label">Keywords</label>
+                                    <input class="form-control" name="keywords" id="keywords" placeholder="Enter keywords, separated by commas">
+                                    <small class="text-muted">Example: technology, innovation, AI</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Author</label>
+                                    <input class="form-control" name="author" id="author" placeholder="Enter author name">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Author Bio</label>
+                                    <textarea class="form-control" name="author_bio" id="author_bio" rows="3" placeholder="Enter author biography"></textarea>
+                                </div>
+
+                                <div class="mb-3">
                                     <label class="form-label">Content<span class="required-star">*</span></label>
 
                                     {{-- 新增模式切换按钮 --}}

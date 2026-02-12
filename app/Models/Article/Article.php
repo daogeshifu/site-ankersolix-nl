@@ -35,6 +35,9 @@ class Article extends Model implements TranslatableContract
         'user_id',
         'category_id',
         'link',
+        'keywords',
+        'author',
+        'author_bio',
         'cover',
         'title',
         'content'

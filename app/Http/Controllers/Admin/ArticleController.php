@@ -74,6 +74,9 @@ class ArticleController extends Controller
             'link' => 'required|string|unique:articles,link',
             'category_id' => 'required|exists:article_categorys,id',
             'cover' => 'nullable|string',
+            'keywords' => 'nullable|string|max:640',
+            'author' => 'nullable|string|max:255',
+            'author_bio' => 'nullable|string',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'summary' => 'nullable|string|max:500',
@@ -93,6 +96,9 @@ class ArticleController extends Controller
                 'user_id' => Auth::id(),
                 'category_id' => $validated['category_id'],
                 'link' => $validated['link'],
+                'keywords' => $validated['keywords'] ?? null,
+                'author' => $validated['author'] ?? null,
+                'author_bio' => $validated['author_bio'] ?? null,
                 'cover' => $validated['cover'] ?? null,
                 'title' => $validated['title'],
                 'content' => $validated['content'],
@@ -198,11 +204,14 @@ class ArticleController extends Controller
             'summary' => 'nullable|string|max:500',
         ];
 
-        // link / category_id / cover / tags 仅在英文模式下提交和校验
+        // link / category_id / cover / tags / keywords / author / author_bio 仅在英文模式下提交和校验
         if ($lang === 'en') {
             $rules['link'] = 'required|string|unique:articles,link,' . $id;
             $rules['category_id'] = 'required|exists:article_categorys,id';
             $rules['cover'] = 'nullable|string';
+            $rules['keywords'] = 'nullable|string|max:640';
+            $rules['author'] = 'nullable|string|max:255';
+            $rules['author_bio'] = 'nullable|string';
             $rules['tags'] = 'nullable|array';
             $rules['tags.*'] = 'exists:article_tags,id';
         }
@@ -218,6 +227,9 @@ class ArticleController extends Controller
                 $article->update([
                     'link' => $validated['link'],
                     'category_id' => $validated['category_id'],
+                    'keywords' => $validated['keywords'] ?? null,
+                    'author' => $validated['author'] ?? null,
+                    'author_bio' => $validated['author_bio'] ?? null,
                     'cover' => $validated['cover'] ?? $article->cover,
                 ]);
 

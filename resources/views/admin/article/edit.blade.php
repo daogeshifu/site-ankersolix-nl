@@ -216,6 +216,45 @@
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Keywords</label>
+                                    <input class="form-control @error('keywords') is-invalid @enderror"
+                                           name="keywords"
+                                           id="keywords"
+                                           type="text"
+                                           placeholder="Enter keywords, separated by commas"
+                                           value="{{ old('keywords', $article->keywords) }}">
+                                    <small class="text-muted">Example: technology, innovation, AI</small>
+                                    @error('keywords')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Author</label>
+                                    <input class="form-control @error('author') is-invalid @enderror"
+                                           name="author"
+                                           id="author"
+                                           type="text"
+                                           placeholder="Enter author name"
+                                           value="{{ old('author', $article->author) }}">
+                                    @error('author')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Author Bio</label>
+                                    <textarea class="form-control @error('author_bio') is-invalid @enderror"
+                                              name="author_bio"
+                                              id="author_bio"
+                                              rows="3"
+                                              placeholder="Enter author biography">{{ old('author_bio', $article->author_bio) }}</textarea>
+                                    @error('author_bio')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 @endif
 
                                 {{-- 分类（仅主语言） --}}
