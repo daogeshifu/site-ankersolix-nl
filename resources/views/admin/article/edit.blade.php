@@ -471,7 +471,61 @@
             }, 5000);
         }
 
-    
+
+
+        /**
+         * 自定义图片处理器 - 点击图片按钮时触发
+         */
+        function imageHandler() {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+            input.click();
+
+            input.onchange = async () => {
+                const file = input.files[0];
+                if (file) {
+                    await uploadImage(file);
+                }
+            };
+        }
+
+        /**
+         * 上传图片到服务器
+         */
+        async function uploadImage(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('{{ route("admin.article.upload") }}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.code === 200 && data.data.path) {
+                    // 获取当前光标位置
+                    const range = editor8.getSelection(true);
+                    // 插入图片
+                    const imageUrl = "{{ asset('storage') }}/" + data.data.path;
+                    editor8.insertEmbed(range.index, 'image', imageUrl);
+
+                    // 移动光标到图片后面
+                    editor8.setSelection(range.index + 1);
+                } else {
+                    alert('图片上传失败: ' + (data.message || '未知错误'));
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                alert('图片上传失败，请重试');
+            }
+        }
 
         // 初始化 Quill 编辑器（添加自定义图片处理器）
         const editor8 = new Quill('#editor8', {
@@ -487,7 +541,10 @@
                         [{ 'color': [] }, { 'background': [] }],
                         ['link', 'image'],
                         ['clean']
-                    ]
+                    ],
+                    handlers: {
+                        image: imageHandler
+                    }
                 },
                 clipboard: true
             }

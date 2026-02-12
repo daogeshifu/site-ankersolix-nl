@@ -323,9 +323,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     ['link', 'image'],
                     ['clean']
                 ],
-                // handlers: {
-                //     image: imageHandler
-                // }
+                handlers: {
+                    image: imageHandler
+                }
             }
         }
     });
