@@ -67,18 +67,18 @@
             <article class="group flex flex-col md:flex-row items-stretch gap-6 bg-white dark:bg-[#1e293b] rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow border border-[#f0f2f4] dark:border-[#334155]">
                 <a href="{{ route('guides.detail.show', $topArticle->link) }}" class="w-full md:w-72 h-48 bg-cover bg-center rounded-lg flex-shrink-0 block" style="background-image: url('{{ $topArticle->cover ? Storage::url($topArticle->cover) : '/around/picture/0126.jpg' }}');"></a>
                 <div class="flex flex-col justify-between py-1 flex-1">
-                    <div class="flex flex-col gap-3">
-                        <div class="flex items-center gap-3">
-                            <span class="bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded">{{ __('home.trending') }}</span>
-                            <span class="text-[#616f89] text-xs">{{ $topArticle->view_count ?? 0 }} {{ __('lang.views') }}</span>
-                        </div>
-                        <h2 class="text-2xl font-bold group-hover:text-primary transition-colors leading-tight">
-                            <a href="{{ route('guides.detail.show', $topArticle->link) }}">{{ $topArticle->title }}</a>
-                        </h2>
-                        <p class="text-[#616f89] dark:text-[#94a3b8] text-sm line-clamp-3">
-                            {{ Str::limit($topArticle->summary ?? strip_tags($topArticle->content), 200) }}
-                        </p>
-                    </div>
+{{--                    <div class="flex flex-col gap-3">--}}
+{{--                        <div class="flex items-center gap-3">--}}
+{{--                            <span class="bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded">{{ __('home.trending') }}</span>--}}
+{{--                            <span class="text-[#616f89] text-xs">{{ $topArticle->view_count ?? 0 }} {{ __('lang.views') }}</span>--}}
+{{--                        </div>--}}
+{{--                        <h2 class="text-2xl font-bold group-hover:text-primary transition-colors leading-tight">--}}
+{{--                            <a href="{{ route('guides.detail.show', $topArticle->link) }}">{{ $topArticle->title }}</a>--}}
+{{--                        </h2>--}}
+{{--                        <p class="text-[#616f89] dark:text-[#94a3b8] text-sm line-clamp-3">--}}
+{{--                            {{ Str::limit($topArticle->summary ?? strip_tags($topArticle->content), 200) }}--}}
+{{--                        </p>--}}
+{{--                    </div>--}}
                     <div class="flex items-center justify-between mt-4">
                         <div class="flex items-center gap-2">
                             <div class="size-6 rounded-full bg-cover bg-gray-200" style="background-image: url('{{ $topArticle->user?->avatar ?? '/around/image/avatar/default.png' }}');"></div>
