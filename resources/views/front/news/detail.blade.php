@@ -2,7 +2,7 @@
 
 @section('title', $article->seo_title ?? $article->title)
 @section('description', $article->seo_description ?? $article->summary ?? $article->title)
-@section('keywords', $article->seo_keywords ?? $article->title)
+@section('keywords', $article->keywords ?? $article->title)
 
 @push('styles')
 <style>
