@@ -220,7 +220,7 @@
                         <!-- Author -->
                         <div class="flex items-center gap-2">
                             <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center text-white font-bold text-sm">
-                                {{ strtoupper(substr($article->user->name ?? 'A', 0, 1)) }}
+                                {{ strtoupper(substr($article->author ?? 'A', 0, 1)) }}
                             </div>
                             <div>
                                 <p class="font-semibold text-[#111318] dark:text-white">{{ $article->user->name ?? __('article.admin') }}</p>
@@ -297,7 +297,7 @@
                             <p class="text-xs font-semibold text-primary uppercase tracking-wider mb-1">{{ __('article.written_by') }}</p>
                             <h3 class="text-xl font-bold text-[#111318] dark:text-white mb-2">{{ $article->author ?? __('article.admin') }}</h3>
                             <p class="text-[#616f89] dark:text-gray-400 text-sm leading-relaxed">
-                                {{ $article->summary ? Str::limit($article->summary, 150) : __('article.author_bio_default') }}
+                                {{ $article->author_bio ? Str::limit($article->author_bio, 150) : __('article.author_bio_default') }}
                             </p>
                         </div>
                     </div>
