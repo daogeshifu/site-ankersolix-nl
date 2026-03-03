@@ -291,7 +291,7 @@
                 <div class="bg-white dark:bg-[#1a212f] rounded-xl shadow-lg shadow-black/5 border border-[#f0f2f4] dark:border-white/5 p-6 md:p-8 mb-8">
                     <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                         <div class="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center text-white font-bold text-2xl shrink-0">
-                            {{ strtoupper(substr($article->user->name ?? 'A', 0, 1)) }}
+                            {{ strtoupper(substr($article->author ?? 'A', 0, 1)) }}
                         </div>
                         <div class="text-center sm:text-left">
                             <p class="text-xs font-semibold text-primary uppercase tracking-wider mb-1">{{ __('article.written_by') }}</p>
