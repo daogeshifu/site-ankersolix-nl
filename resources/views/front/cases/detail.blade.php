@@ -220,10 +220,10 @@
                         <!-- Author -->
                         <div class="flex items-center gap-2">
                             <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center text-white font-bold text-sm">
-                                {{ strtoupper(substr($article->user->name ?? 'A', 0, 1)) }}
+                                {{ strtoupper(substr($article->author ?? 'A', 0, 1)) }}
                             </div>
                             <div>
-                                <p class="font-semibold text-[#111318] dark:text-white">{{ $article->user->name ?? __('article.admin') }}</p>
+                                <p class="font-semibold text-[#111318] dark:text-white">{{ $article->author ?? __('article.admin') }}</p>
                             </div>
                         </div>
                         <span class="text-gray-300 dark:text-gray-600">|</span>
