@@ -5,6 +5,8 @@
 @section('keywords', $article->keywords ?? $article->title)
 
 @push('styles')
+@include('front.partials.article-social-meta')
+
 <style>
     .mesh-gradient {
         background-color: #f6f6f8;
@@ -456,6 +458,8 @@
 @endsection
 
 @push('scripts')
+@include('front.partials.article-structured-data', ['sectionKey' => 'guides'])
+
 <script>
     // Smooth scroll for table of contents
     document.addEventListener("DOMContentLoaded", function() {
