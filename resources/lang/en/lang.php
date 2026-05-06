@@ -14,16 +14,16 @@ return  [
 	'register' => 'Register',
 	'logout' => 'Logout',
 	'sign_in' => 'Sign In',
-	'sign_in_description' => 'Sign In - HelloGeo',
+	'sign_in_description' => 'Sign In - bestenthuisbatterij.nl',
 	'sign_up' => 'Sign Up',
-	'sign_up_description' => 'Sign Up - HelloGeo',
+	'sign_up_description' => 'Sign Up - bestenthuisbatterij.nl',
     'create_account_btn' => 'Create Account',
     'get_started' => 'Get Started',
 
 	'views' => 'Views',
 
 	// Index
-	'more_than_an_ai_detect' => 'HelloGeo',
+	'more_than_an_ai_detect' => 'bestenthuisbatterij.nl',
 	'preserve' => 'Preserve',
 	'word_animation_words' => [
 			'quality.',
@@ -129,12 +129,12 @@ return  [
 	'terms_and_condition_label' => 'I agree to the Terms and Conditions',
 	// 'terms_and_condition' => 'Terms and Conditions',
 
-	'page_title' => 'HelloGeo',
-	'page_description' => 'A leading global platform for Generative Engine Optimization (GEO) insights. Stay updated with the latest news, in-depth analysis, and expert blogs on AI-driven search evolution, content generation strategies, and search ranking algorithms.',
-	'page_keywords' => 'Generative Engine Optimization, GEO, AI search optimization, generative AI, search algorithms, content strategy, future of search, search ranking, AIGC, semantic search',
+	'page_title' => 'bestenthuisbatterij.nl - Home Battery Guide',
+	'page_description' => 'Independent home battery and residential energy storage guides for households in the Netherlands, including pricing, sizing, subsidies, dynamic tariffs, and installation tips.',
+	'page_keywords' => 'home battery Netherlands, residential battery, thuisbatterij, energy storage, solar battery, battery sizing, dynamic tariff, net metering, subsidy, household energy savings',
 
-	'index_title' => 'HelloGeo',
-	'index_description' => 'Stay updated with the latest news, in-depth analysis, and expert blogs on AI-driven search evolution, content generation strategies, and search ranking algorithms.',
+	'index_title' => 'bestenthuisbatterij.nl',
+	'index_description' => 'Compare home battery options, understand savings, and get practical guidance for Dutch household energy storage.',
 	'uncover_truth_button' => 'Uncover the Truth',
 
 	'how_to_use' => 'How to use',
@@ -162,21 +162,21 @@ return  [
 	'category' => 'Category',
 
 	// SEO
-	'seo_title' => 'HelloGeo | Generative Engine Optimization (GEO) & AI SEO',
-	'seo_description' => 'Stay updated with the latest Generative Engine Optimization (GEO) news and guides. Learn actionable tips and expert insights to enhance your visibility in generative search engines.',
-	'seo_keywords' => '',
+	'seo_title' => 'bestenthuisbatterij.nl | Home Battery & Residential Energy Storage',
+	'seo_description' => 'Find practical home battery advice for the Netherlands: sizing, costs, ROI, dynamic tariff strategies, solar self-consumption, and installation considerations.',
+	'seo_keywords' => 'home battery, thuisbatterij, residential storage, battery ROI, dynamic energy tariff, Dutch energy market, solar battery system',
 
-    'seo_news_title' => 'Latest GEO News - HelloGeo',
-    'seo_news_description' => 'Access the latest GEO industry news and trends.Stay ahead of the curve in Answer Engine Optimization.',
-    'seo_news_keywords' => 'GEO Industry News',
+    'seo_news_title' => 'Home Battery News - bestenthuisbatterij.nl',
+    'seo_news_description' => 'Follow the latest updates on Dutch home battery policy, market pricing, grid changes, and energy storage trends.',
+    'seo_news_keywords' => 'home battery news Netherlands, energy storage market, Dutch electricity policy',
 
-    'seo_guides_title' => 'AI Search Optimization Guides - HelloGeo',
-    'seo_guides_description' => 'Your ultimate guide to Generative Engine Optimization (GEO). Master AI search optimization and expert insights to boost AI visibility.',
-    'seo_guides_keywords' => 'GEO Guide',
+    'seo_guides_title' => 'Home Battery Guides - bestenthuisbatterij.nl',
+    'seo_guides_description' => 'Step-by-step guides to choosing and using a home battery system, from capacity planning to daily energy optimization.',
+    'seo_guides_keywords' => 'home battery guide, storage sizing, household energy optimization',
 
-    'seo_cases_title' => 'AI SEO Cases - HelloGeo',
-    'seo_cases_description' => 'How does Generative Engine Optimization work? Check out the "{Brand}" cases to see real-world GEO strategies in action.',
-    'seo_cases_keywords' => 'GEO Cases',
+    'seo_cases_title' => 'Home Battery Case Studies - bestenthuisbatterij.nl',
+    'seo_cases_description' => 'Real household examples showing how different battery setups affect savings, self-consumption, and peak-price usage.',
+    'seo_cases_keywords' => 'home battery case study, household storage examples, battery savings stories',
 
 	// Else
 	'please_login_first' => 'Please login first.',

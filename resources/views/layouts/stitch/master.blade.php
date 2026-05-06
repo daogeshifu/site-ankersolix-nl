@@ -11,7 +11,7 @@
     <title>@yield('title')</title>
     <meta name="description" content="@yield('description')">
     <meta name="keywords" content="@yield('keywords')">
-    <meta name="author" content="hellogeo.ai">
+    <meta name="author" content="bestenthuisbatterij.nl">
     <link rel="canonical" href="{{ request()->url() }}" />
 
     <!-- Hreflang alternate links -->

@@ -126,12 +126,12 @@ return [
     'create_account_btn' => '创建账户',
     'get_started' => '开始',
 
-    'page_title' => 'HelloGeo - GEO优化专家',
-    'page_description' => 'HelloGeo 是领先的生成式引擎优化 (GEO) 平台，提供深入的见解和实用指南，帮助内容创作者和SEO专业人士提升其AI驱动内容的搜索排名和可见性。',
-    'page_keywords' => 'GEO, GEO优化, 生成式引擎优化, AI驱动搜索, 内容生成策略, 搜索排名算法',
+    'page_title' => 'bestenthuisbatterij.nl - 家用电池指南',
+    'page_description' => 'bestenthuisbatterij.nl 聚焦荷兰家用电池与家庭储能，提供价格、容量、回本周期、补贴政策与安装建议等实用信息。',
+    'page_keywords' => '家用电池, 家庭储能, 荷兰储能, thuisbatterij, 动态电价, 光伏储能, 电池回本, 家庭节能',
 
-    'index_title' => 'HelloGeo',
-    'index_description' => '使用我们强大的工具检测AI生成的内容',
+    'index_title' => 'bestenthuisbatterij.nl',
+    'index_description' => '对比家用电池方案，了解节省电费策略，掌握荷兰家庭储能实用知识。',
     'uncover_truth_button' => '揭示真相',
     
     'how_to_use' => '如何使用',
@@ -159,22 +159,22 @@ return [
     'category' => '目录',
 
     // SEO
-    'seo_title' => 'HelloGeo | 生成引擎优化（GEO）与AI SEO',
-    'seo_description' => '及时了解最新的生成式引擎优化（GEO）新闻和指南。学习实用技巧和专家见解，提升您在生成式搜索引擎中的可见度',
-    'seo_keywords' => '',
+    'seo_title' => 'bestenthuisbatterij.nl | 家用电池与家庭储能',
+    'seo_description' => '获取荷兰家用电池选购与使用指南：容量配置、安装建议、补贴信息、动态电价策略与回本分析。',
+    'seo_keywords' => '家用电池, 家庭储能, 荷兰家用电池, thuisbatterij, 动态电价, 光伏储能, 储能补贴',
 
     // SEO
-    'seo_news_title' => '最新GEO新闻 - HelloGeo',
-    'seo_news_description' => '获取最新的地理信息（GEO）行业新闻和趋势。在问答引擎优化方面保持领先。',
-    'seo_news_keywords' => 'GEO行业资讯',
+    'seo_news_title' => '家用电池最新资讯 - bestenthuisbatterij.nl',
+    'seo_news_description' => '追踪荷兰家用电池政策、市场价格、电网变化与储能行业动态。',
+    'seo_news_keywords' => '家用电池资讯, 荷兰储能政策, 电价动态',
 
-    'seo_guides_title' => 'AI搜索优化指南 - HelloGeo',
-    'seo_guides_description' => '您的生成引擎优化（GEO）终极指南。掌握人工智能搜索优化和专家见解，提升人工智能可见性。',
-    'seo_guides_keywords' => 'GEO指南',
+    'seo_guides_title' => '家用电池指南 - bestenthuisbatterij.nl',
+    'seo_guides_description' => '从容量选择到安装部署，系统讲解家用电池配置与日常用电优化方法。',
+    'seo_guides_keywords' => '家用电池指南, 储能容量选择, 家庭用电优化',
 
-    'seo_cases_title' => 'AI SEO案例 - HelloGeo',
-    'seo_cases_description' => '生成引擎优化是如何运作的？查看“{Brand}”案例，了解真实的生成引擎优化（GEO）策略在实际中的应用。',
-    'seo_cases_keywords' => 'GEO案例',
+    'seo_cases_title' => '家用电池案例 - bestenthuisbatterij.nl',
+    'seo_cases_description' => '通过真实家庭案例了解不同电池方案对电费节省、自发自用与峰谷用电优化的实际影响。',
+    'seo_cases_keywords' => '家用电池案例, 家庭储能案例, 电费节省',
 
     // Else
     'please_login_first' => '请先登录',

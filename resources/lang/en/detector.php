@@ -3,9 +3,9 @@
 return [
     // Page metadata
     'meta' => [
-        'title' => 'HelloGeo',
-        'description' => 'A leading global platform for Generative Engine Optimization (GEO) insights. Stay updated with the latest news, in-depth analysis, and expert blogs on AI-driven search evolution, content generation strategies, and search ranking algorithms.',
-        'keywords' => 'Generative Engine Optimization, GEO, AI search optimization, generative AI, search algorithms, content strategy, future of search, search ranking, AIGC, semantic search',
+        'title' => 'bestenthuisbatterij.nl',
+        'description' => 'Practical home battery and residential energy storage guidance for Dutch households, including capacity planning, battery ROI, tariffs, and installation insights.',
+        'keywords' => 'home battery, thuisbatterij, residential energy storage, battery ROI, Dutch energy tariffs, solar storage',
     ],
 
 

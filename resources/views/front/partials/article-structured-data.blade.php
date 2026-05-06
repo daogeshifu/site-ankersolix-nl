@@ -24,8 +24,8 @@
     $logoUrl      = asset('logo.png');
 
     $orgDescription = $isZh
-        ? 'HelloGeo 是一个致力于提供最新生成式引擎优化 (GEO) 新闻和指南的专业资源库，提供实用的技巧和专家见解，以提升在生成式搜索引擎中的可见度。'
-        : 'HelloGeo is a dedicated resource providing the latest Generative Engine Optimization (GEO) news and guides, offering actionable tips and expert insights to enhance visibility in generative search engines.';
+        ? 'bestenthuisbatterij.nl 专注于家用电池与家庭储能内容，提供选购建议、安装知识、补贴政策与节能实践，帮助家庭更高效地管理电力成本。'
+        : 'bestenthuisbatterij.nl is a home battery and residential energy storage resource with practical buying guides, installation advice, subsidy updates, and smart energy-saving tips for households.';
 @endphp
 
 <script type="application/ld+json">
@@ -34,9 +34,9 @@
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://www.hellogeo.ai/#organization",
-      "name": "HelloGEO",
-      "url": "https://www.hellogeo.ai/",
+      "@id": "https://bestenthuisbatterij.nl/#organization",
+      "name": "bestenthuisbatterij.nl",
+      "url": "https://bestenthuisbatterij.nl/",
       "logo": {
         "@type": "ImageObject",
         "url": "{{ $logoUrl }}"
@@ -70,7 +70,7 @@
         "@id": "{{ $currentUrl }}#author"
       },
       "publisher": {
-        "@id": "https://www.hellogeo.ai/#organization"
+        "@id": "https://bestenthuisbatterij.nl/#organization"
       },
       "inLanguage": "{{ $inLanguage }}"
     }
@@ -90,7 +90,7 @@
           "@type": "ListItem",
           "position": 1,
           "name": "{{ $homeName }}",
-          "item": "https://www.hellogeo.ai/"
+          "item": "https://bestenthuisbatterij.nl/"
         },
         {
           "@type": "ListItem",

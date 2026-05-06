@@ -88,7 +88,7 @@
           </div>
           <p class="nav fs-sm order-sm-1 text-center text-sm-start pt-4 pt-sm-0 mb-0 me-4">
             <span class="text-body-secondary">© All rights reserved. Made by</span>
-            <a class="nav-link fw-normal p-0 ms-1" href="https://hellogeo.ai/" target="_blank" rel="noopener">HelloGEO</a>
+            <a class="nav-link fw-normal p-0 ms-1" href="https://bestenthuisbatterij.nl/" target="_blank" rel="noopener">bestenthuisbatterij.nl</a>
           </p>
         </div>
       </div>

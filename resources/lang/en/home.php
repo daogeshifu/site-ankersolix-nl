@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'super' => 'HelloGeo',
-    'brand' => 'HelloGeo - GEO frontier information sharing and research platform',
+    'super' => 'bestenthuisbatterij.nl',
+    'brand' => 'bestenthuisbatterij.nl - Home battery insights and guides for Dutch households',
     'blog_title' => 'Insights & Guides',
-    'blog_description' => 'A leading global platform for Generative Engine Optimization (GEO) insights. Stay updated with the latest news, in-depth analysis, and expert blogs on AI-driven search evolution, content generation strategies, and search ranking algorithms.',
+    'blog_description' => 'Practical updates on home batteries, energy storage, solar self-consumption, dynamic tariffs, and subsidy opportunities for households in the Netherlands.',
     'trending' => 'Trending',
 ];

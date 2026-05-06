@@ -1,4 +1,4 @@
-# site_hellogeo
+# site_bestenthuisbatterij
 
 
 
@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin http://git.winndoo.cn:82/php/fine_site/site_hellogeo.git
+git remote add origin http://git.winndoo.cn:82/php/fine_site/site_bestenthuisbatterij.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](http://git.winndoo.cn:82/php/fine_site/site_hellogeo/-/settings/integrations)
+- [ ] [Set up project integrations](http://git.winndoo.cn:82/php/fine_site/site_bestenthuisbatterij/-/settings/integrations)
 
 ## Collaborate with your team
 
