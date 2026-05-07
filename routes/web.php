@@ -27,6 +27,36 @@ use App\Http\Controllers\Front\NewController;
 Route::get('lang/{locale}', 'App\Http\Controllers\Front\LanguageController@switchLang')->name('lang.switch');
 
 // ===============================================
+// 文章图片路由，不走多语言分组，避免服务器上被 locale 重定向影响
+// ===============================================
+$serveArticleImage = function (int $article, string $filename) {
+    abort_unless(preg_match('/\.(?:jpe?g|png|webp|gif)$/i', $filename), 404);
+
+    $paths = [
+        public_path("uploads/articles/{$article}/{$filename}"),
+        public_path("article/{$article}/{$filename}"),
+        storage_path("app/public/uploads/articles/{$article}/{$filename}"),
+        storage_path("app/public/article/{$article}/{$filename}"),
+    ];
+
+    foreach ($paths as $path) {
+        if (is_file($path)) {
+            return response()->file($path);
+        }
+    }
+
+    abort(404);
+};
+
+Route::get('/uploads/articles/{article}/{filename}', $serveArticleImage)
+    ->whereNumber('article')
+    ->where('filename', '[^/]+\.(?:jpe?g|png|webp|gif)');
+
+Route::get('/article/{article}/{filename}', $serveArticleImage)
+    ->whereNumber('article')
+    ->where('filename', '[^/]+\.(?:jpe?g|png|webp|gif)');
+
+// ===============================================
 // 多语言路由 (非英语语言)
 // ===============================================
 Route::group([
@@ -96,34 +126,6 @@ Route::group([
         Route::prefix('cases')->group(function () {
             Route::get('{link}.html', [CasesController::class, 'detail'])->name('cases.detail.show');
         });
-
-        $serveArticleImage = function (int $article, string $filename) {
-            abort_unless(preg_match('/\.(?:jpe?g|png|webp|gif)$/i', $filename), 404);
-
-            $paths = [
-                public_path("uploads/articles/{$article}/{$filename}"),
-                public_path("article/{$article}/{$filename}"),
-                storage_path("app/public/uploads/articles/{$article}/{$filename}"),
-                storage_path("app/public/article/{$article}/{$filename}"),
-            ];
-
-            foreach ($paths as $path) {
-                if (is_file($path)) {
-                    return response()->file($path);
-                }
-            }
-
-            abort(404);
-        };
-
-        Route::get('/uploads/articles/{article}/{filename}', $serveArticleImage)
-            ->whereNumber('article')
-            ->where('filename', '[^/]+\.(?:jpe?g|png|webp|gif)');
-
-        Route::get('/article/{article}/{filename}', $serveArticleImage)
-            ->whereNumber('article')
-            ->where('filename', '[^/]+\.(?:jpe?g|png|webp|gif)');
-
 
         /*
         |--------------------------------------------------------------------------
