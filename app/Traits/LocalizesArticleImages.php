@@ -11,7 +11,7 @@ trait LocalizesArticleImages
     /**
      * 下载单张远程图片到本地，返回本地访问路径。
      *
-     * 保存路径：public/article/{article_id}/{uuid}.{ext}
+     * 保存路径：public/uploads/articles/{article_id}/{uuid}.{ext}
      */
     protected function downloadRemoteImage(?string $url, int $articleId): ?string
     {
@@ -42,7 +42,7 @@ trait LocalizesArticleImages
             $savePath = "{$dir}/{$filename}";
             file_put_contents($savePath, $response->body());
 
-            return "/article/{$articleId}/{$filename}";
+            return "/uploads/articles/{$articleId}/{$filename}";
         } catch (\Throwable $e) {
             Log::warning('[LocalizesArticleImages] 图片下载异常', [
                 'article_id' => $articleId,
@@ -57,7 +57,7 @@ trait LocalizesArticleImages
     /**
      * 下载内容中的远程图片到本地，返回替换后的内容和第一张图片路径。
      *
-     * 保存路径：public/article/{article_id}/{uuid}.jpg
+     * 保存路径：public/uploads/articles/{article_id}/{uuid}.jpg
      * 返回：[$updatedContent, $firstLocalPath|null]
      */
     protected function downloadArticleImages(string $content, int $articleId): array

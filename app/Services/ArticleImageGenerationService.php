@@ -328,7 +328,7 @@ class ArticleImageGenerationService
         int $index,
         string $extension
     ): string {
-        $dir = public_path("article/{$articleId}");
+        $dir = public_path("uploads/articles/{$articleId}");
         if (!is_dir($dir)) {
             mkdir($dir, 0755, true);
         }
@@ -343,7 +343,7 @@ class ArticleImageGenerationService
 
         file_put_contents("{$dir}/{$filename}", $binary);
 
-        return "/article/{$articleId}/{$filename}";
+        return "/uploads/articles/{$articleId}/{$filename}";
     }
 
     private function buildImageTag(array $asset, string $variant): string
