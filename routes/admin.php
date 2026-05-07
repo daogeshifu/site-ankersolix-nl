@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Paypal\PayPalController;
+use App\Http\Controllers\Admin\ArticleTaskController;
 use Illuminate\Support\Facades\Route;
 
 // 后台管理（需要认证）
@@ -47,5 +48,16 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         Route::get('/edit/{id}', [TagController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [TagController::class, 'update'])->name('update');
         Route::get('/destroy/{id}', [TagController::class, 'destroy'])->name('destroy');
+    });
+
+        // 文章任务管理
+    Route::prefix('article-task')->name('article_task.')->group(function () {
+        Route::get('/', [ArticleTaskController::class, 'index'])->name('index');
+        Route::get('/create', [ArticleTaskController::class, 'create'])->name('create');
+        Route::post('/store', [ArticleTaskController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [ArticleTaskController::class, 'edit'])->name('edit');
+        Route::post('/update/{id}', [ArticleTaskController::class, 'update'])->name('update');
+        Route::get('/destroy/{id}', [ArticleTaskController::class, 'destroy'])->name('destroy');
+        Route::get('/retry/{id}', [ArticleTaskController::class, 'retry'])->name('retry');
     });
 });

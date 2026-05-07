@@ -1,30 +1,35 @@
 @php
     $locale     = app()->getLocale();
-    $isZh       = $locale === 'zh';
+    $isNl       = $locale === 'nl';
     $currentUrl = request()->url();
 
     $sectionMap = [
-        'news'   => ['en' => 'News',   'zh' => '新闻', 'route' => 'news'],
-        'guides' => ['en' => 'Guides', 'zh' => '指南', 'route' => 'guides'],
-        'cases'  => ['en' => 'Cases',  'zh' => '案例', 'route' => 'cases'],
+        'news'          => ['en' => 'News', 'nl' => 'Nieuws', 'route' => 'news'],
+        'guides'        => ['en' => 'Guides', 'nl' => 'Gidsen', 'route' => 'guides'],
+        'cases'         => ['en' => 'Cases', 'nl' => 'Cases', 'route' => 'cases'],
+        'buying-guide'  => ['en' => 'Buying Guide', 'nl' => 'Aankoopgids', 'route' => 'buying-guide'],
+        'installation'  => ['en' => 'Installation', 'nl' => 'Installatie en configuratie', 'route' => 'installation'],
+        'subsidy'       => ['en' => 'Subsidy', 'nl' => 'Subsidies en beleid', 'route' => 'subsidy'],
+        'energy-saving' => ['en' => 'Energy Saving', 'nl' => 'Elektriciteitsprijzen en bespaartips', 'route' => 'energy-saving'],
+        'reviews'       => ['en' => 'Reviews', 'nl' => 'Cases en reviews', 'route' => 'reviews'],
     ];
     $section         = $sectionMap[$sectionKey] ?? $sectionMap['news'];
-    $categoryName    = $isZh ? $section['zh'] : $section['en'];
+    $categoryName    = $isNl ? $section['nl'] : $section['en'];
     $categoryUrl     = route($section['route']);
 
-    $authorName   = $article->author ?? ($isZh ? '管理员' : 'Admin');
+    $authorName   = $article->author ?? 'Admin';
     $authorBio    = $article->author_bio ?? '';
     $headline     = $article->seo_title ?? $article->title;
     $description  = $article->seo_description ?? $article->summary ?? $article->title;
     $coverAbsUrl  = $article->cover ? url(\Illuminate\Support\Facades\Storage::url($article->cover)) : '';
     $publishedAt  = $article->created_at->format('Y-m-d\TH:i:s+08:00');
     $modifiedAt   = $article->updated_at->format('Y-m-d\TH:i:s+08:00');
-    $inLanguage   = $isZh ? 'zh-CN' : 'en-GB';
-    $homeName     = $isZh ? '首页' : 'Home';
+    $inLanguage   = $isNl ? 'nl-NL' : 'en-GB';
+    $homeName     = $isNl ? 'Home' : 'Home';
     $logoUrl      = asset('logo.png');
 
-    $orgDescription = $isZh
-        ? 'bestenthuisbatterij.nl 专注于家用电池与家庭储能内容，提供选购建议、安装知识、补贴政策与节能实践，帮助家庭更高效地管理电力成本。'
+    $orgDescription = $isNl
+        ? 'bestenthuisbatterij.nl is een informatiebron over thuisbatterijen en residentiele energieopslag, met praktische aankoopgidsen, installatieadvies, subsidie-updates en bespaartips voor huishoudens.'
         : 'bestenthuisbatterij.nl is a home battery and residential energy storage resource with practical buying guides, installation advice, subsidy updates, and smart energy-saving tips for households.';
 @endphp
 

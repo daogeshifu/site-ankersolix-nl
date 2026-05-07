@@ -1,4 +1,4 @@
-@extends('layouts.stitch.master')
+1@extends('layouts.stitch.master')
 
 @section('title', $currentCategory->name . ' - ' . __('article.blog_title'))
 @section('description', $currentCategory->name . ' ' . ($currentCategory->seo_description ?? __('article.seo_description')))

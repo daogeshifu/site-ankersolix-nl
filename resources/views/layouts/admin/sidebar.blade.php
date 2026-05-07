@@ -51,6 +51,13 @@
                     </li>
 
                     <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title link-nav" href="{{ route('admin.article_task.index') }}">
+                            <i class="fas fa-user m-2"></i>
+                            <span>文章任务</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav" href="{{ route('admin.article.index') }}">
                             <i class="fas fa-file-alt m-2"></i>
                             <span>文章列表</span>

@@ -39,6 +39,8 @@ class Article extends Model implements TranslatableContract
         'author',
         'author_bio',
         'cover',
+        'ai_cover',
+        'images_processed',
         'title',
         'content'
     ];
@@ -50,6 +52,7 @@ class Article extends Model implements TranslatableContract
     protected $casts = [
         'view_count' => 'integer',
         'read_count' => 'integer',
+        'images_processed' => 'boolean',
         'last_viewed_at' => 'datetime',
         'last_read_at' => 'datetime',
     ];

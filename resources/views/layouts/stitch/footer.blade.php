@@ -47,7 +47,7 @@
 
     <!-- Bottom Bar -->
     <div class="max-w-[1280px] mx-auto mt-12 pt-8 border-t border-gray-100 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-400">
-        <p>&copy; {{ date('Y') }} {{ __('home.super') }}. All rights reserved.</p>
+        <p>&copy; {{ date('Y') }} {{ __('home.super') }}. Alle rechten voorbehouden.</p>
         <div class="flex gap-6">
             <a class="hover:text-primary transition-colors" href="{{ route('policy') }}">{{ __('privacy-policy.privacy_policy_title') }}</a>
             <a class="hover:text-primary transition-colors" href="{{ route('terms') }}">{{ __('terms-of-service.terms_title') }}</a>

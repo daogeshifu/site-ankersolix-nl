@@ -17,6 +17,8 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use App\Http\Controllers\Front\NewsController;
 use App\Http\Controllers\Front\CasesController;
 use App\Http\Controllers\Front\GuidesController;
+use App\Http\Controllers\Front\NewController;
+
 
 
 // ===============================================
@@ -94,6 +96,40 @@ Route::group([
         Route::prefix('cases')->group(function () {
             Route::get('{link}.html', [CasesController::class, 'detail'])->name('cases.detail.show');
         });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | New article sections
+        |--------------------------------------------------------------------------
+        */
+
+        $newSections = [
+            'buying-guide' => ['path' => 'aankoopgids', 'name' => 'buying-guide'],
+            'installation' => ['path' => 'installatie-configuratie', 'name' => 'installation'],
+            'subsidy' => ['path' => 'subsidies-beleid', 'name' => 'subsidy'],
+            'energy-saving' => ['path' => 'elektriciteitsprijzen-besparen', 'name' => 'energy-saving'],
+            'reviews' => ['path' => 'cases-reviews', 'name' => 'reviews'],
+        ];
+
+        foreach ($newSections as $section => $route) {
+            Route::get('/' . $route['path'], [NewController::class, 'index'])
+                ->defaults('section', $section)
+                ->name($route['name']);
+
+            Route::get('/' . $route['path'] . '/page/{page}', [NewController::class, 'page'])
+                ->defaults('section', $section)
+                ->whereNumber('page')
+                ->name($route['name'] . '.page');
+
+            Route::prefix($route['path'])
+                ->name($route['name'] . '.')
+                ->group(function () use ($section) {
+                    Route::get('{link}.html', [NewController::class, 'detail'])
+                        ->defaults('section', $section)
+                        ->name('detail.show');
+                });
+        }
 
         // 博客/文章相关
         // 注意：更具体的路由要放在前面，避免被通配路由捕获

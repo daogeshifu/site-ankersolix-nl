@@ -19,14 +19,20 @@
         <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center gap-8">
             <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('index') ? 'text-primary' : '' }}" href="{{ route('index') }}">{{ __('menu.home') }}</a>
-            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('news') }}">News</a>
-            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('guides') }}">Guides</a>
-            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('cases') }}">Cases</a>
+            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('buying-guide*') ? 'text-primary' : '' }}" href="{{ route('buying-guide') }}">Aankoopgids</a>
+            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('installation*') ? 'text-primary' : '' }}" href="{{ route('installation') }}">Installatie en Configuratie</a>
+            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('subsidy*') ? 'text-primary' : '' }}" href="{{ route('subsidy') }}">Subsidies en Beleid</a>
+            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('energy-saving*') ? 'text-primary' : '' }}" href="{{ route('energy-saving') }}">Elektriciteitsprijzen en Bespaartips</a>
+            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('reviews*') ? 'text-primary' : '' }}" href="{{ route('reviews') }}">Cases en Reviews</a>
+
+{{--            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('news') }}">News</a>--}}
+{{--            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('guides') }}">Guides</a>--}}
+{{--            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('cases') }}">Cases</a>--}}
 {{--            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('articles') }}">Free GEO Tools	</a>--}}
 {{--            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('articles') }}">Platforms</a>--}}
 {{--            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('articles') }}">Industry Index</a>--}}
-            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('about') ? 'text-primary' : '' }}" href="{{ route('about') }}">{{ __('menu.about') }}</a>
-            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('contact') ? 'text-primary' : '' }}" href="{{ route('contact') }}">{{ __('contact-us.title') }}</a>
+            {{-- <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('about') ? 'text-primary' : '' }}" href="{{ route('about') }}">{{ __('menu.about') }}</a> --}}
+            {{-- <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('contact') ? 'text-primary' : '' }}" href="{{ route('contact') }}">{{ __('contact-us.title') }}</a> --}}
         </nav>
     </div>
 
@@ -43,11 +49,14 @@
         <div class="relative group">
             <button class="flex items-center justify-center rounded-lg h-10 px-3 bg-[#f0f2f4] dark:bg-[#1c2331] text-[#111318] dark:text-white text-sm font-medium">
                 <span class="material-symbols-outlined text-[18px] mr-1">language</span>
-                {{ $currentLocale === 'en' ? 'EN' : '中' }}
+                {{ $currentLocale === 'en' ? 'Nederlands' : 'English' }}
             </button>
             <div class="absolute right-0 mt-2 w-32 bg-white dark:bg-[#1c2331] rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                <a href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 {{ $currentLocale === 'en' ? 'text-primary' : '' }}">English</a>
-                <a href="{{ LaravelLocalization::getLocalizedURL('zh', null, [], true) }}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 {{ in_array($currentLocale, ['zh', 'cn']) ? 'text-primary' : '' }}">中文</a>
+                @if($currentLocale === 'en')
+                    <a href="{{ LaravelLocalization::getLocalizedURL('nl', null, [], true) }}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Nederlands</a>
+                @else
+                    <a href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">English</a>
+                @endif
             </div>
         </div>
 
@@ -84,7 +93,11 @@
 <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-background-dark border-b border-gray-200 dark:border-gray-800 px-6 py-4">
     <nav class="flex flex-col gap-4">
         <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="{{ route('index') }}">{{ __('menu.home') }}</a>
-        <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="{{ route('articles') }}">{{ __('menu.insights') }}</a>
+        <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="{{ route('buying-guide') }}">Aankoopgids</a>
+        <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="{{ route('installation') }}">Installatie en Configuratie</a>
+        <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="{{ route('subsidy') }}">Subsidies en Beleid</a>
+        <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="{{ route('energy-saving') }}">Elektriciteitsprijzen en Bespaartips</a>
+        <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="{{ route('reviews') }}">Cases en Reviews</a>
         <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="{{ route('about') }}">{{ __('menu.about') }}</a>
         <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="{{ route('contact') }}">{{ __('contact-us.title') }}</a>
         <!-- Mobile Search -->

@@ -10,7 +10,7 @@
                 </div>
                 <div class="mt-4">
                     <a href="{{ route('user_admin.user_info') }}" class="btn bg-primary" style="color:#fff;">查看个人资料</a>
-                    <a href="{{ route('aigc.blog') }}" class="btn btn-outline-primary ms-2">浏览博客文章</a>
+                    <a href="{{ route('articles') }}" class="btn btn-outline-primary ms-2">浏览博客文章</a>
                 </div>
             </section>
         </div>

@@ -170,7 +170,7 @@
             <nav class="flex items-center gap-2 text-sm">
                 <a href="{{ route('index') }}" class="text-[#616f89] hover:text-primary transition-colors">{{ __('article.home') }}</a>
                 <span class="material-symbols-outlined text-[16px] text-gray-400">chevron_right</span>
-                <a href="{{ route('news') }}" class="text-[#616f89] hover:text-primary transition-colors">News</a>
+                <a href="{{ route('news') }}" class="text-[#616f89] hover:text-primary transition-colors">{{ __('article.newsroom') }}</a>
                 <span class="material-symbols-outlined text-[16px] text-gray-400">chevron_right</span>
                 <span class="text-[#111318] dark:text-white font-medium truncate max-w-[200px]">{{ $article->title }}</span>
             </nav>

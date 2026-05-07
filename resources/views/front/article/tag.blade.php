@@ -56,18 +56,18 @@
       <div class="bg-body-tertiary rounded overflow-hidden">
         <div class="row row-cols-1 row-cols-sm-2 g-0">
           <div class="col position-relative" style="min-height: 220px">
-            <a class="hover-effect-scale position-absolute top-0 start-0 w-100 h-100 overflow-hidden" href="{{ route('aigc.blog.detail.show', [$topArticle->category->name, $topArticle->link]) }}">
+            <a class="hover-effect-scale position-absolute top-0 start-0 w-100 h-100 overflow-hidden" href="{{ route('article.detail.show', [$topArticle->category->name, $topArticle->link]) }}">
               <img src="{{ asset('storage/' . $topArticle->cover) }}" class="hover-effect-target position-absolute top-0 start-0 w-100 h-100 object-fit-cover" alt="{{ __('article.author_image') }}">
             </a>
           </div>
           <div class="col p-4 p-md-5">
             <div class="p-sm-2 p-md-0 p-lg-2 p-xl-4 p-xxl-5">
               <div class="nav mb-3">
-                <a class="nav-link fs-xs text-uppercase p-0" href="{{ route('aigc.blog.show', $topArticle->category->name) }}">{{ $topArticle->category->name }}</a>
+                <a class="nav-link fs-xs text-uppercase p-0" href="{{ route('article.category2', $topArticle->category->name) }}">{{ $topArticle->category->name }}</a>
               </div>
               <h1>{{ $topArticle->title }}</h1>
               <p class="pb-sm-1 pb-md-2 pb-lg-3 pb-xl-0 mb-4 mb-xl-5">{{ $topArticle->excerpt }}</p>
-              <a class="btn btn-lg btn-dark" href="{{ route('aigc.blog.detail.show', [$topArticle->category->name, $topArticle->link]) }}">{{ __('article.read_more') }}</a>
+              <a class="btn btn-lg btn-dark" href="{{ route('article.detail.show', [$topArticle->category->name, $topArticle->link]) }}">{{ __('article.read_more') }}</a>
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@
           <ul class="nav nav-pills gap-2 d-none d-md-flex">
 
             <li class="nav-item me-1">
-              <a class="nav-link" aria-current="page" href="{{ route('aigc.blog') }}">{{ __('article.all_categories') }}</a>
+              <a class="nav-link" aria-current="page" href="{{ route('articles') }}">{{ __('article.all_categories') }}</a>
             </li>
             @foreach($categories as $category)  
               <li class="nav-item me-1">
@@ -112,7 +112,7 @@
           @foreach($articles as $article)
             <article class="col mb-xl-2">
               <a class="ratio d-flex hover-effect-scale rounded overflow-hidden mb-3 mb-sm-4"
-                href="{{ route('aigc.blog.detail.show', [$article->category->name, $article->link]) }}"
+                href="{{ route('article.detail.show', [$article->category->name, $article->link]) }}"
                 style="--fn-aspect-ratio: calc(300 / 416 * 100%)">
                 <img src="{{ asset('storage/' . $article->cover) }}" class="hover-effect-target" alt="{{ __('article.author_image') }}">
               </a>
@@ -120,7 +120,7 @@
                 <a class="nav-link text-body-secondary fs-xs text-uppercase p-0" href="#!">{{ $article->category->name }}</a>
               </div>
               <h3 class="h5 mb-2">
-                <a class="hover-effect-underline" href="{{ route('aigc.blog.detail.show', [$article->category->name, $article->link]) }}">
+                <a class="hover-effect-underline" href="{{ route('article.detail.show', [$article->category->name, $article->link]) }}">
                   {{ $article->title }}
                 </a>
               </h3>

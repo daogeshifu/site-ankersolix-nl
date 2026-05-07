@@ -44,8 +44,8 @@ class LanguageController extends Controller
             }
 
             // Build new URL with new locale prefix
-            // If locale is the default locale (en), don't add prefix due to hideDefaultLocaleInURL setting
-            if ($locale === config('laravellocalization.defaultLocale', 'en')) {
+            // If locale is the default locale, don't add prefix due to hideDefaultLocaleInURL setting.
+            if ($locale === config('laravellocalization.defaultLocale', 'nl')) {
                 $newUrl = $path;
             } else {
                 $newUrl = '/' . $locale . $path;

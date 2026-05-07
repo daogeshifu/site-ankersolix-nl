@@ -68,7 +68,7 @@ class GenerateSitemap extends Command
     {
         $categories = ArticleCategory::all();
         foreach ($categories as $category) {
-            $url = Url::create(route('aigc.blog.category', [$category->name]))
+            $url = Url::create(route('article.category2', [$category->name]))
                 ->setLastModificationDate($category->updated_at)
                 ->setChangeFrequency('weekly')
                 ->setPriority(1.0);
@@ -83,7 +83,7 @@ class GenerateSitemap extends Command
         $i = 0;
         Article::chunk(40000, function ($articles) use ($sitemap,  &$i) {
             foreach ($articles as $article) {
-                $url = Url::create(route('aigc.blog.detail.show',[$article->category->name,$article->link]))
+                $url = Url::create(route('article.detail.show', [$article->category->name, $article->link]))
                 ->setLastModificationDate($article->updated_at)
                     ->setChangeFrequency('weekly')
                     ->setPriority(0.8);
