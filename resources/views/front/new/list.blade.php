@@ -65,7 +65,7 @@
             <!-- Featured Article (Top Article) -->
             @if(!$search && isset($topArticle) && $topArticle)
             <article class="group flex flex-col md:flex-row items-stretch gap-6 bg-white dark:bg-[#1e293b] rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow border border-[#f0f2f4] dark:border-[#334155]">
-                <a href="{{ route($detailRoute, $topArticle->link) }}" class="w-full md:w-72 h-48 bg-cover bg-center rounded-lg flex-shrink-0 block" style="background-image: url('{{ $topArticle->cover ? Storage::url($topArticle->cover) : '/around/picture/0126.jpg' }}');"></a>
+                <a href="{{ route($detailRoute, $topArticle->link) }}" class="w-full md:w-72 h-48 bg-cover bg-center rounded-lg flex-shrink-0 block" style="background-image: url('{{ $topArticle->cover ? $topArticle->cover : '/around/picture/0126.jpg' }}');"></a>
                 <div class="flex flex-col justify-between py-1 flex-1">
 {{--                    <div class="flex flex-col gap-3">--}}
 {{--                        <div class="flex items-center gap-3">--}}
@@ -96,7 +96,7 @@
             <!-- Article List -->
             @forelse($articles as $article)
             <article class="group flex flex-col md:flex-row items-stretch gap-6 bg-white dark:bg-[#1e293b] rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow border border-[#f0f2f4] dark:border-[#334155]">
-                <a href="{{ route($detailRoute, $article->link) }}" class="w-full md:w-72 h-48 bg-cover bg-center rounded-lg flex-shrink-0 block" style="background-image: url('{{ $article->cover ? Storage::url($article->cover) : '/around/picture/0126.jpg' }}');"></a>
+                <a href="{{ route($detailRoute, $article->link) }}" class="w-full md:w-72 h-48 bg-cover bg-center rounded-lg flex-shrink-0 block" style="background-image: url('{{ $article->cover ? $article->cover : '/around/picture/0126.jpg' }}');"></a>
                 <div class="flex flex-col justify-between py-1 flex-1">
                     <div class="flex flex-col gap-3">
                         <div class="flex items-center gap-3">

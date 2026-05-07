@@ -2,9 +2,7 @@
     $ogTitle       = $article->seo_title ?? $article->title;
     $ogDescription = $article->seo_description ?? $article->summary ?? $article->title;
     $ogUrl         = request()->url();
-    $ogImage       = $article->cover
-        ? url(\Illuminate\Support\Facades\Storage::url($article->cover))
-        : asset('logo.png');
+    $ogImage       = $article->cover ?: asset('logo.png');
 @endphp
 
 <meta property="og:type"        content="article">

@@ -97,6 +97,24 @@ Route::group([
             Route::get('{link}.html', [CasesController::class, 'detail'])->name('cases.detail.show');
         });
 
+        Route::get('/article/{article}/{filename}', function (int $article, string $filename) {
+            abort_unless(preg_match('/\.(?:jpe?g|png|webp|gif)$/i', $filename), 404);
+
+            $relativePath = "article/{$article}/{$filename}";
+            $paths = [
+                storage_path("app/public/{$relativePath}"),
+                public_path($relativePath),
+            ];
+
+            foreach ($paths as $path) {
+                if (is_file($path)) {
+                    return response()->file($path);
+                }
+            }
+
+            abort(404);
+        })->whereNumber('article')->where('filename', '[^/]+\.(?:jpe?g|png|webp|gif)');
+
 
         /*
         |--------------------------------------------------------------------------
