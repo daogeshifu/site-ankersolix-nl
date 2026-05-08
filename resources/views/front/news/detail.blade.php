@@ -384,41 +384,41 @@
                     @endif
 
                     <!-- Tag Cloud -->
-                    <div class="bg-white dark:bg-[#1a212f] rounded-xl shadow-lg shadow-black/5 border border-[#f0f2f4] dark:border-white/5 p-6">
-                        <h4 class="font-bold text-[#111318] dark:text-white mb-4 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[20px] text-primary">tag</span>
-                            {{ __('article.tag_cloud') }}
-                        </h4>
-                        <div class="flex flex-wrap gap-2">
-                            @if(isset($tags) && $tags->count() > 0)
-                                @foreach($tags->take(12) as $tag)
-                                    <a href="{{ route('articles', ['tag' => $tag->name]) }}" class="px-3 py-1.5 bg-[#f0f2f4] dark:bg-white/5 rounded-full text-xs font-medium text-[#616f89] dark:text-gray-400 hover:bg-primary hover:text-white transition-all">
-                                        #{{ $tag->name }}
-                                    </a>
-                                @endforeach
-                            @else
-                                {{-- Default tags when no tags available --}}
-                                <a href="{{ route('articles', ['tag' => 'GEO']) }}" class="px-3 py-1.5 bg-primary/10 rounded-full text-xs font-semibold text-primary hover:bg-primary hover:text-white transition-all">
-                                    #GEO
-                                </a>
-                                <a href="{{ route('articles', ['tag' => 'AI']) }}" class="px-3 py-1.5 bg-[#f0f2f4] dark:bg-white/5 rounded-full text-xs font-medium text-[#616f89] dark:text-gray-400 hover:bg-primary hover:text-white transition-all">
-                                    #AI
-                                </a>
-                                <a href="{{ route('articles', ['tag' => 'SEO']) }}" class="px-3 py-1.5 bg-[#f0f2f4] dark:bg-white/5 rounded-full text-xs font-medium text-[#616f89] dark:text-gray-400 hover:bg-primary hover:text-white transition-all">
-                                    #SEO
-                                </a>
-                                <a href="{{ route('articles', ['tag' => 'LLM']) }}" class="px-3 py-1.5 bg-[#f0f2f4] dark:bg-white/5 rounded-full text-xs font-medium text-[#616f89] dark:text-gray-400 hover:bg-primary hover:text-white transition-all">
-                                    #LLM
-                                </a>
-                                <a href="{{ route('articles', ['tag' => 'AIGC']) }}" class="px-3 py-1.5 bg-[#f0f2f4] dark:bg-white/5 rounded-full text-xs font-medium text-[#616f89] dark:text-gray-400 hover:bg-primary hover:text-white transition-all">
-                                    #AIGC
-                                </a>
-                                <a href="{{ route('articles') }}" class="px-3 py-1.5 bg-[#f0f2f4] dark:bg-white/5 rounded-full text-xs font-medium text-[#616f89] dark:text-gray-400 hover:bg-primary hover:text-white transition-all flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-[12px]">more_horiz</span>{{ __('article.view_all') }}
-                                </a>
-                            @endif
-                        </div>
-                    </div>
+{{--                    <div class="bg-white dark:bg-[#1a212f] rounded-xl shadow-lg shadow-black/5 border border-[#f0f2f4] dark:border-white/5 p-6">--}}
+{{--                        <h4 class="font-bold text-[#111318] dark:text-white mb-4 flex items-center gap-2">--}}
+{{--                            <span class="material-symbols-outlined text-[20px] text-primary">tag</span>--}}
+{{--                            {{ __('article.tag_cloud') }}--}}
+{{--                        </h4>--}}
+{{--                        <div class="flex flex-wrap gap-2">--}}
+{{--                            @if(isset($tags) && $tags->count() > 0)--}}
+{{--                                @foreach($tags->take(12) as $tag)--}}
+{{--                                    <a href="{{ route('articles', ['tag' => $tag->name]) }}" class="px-3 py-1.5 bg-[#f0f2f4] dark:bg-white/5 rounded-full text-xs font-medium text-[#616f89] dark:text-gray-400 hover:bg-primary hover:text-white transition-all">--}}
+{{--                                        #{{ $tag->name }}--}}
+{{--                                    </a>--}}
+{{--                                @endforeach--}}
+{{--                            @else--}}
+{{--                                --}}{{-- Default tags when no tags available --}}
+{{--                                <a href="{{ route('articles', ['tag' => 'GEO']) }}" class="px-3 py-1.5 bg-primary/10 rounded-full text-xs font-semibold text-primary hover:bg-primary hover:text-white transition-all">--}}
+{{--                                    #GEO--}}
+{{--                                </a>--}}
+{{--                                <a href="{{ route('articles', ['tag' => 'AI']) }}" class="px-3 py-1.5 bg-[#f0f2f4] dark:bg-white/5 rounded-full text-xs font-medium text-[#616f89] dark:text-gray-400 hover:bg-primary hover:text-white transition-all">--}}
+{{--                                    #AI--}}
+{{--                                </a>--}}
+{{--                                <a href="{{ route('articles', ['tag' => 'SEO']) }}" class="px-3 py-1.5 bg-[#f0f2f4] dark:bg-white/5 rounded-full text-xs font-medium text-[#616f89] dark:text-gray-400 hover:bg-primary hover:text-white transition-all">--}}
+{{--                                    #SEO--}}
+{{--                                </a>--}}
+{{--                                <a href="{{ route('articles', ['tag' => 'LLM']) }}" class="px-3 py-1.5 bg-[#f0f2f4] dark:bg-white/5 rounded-full text-xs font-medium text-[#616f89] dark:text-gray-400 hover:bg-primary hover:text-white transition-all">--}}
+{{--                                    #LLM--}}
+{{--                                </a>--}}
+{{--                                <a href="{{ route('articles', ['tag' => 'AIGC']) }}" class="px-3 py-1.5 bg-[#f0f2f4] dark:bg-white/5 rounded-full text-xs font-medium text-[#616f89] dark:text-gray-400 hover:bg-primary hover:text-white transition-all">--}}
+{{--                                    #AIGC--}}
+{{--                                </a>--}}
+{{--                                <a href="{{ route('articles') }}" class="px-3 py-1.5 bg-[#f0f2f4] dark:bg-white/5 rounded-full text-xs font-medium text-[#616f89] dark:text-gray-400 hover:bg-primary hover:text-white transition-all flex items-center gap-1">--}}
+{{--                                    <span class="material-symbols-outlined text-[12px]">more_horiz</span>{{ __('article.view_all') }}--}}
+{{--                                </a>--}}
+{{--                            @endif--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
                     <!-- Trending Posts -->
                     @if($sidebarArticles && $sidebarArticles->count() > 0)

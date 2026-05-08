@@ -234,6 +234,7 @@ class ProcessArticleTasks extends Command
 
                 // 优先使用接口返回的 cover；如果没有，再回退到正文中的第一张图片。
                 $coverPath = $this->downloadRemoteImage($remoteCover, $article->id);
+
                 [$localContent, $contentCoverPath] = $this->downloadArticleImages($content, $article->id);
                 $updateFields = [];
                 if ($localContent !== $content) {
@@ -252,6 +253,7 @@ class ProcessArticleTasks extends Command
                 if (!empty($updateFields)) {
                     // cover/content already set above
                 }
+
                 $article->save();
 
                 $task->update([
