@@ -80,7 +80,6 @@
                         <p class="text-[#616f89] dark:text-[#94a3b8] text-sm line-clamp-3">
                             {{ Str::limit($topArticle->summary ?? strip_tags($topArticle->content), 200) }}
                         </p>
-
                     </div>
                     <div class="flex items-center justify-between mt-4">
                         <div class="flex items-center gap-2">
@@ -88,9 +87,6 @@
                             <span class="text-xs font-medium">{{ $topArticle->user->name ?? __('article.admin') }}</span>
                             <span class="text-xs text-[#616f89]">&bull; {{ $topArticle->created_at->diffForHumans() }}</span>
                         </div>
-                        <p class="text-[#616f89] dark:text-[#94a3b8] text-sm line-clamp-3">
-                            {{ Str::limit($article->summary ?? strip_tags($article->content), 150) }}
-                        </p>
                         <a href="{{ route('article.detail.show', [$topArticle->category->name ?? 'blog', $topArticle->link]) }}" class="flex items-center gap-1 text-primary text-sm font-bold hover:gap-2 transition-all">
                             {{ __('article.read_more') }} <span class="material-symbols-outlined text-base">arrow_forward</span>
                         </a>
