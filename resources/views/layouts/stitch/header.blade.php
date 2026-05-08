@@ -22,8 +22,16 @@
             <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('buying-guide*') ? 'text-primary' : '' }}" href="{{ route('buying-guide') }}">Aankoopgids</a>
             <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('installation*') ? 'text-primary' : '' }}" href="{{ route('installation') }}">Installatie en Configuratie</a>
             <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('subsidy*') ? 'text-primary' : '' }}" href="{{ route('subsidy') }}">Subsidies en Beleid</a>
-            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('energy-saving*') ? 'text-primary' : '' }}" href="{{ route('energy-saving') }}">Elektriciteitsprijzen en Bespaartips</a>
-            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('reviews*') ? 'text-primary' : '' }}" href="{{ route('reviews') }}">Cases en Reviews</a>
+            <div class="relative group">
+                <button class="flex items-center gap-1 text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('energy-saving*') || request()->routeIs('reviews*') ? 'text-primary' : '' }}" type="button">
+                    Meer
+                    <span class="material-symbols-outlined text-[18px] leading-none">expand_more</span>
+                </button>
+                <div class="absolute left-0 mt-2 w-72 bg-white dark:bg-[#1c2331] rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                    <a class="block px-4 py-2 text-sm text-[#111318] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('energy-saving*') ? 'text-primary' : '' }}" href="{{ route('energy-saving') }}">Elektriciteitsprijzen en Bespaartips</a>
+                    <a class="block px-4 py-2 text-sm text-[#111318] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('reviews*') ? 'text-primary' : '' }}" href="{{ route('reviews') }}">Cases en Reviews</a>
+                </div>
+            </div>
 
 {{--            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('news') }}">News</a>--}}
 {{--            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('articles') ? 'text-primary' : '' }}" href="{{ route('guides') }}">Guides</a>--}}
