@@ -28,7 +28,7 @@ class Article extends Model implements TranslatableContract
 
     /**
      * Keep the original fillable fields that aren't translatable
-     * title 和 content 在主表中冗余存储英文版本
+     * title 和 content 在主表中冗余存储荷兰语版本
      * @var array
      */
     protected $fillable = [
@@ -89,7 +89,7 @@ class Article extends Model implements TranslatableContract
      * 创建多语言文章
      *
      * @param array $data 文章数据
-     * @param string $lang 语言代码 (en, zh, fr)
+     * @param string $lang 语言代码 (nl, en)
      * @return self
      * @throws \Exception
      */
@@ -115,9 +115,9 @@ class Article extends Model implements TranslatableContract
         $translation->seo_keywords = $data['seo_keywords'] ?? null;
         $translation->save();
 
-        // 如果是英文版本，同时更新主表的 title 和 content（冗余存储）
+        // 如果是荷兰语版本，同时更新主表的 title 和 content（冗余存储）
         // 注意：不能用 $article->title = ... ，Translatable 会代理到当前 locale 的翻译行
-        if ($lang === 'en') {
+        if ($lang === 'nl') {
             self::where('id', $article->id)->update([
                 'title' => $data['title'],
                 'content' => $data['content'],
@@ -133,15 +133,14 @@ class Article extends Model implements TranslatableContract
      * @param array $data 文章主数据（title/content/summary等字段）
      * @param array $locales 要创建的语言列表，格式：
      *                       [
+     *                          'nl' => ['title' => '荷兰语标题', ...],
      *                          'en' => ['title' => '英文标题', ...],
-     *                          'zh' => ['title' => '中文标题', ...],
-     *                          'fr' => [] // 未提供字段时用主表默认
      *                       ]
-     *                       如果是索引数组 ['en', 'zh']，则使用主表 title/content 填充
+     *                       如果是索引数组 ['nl', 'en']，则使用主表 title/content 填充
      * @return self
      * @throws \Exception
      */
-    public static function createWithTranslations(array $data, array $locales = ['en', 'zh', 'fr']): self
+    public static function createWithTranslations(array $data, array $locales = ['nl', 'en']): self
     {
         // 保证主表 title/content 有值
         $defaultTitle = $data['title'] ?? '';
@@ -218,9 +217,9 @@ class Article extends Model implements TranslatableContract
 
         $translation->save();
 
-        // 如果是英文版本，同时更新主表的 title 和 content（冗余存储）
+        // 如果是荷兰语版本，同时更新主表的 title 和 content（冗余存储）
         // 注意：不能用 $this->title = ... ，Translatable 会代理到当前 locale 的翻译行
-        if ($lang === 'en') {
+        if ($lang === 'nl') {
             $updates = [];
             if (isset($data['title'])) {
                 $updates['title'] = $data['title'];

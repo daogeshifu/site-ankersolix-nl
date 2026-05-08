@@ -125,8 +125,13 @@
 
 @section('content')
 @php
-    $locales = config('app.locales', ['en' => 'English', 'zh' => '中文', 'fr' => 'Français']);
-    $lang = request('lang', app()->getLocale());
+    $locales = [
+        'nl' => 'Nederlands',
+        'en' => 'English',
+    ];
+    $lang = array_key_exists(request('lang', app()->getLocale()), $locales)
+        ? request('lang', app()->getLocale())
+        : 'nl';
     $translation = $article->translate($lang);
 @endphp
 
@@ -201,7 +206,7 @@
                                 </div>
 
                                 {{-- 链接（仅主语言） --}}
-                                @if($lang === 'en')
+                                @if($lang === 'nl')
                                 <div class="mb-3">
                                     <label class="form-label">搜索关键词 / 链接<span class="required-star">*</span></label>
                                     <input class="form-control @error('link') is-invalid @enderror"
@@ -258,7 +263,7 @@
                                 @endif
 
                                 {{-- 分类（仅主语言） --}}
-                                @if($lang === 'en')
+                                @if($lang === 'nl')
                                 <div class="mb-3">
                                     <label class="form-label">文章分类<span class="required-star">*</span></label>
                                     <select class="form-select @error('category_id') is-invalid @enderror"
@@ -360,7 +365,7 @@
                             </div>
 
                             {{-- 封面上传（仅主语言） --}}
-                            @if($lang === 'en')
+                            @if($lang === 'nl')
                             <div class="lang-section">
                                 <h5><i class="fa fa-image me-2"></i>封面图片 <small class="text-muted">(可选)</small></h5>
 

@@ -66,7 +66,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * 保存新文章 (只保存英文版,其他语言由定时任务翻译)
+     * 保存新文章 (只保存荷兰语版,英语由定时任务翻译)
      */
     public function store(Request $request)
     {
@@ -104,9 +104,9 @@ class ArticleController extends Controller
                 'content' => $validated['content'],
             ];
 
-            // 只创建英文版本的翻译
+            // 只创建荷兰语版本的翻译
             $translations = [
-                'en' => [
+                'nl' => [
                     'title' => $validated['title'],
                     'content' => $validated['content'],
                     'summary' => $validated['summary'] ?? null,
@@ -129,7 +129,7 @@ class ArticleController extends Controller
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json([
                     'success' => true,
-                    'message' => '文章创建成功，其他语言版本将通过定时任务自动翻译',
+                    'message' => '文章创建成功，英语版本将通过定时任务自动翻译',
                     'data' => [
                         'article_id' => $article->id,
                         'redirect_url' => route('admin.article.index')
@@ -138,7 +138,7 @@ class ArticleController extends Controller
             }
 
             return redirect()->route('admin.article.index')
-                ->with('success', '文章创建成功，其他语言版本将通过定时任务自动翻译');
+                ->with('success', '文章创建成功，英语版本将通过定时任务自动翻译');
         } catch (\Illuminate\Validation\ValidationException $e) {
             DB::rollBack();
 
@@ -196,7 +196,9 @@ class ArticleController extends Controller
     public function update(Request $request)
     {
         $id = $request->id;
-        $lang = $request->input('lang');
+        $lang = in_array($request->input('lang'), ['nl', 'en'], true)
+            ? $request->input('lang')
+            : 'nl';
 
         $rules = [
             'title' => 'required|string|max:255',
@@ -204,8 +206,8 @@ class ArticleController extends Controller
             'summary' => 'nullable|string|max:500',
         ];
 
-        // link / category_id / cover / tags / keywords / author / author_bio 仅在英文模式下提交和校验
-        if ($lang === 'en') {
+        // link / category_id / cover / tags / keywords / author / author_bio 仅在荷兰语主语言模式下提交和校验
+        if ($lang === 'nl') {
             $rules['link'] = 'required|string|unique:articles,link,' . $id;
             $rules['category_id'] = 'required|exists:article_categorys,id';
             $rules['cover'] = 'nullable|string';
@@ -222,8 +224,8 @@ class ArticleController extends Controller
 
         DB::beginTransaction();
         try {
-            // 主表字段仅在英文模式下更新
-            if ($lang === 'en') {
+            // 主表字段仅在荷兰语主语言模式下更新
+            if ($lang === 'nl') {
                 $article->update([
                     'link' => $validated['link'],
                     'category_id' => $validated['category_id'],
