@@ -34,7 +34,7 @@ return new class extends Migration
 
             // 写作语言
             $table->string('writer_language')
-                ->default('English')
+                ->default('Dutch')
                 ->comment('远程生成语言');
 
             // 补充信息

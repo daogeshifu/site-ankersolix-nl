@@ -48,7 +48,7 @@ return [
     'article_task_password'            => env('ARTICLE_TASK_PASSWORD', ''),
     'article_task_project_id'          => env('ARTICLE_TASK_PROJECT_ID', 0),
     'article_task_default_category'    => env('ARTICLE_TASK_DEFAULT_CATEGORY', 'seo'),
-    'article_task_default_language'    => env('ARTICLE_TASK_DEFAULT_LANGUAGE', 'English'),
+    'article_task_default_language'    => env('ARTICLE_TASK_DEFAULT_LANGUAGE', 'Dutch'),
     'article_task_default_force_refresh' => (bool) env('ARTICLE_TASK_DEFAULT_FORCE_REFRESH', false),
     'article_task_default_include_cover' => (bool) env('ARTICLE_TASK_DEFAULT_INCLUDE_COVER', true),
     'article_task_default_image_count'   => (int) env('ARTICLE_TASK_DEFAULT_IMAGE_COUNT', 3),

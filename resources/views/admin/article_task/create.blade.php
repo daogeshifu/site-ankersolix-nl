@@ -94,12 +94,12 @@
                                        name="writer_language"
                                        class="task-form-control @error('writer_language') is-invalid @enderror"
                                        value="{{ old('writer_language', $defaultAttributes['writer_language']) }}"
-                                       placeholder="例如：English"
+                                       placeholder="例如：Dutch"
                                        required>
                                 @error('writer_language')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
-                                <div class="task-hint">直接映射远程 API 的 `language` 参数，默认 English。</div>
+                                <div class="task-hint">直接映射远程 API 的 `language` 参数，默认 Dutch。</div>
                             </div>
                             <div class="col-md-6">
                                 <label class="task-form-label">正文配图数量</label>
@@ -139,6 +139,18 @@
                                 @enderror
                                 <div class="task-hint">对应远程 API 的 `info`，可补充结构要求、目标场景、语气或强调点。</div>
                             </div>
+                        </div>
+
+                        <div class="mb-4 mt-4">
+                            <label class="task-form-label">AI 问答内容</label>
+                            <textarea name="ai_qa_content"
+                                      rows="7"
+                                      class="task-form-textarea @error('ai_qa_content') is-invalid @enderror"
+                                      placeholder="填写 AI answer summary for this keyword, if available.">{{ old('ai_qa_content') }}</textarea>
+                            @error('ai_qa_content')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                            <div class="task-hint">提交远程生成时会写入 `task_context.ai_qa_content`，批量创建时每个关键词任务共用这段内容。</div>
                         </div>
 
                         <div class="row g-4 mt-1">

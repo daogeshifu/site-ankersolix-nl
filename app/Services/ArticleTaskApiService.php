@@ -180,7 +180,7 @@ class ArticleTaskApiService
 
     protected function buildCreatePayload(ArticleTask $task): array
     {
-        return [
+        $payload = [
             'category'            => $task->writer_category ?: config('services.article_task_default_category', ArticleTask::DEFAULT_WRITER_CATEGORY),
             'keyword'            => trim((string) $task->keyword),
             'info'                => (string) ($task->info ?? ''),
@@ -190,6 +190,14 @@ class ArticleTaskApiService
             'include_cover'       => $task->include_cover ? 1 : 0,
             'content_image_count' => max(0, min(3, (int) $task->content_image_count)),
         ];
+
+        if (filled($task->ai_qa_content)) {
+            $payload['task_context'] = [
+                'ai_qa_content' => trim((string) $task->ai_qa_content),
+            ];
+        }
+
+        return $payload;
     }
 
     protected function parseResponse($response, string $action, string $url): array

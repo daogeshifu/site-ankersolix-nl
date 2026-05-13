@@ -124,6 +124,18 @@
                             </div>
                         </div>
 
+                        <div class="mb-4 mt-4">
+                            <label class="task-form-label">AI 问答内容</label>
+                            <textarea name="ai_qa_content"
+                                      rows="7"
+                                      class="task-form-textarea @error('ai_qa_content') is-invalid @enderror"
+                                      placeholder="填写 AI answer summary for this keyword, if available.">{{ old('ai_qa_content', $task->ai_qa_content) }}</textarea>
+                            @error('ai_qa_content')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                            <div class="task-hint">下一次提交远程生成时会写入 `task_context.ai_qa_content`。</div>
+                        </div>
+
                         <div class="row g-4 mt-1">
                             <div class="col-md-6">
                                 <div class="task-switch">

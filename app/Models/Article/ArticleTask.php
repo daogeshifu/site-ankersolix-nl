@@ -23,6 +23,7 @@ class ArticleTask extends Model
         'writer_language',
         'info',
         'brand_info',
+        'ai_qa_content',
         'force_refresh',
         'include_cover',
         'content_image_count',
@@ -61,7 +62,7 @@ class ArticleTask extends Model
     const STATUS_FAILED    = -1; // 失败
 
     const DEFAULT_WRITER_CATEGORY = 'seo';
-    const DEFAULT_WRITER_LANGUAGE = 'Netherlands';
+    const DEFAULT_WRITER_LANGUAGE = 'Dutch';
     const DEFAULT_INCLUDE_COVER = true;
     const DEFAULT_CONTENT_IMAGE_COUNT = 3;
 

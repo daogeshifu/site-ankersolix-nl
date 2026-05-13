@@ -295,7 +295,7 @@
                                 <div class="task-keyword">{{ $task->keyword }}</div>
                                 <div class="d-flex flex-wrap gap-2 mb-2">
                                     <span class="task-badge" style="background:#e8f0ff;color:#2563eb;">{{ $writerCategoryOptions[$task->writer_category] ?? strtoupper($task->writer_category ?? 'SEO') }}</span>
-                                    <span class="task-badge" style="background:#e6f4f1;color:#0f766e;">{{ $task->writer_language ?: 'English' }}</span>
+                                    <span class="task-badge" style="background:#e6f4f1;color:#0f766e;">{{ $task->writer_language ?: 'Dutch' }}</span>
                                     <span class="task-badge" style="background:{{ $statusTheme['bg'] }};color:{{ $statusTheme['color'] }};">{{ $task->status_label }}</span>
                                 </div>
                                 <div class="task-meta">
