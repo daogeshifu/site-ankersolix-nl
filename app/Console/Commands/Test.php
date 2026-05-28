@@ -15,6 +15,9 @@ class Test extends Command
      */
     protected $signature = 'app:test';
 
+
+    
+
     /**
      * The console command description.
      *
