@@ -476,9 +476,23 @@
                         });
         
                         // 错误回调
-                        this.on("error", function(file, message) {
-                            let errorMessage = typeof message === 'string' ? message : message.message;
-                            alert("Upload failed: " + errorMessage);
+                        this.on("error", function(file, message, xhr) {
+                            let errorMessage = 'Upload failed';
+
+                            if (xhr && xhr.responseText) {
+                                try {
+                                    const res = JSON.parse(xhr.responseText);
+                                    errorMessage = res.msg || res.message || errorMessage;
+                                } catch (e) {
+                                    errorMessage = xhr.responseText;
+                                }
+                            } else if (typeof message === 'string') {
+                                errorMessage = message;
+                            } else if (message && typeof message === 'object') {
+                                errorMessage = message.msg || message.message || errorMessage;
+                            }
+
+                            alert(errorMessage);
                             this.removeFile(file); // 移除上传失败的文件卡片
                         });
                     }
@@ -563,7 +577,7 @@
                     // 移动光标到图片后面
                     editor8.setSelection(range.index + 1);
                 } else {
-                    alert('图片上传失败: ' + (data.message || '未知错误'));
+                    alert('图片上传失败: ' + (data.msg || data.message || '未知错误'));
                 }
             } catch (error) {
                 console.error('Upload error:', error);

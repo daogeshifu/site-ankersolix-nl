@@ -419,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 移动光标到图片后面
                 quill.setSelection(range.index + 1);
             } else {
-                alert('图片上传失败: ' + (data.message || '未知错误'));
+                alert('图片上传失败: ' + (data.msg || data.message || '未知错误'));
             }
         } catch (error) {
             console.error('Upload error:', error);

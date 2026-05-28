@@ -305,6 +305,7 @@ class ArticleController extends Controller
                 'file' => 'required|image|mimes:jpeg,jpg,png,gif|max:5120', // 最大5MB
             ], [
                 'file.required' => '请选择要上传的文件',
+                'file.uploaded' => '图片上传失败，文件可能超过服务器上传限制',
                 'file.image' => '文件必须是图片格式',
                 'file.mimes' => '只支持 jpeg、jpg、png、gif 格式的图片',
                 'file.max' => '图片大小不能超过5MB',
