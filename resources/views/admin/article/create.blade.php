@@ -209,7 +209,7 @@
                                     <div class="dz-message needsclick text-center">
                                         <i class="fa fa-cloud-upload" style="font-size: 48px; color: #007bff;"></i>
                                         <h6 class="mt-3">Drop image here or click to upload</h6>
-                                        <span class="text-muted">Maximum file size: 5MB</span>
+                                        <span class="text-muted">Maximum file size: 10MB</span>
                                     </div>
                                 </div>
                                 
@@ -267,7 +267,7 @@
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 },
                 maxFiles: 1,
-                maxFilesize: 5, // MB
+                maxFilesize: 10, // MB
                 acceptedFiles: 'image/*',
                 addRemoveLinks: true,
                 dictRemoveFile: 'Remove Image',

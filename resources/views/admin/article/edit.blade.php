@@ -374,7 +374,7 @@
                                     <div class="dz-message needsclick">
                                         <i class="icon-cloud-up" style="font-size: 48px; color: #007bff;"></i>
                                         <h6 class="mt-3">拖放图片到这里或点击上传</h6>
-                                        <small class="text-muted">支持格式: JPG, PNG, GIF (最大 5MB)</small>
+                                        <small class="text-muted">支持格式: JPG, PNG, GIF, WebP (最大 10MB)</small>
                                     </div>
                                 </div>
 
@@ -447,7 +447,7 @@
                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
                     },
                     maxFiles: 1,
-                    maxFilesize: 5, // MB
+                    maxFilesize: 10, // MB
                     acceptedFiles: 'image/*',
                     addRemoveLinks: true,
                     dictRemoveFile: 'Remove Image',

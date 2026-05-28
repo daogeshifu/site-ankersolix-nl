@@ -301,17 +301,34 @@ class ArticleController extends Controller
     public function upload(Request $request)
     {
         try {
+            $file = $request->file('file');
+
+            if ($file && !$file->isValid()) {
+                $uploadError = [
+                    'error_code' => $file->getError(),
+                    'error_message' => $file->getErrorMessage(),
+                    'upload_max_filesize' => ini_get('upload_max_filesize'),
+                    'post_max_size' => ini_get('post_max_size'),
+                ];
+
+                Log::warning('图片上传临时文件失败', $uploadError);
+
+                return response()->json([
+                    'code' => 500,
+                    'msg' => '图片上传失败：' . $file->getErrorMessage(),
+                    'debug' => $uploadError,
+                ], 422);
+            }
+
             $request->validate([
-                'file' => 'required|image|mimes:jpeg,jpg,png,gif|max:5120', // 最大5MB
+                'file' => 'required|image|mimes:jpeg,jpg,png,gif,webp|max:10240', // 最大10MB
             ], [
                 'file.required' => '请选择要上传的文件',
                 'file.uploaded' => '图片上传失败，文件可能超过服务器上传限制',
                 'file.image' => '文件必须是图片格式',
-                'file.mimes' => '只支持 jpeg、jpg、png、gif 格式的图片',
-                'file.max' => '图片大小不能超过5MB',
+                'file.mimes' => '只支持 jpeg、jpg、png、gif、webp 格式的图片',
+                'file.max' => '图片大小不能超过10MB',
             ]);
-
-            $file = $request->file('file');
 
       
             // 生成唯一文件名
