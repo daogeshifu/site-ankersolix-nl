@@ -229,7 +229,7 @@ class ProcessArticleTasks extends Command
                         'summary'      => $summary,
                         'seo_keywords' => $task->keyword,
                     ],
-                    ['en']  // 先建英文版，其余语言由 translate:articles 定时任务处理
+                    ['nl']  // 先建荷兰文版，其余语言由 translate:articles 定时任务处理
                 );
 
                 // 优先使用接口返回的 cover；如果没有，再回退到正文中的第一张图片。
@@ -239,7 +239,7 @@ class ProcessArticleTasks extends Command
                 $updateFields = [];
                 if ($localContent !== $content) {
                     $updateFields['content'] = $localContent;
-                    $article->translateOrNew('en')->content = $localContent;
+                    $article->translateOrNew('nl')->content = $localContent;
                     $article->content = $localContent;
                 }
                 if (!$coverPath) {
