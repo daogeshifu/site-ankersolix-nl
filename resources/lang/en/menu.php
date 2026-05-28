@@ -11,6 +11,7 @@ return [
     'ai_reduce' => 'AI Reduce',
     'account' => 'Account',
     'insights' => 'Insights',
+    'products' => 'Products',
     'about' => 'About',
     'pricing' => 'Pricing',
     'services' => 'Services',

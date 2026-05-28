@@ -18,7 +18,7 @@ use App\Http\Controllers\Front\NewsController;
 use App\Http\Controllers\Front\CasesController;
 use App\Http\Controllers\Front\GuidesController;
 use App\Http\Controllers\Front\NewController;
-
+use App\Http\Controllers\Front\ProductController as FrontProductController;
 
 
 // ===============================================
@@ -159,6 +159,17 @@ Route::group([
                         ->name('detail.show');
                 });
         }
+
+        // 商品板块
+        Route::get('/products', [FrontProductController::class, 'index'])->name('products.index');
+        Route::get('/products/page/{page}', [FrontProductController::class, 'page'])
+            ->whereNumber('page')
+            ->name('products.page');
+        Route::get('/products/category/{categorySlug}', [FrontProductController::class, 'index'])->name('products.category');
+        Route::get('/products/category/{categorySlug}/page/{page}', [FrontProductController::class, 'categoryPage'])
+            ->whereNumber('page')
+            ->name('products.category.page');
+        Route::get('/products/{slug}.html', [FrontProductController::class, 'show'])->name('products.show');
 
         // 博客/文章相关
         // 注意：更具体的路由要放在前面，避免被通配路由捕获

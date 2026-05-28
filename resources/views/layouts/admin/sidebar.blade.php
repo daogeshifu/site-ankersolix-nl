@@ -65,6 +65,13 @@
                     </li>
 
                     <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title link-nav" href="{{ route('admin.product.index') }}">
+                            <i class="fas fa-box-open m-2"></i>
+                            <span>商品列表</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav" href="{{ route('admin.category.index') }}">
                             <i class="fas fa-folder m-2"></i>
                             <span>分类管理</span>

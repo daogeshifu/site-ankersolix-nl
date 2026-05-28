@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Paypal\PayPalController;
@@ -50,7 +51,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         Route::get('/destroy/{id}', [TagController::class, 'destroy'])->name('destroy');
     });
 
-        // 文章任务管理
+    // 文章任务管理
     Route::prefix('article-task')->name('article_task.')->group(function () {
         Route::get('/', [ArticleTaskController::class, 'index'])->name('index');
         Route::get('/create', [ArticleTaskController::class, 'create'])->name('create');
@@ -59,5 +60,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         Route::post('/update/{id}', [ArticleTaskController::class, 'update'])->name('update');
         Route::get('/destroy/{id}', [ArticleTaskController::class, 'destroy'])->name('destroy');
         Route::get('/retry/{id}', [ArticleTaskController::class, 'retry'])->name('retry');
+    });
+
+    // 商品管理
+    Route::prefix('product')->name('product.')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [ProductController::class, 'update'])->name('update');
     });
 });

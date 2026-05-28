@@ -1,5 +1,33 @@
 # site_bestenthuisbatterij
 
+## Product catalog import
+
+Run the product catalog migration and import the crawled CSV:
+
+```bash
+php artisan migrate
+php artisan products:import /absolute/path/product_crawl_20260525.csv
+```
+
+Useful options:
+
+```bash
+php artisan products:import /absolute/path/product_crawl_20260525.csv --dry-run
+php artisan products:import /absolute/path/product_crawl_20260525.csv --truncate
+php artisan products:import /absolute/path/product_crawl_20260525.csv --limit=20
+```
+
+Frontend routes:
+
+- `/products`
+- `/products/category/{slug}`
+- `/products/{slug}.html`
+
+Admin routes:
+
+- `/admin/product`
+- `/admin/product/edit/{id}`
+
 
 
 ## Getting started

@@ -11,6 +11,7 @@ return [
     'ai_reduce' => 'AI降重',
     'account' => '账户',
     'insights' => '洞察',
+    'products' => '商品',
     'about' => '关于',
     'pricing' => '价格',
     'services' => '服务',
