@@ -13,7 +13,7 @@ class TranslateArticles extends Command
     protected $signature = 'translate:articles
                             {--id= : Translate a specific article ID}
                             {--limit=10 : Number of articles to process per run}
-                            {--method=ai : Translation method: api or ai}
+                            {--method=api : Translation method: api or ai}
                             {--source=nl : Source locale to translate from}';
 
     protected $description = 'Translate articles from the source locale to all supported site locales.';
@@ -68,7 +68,7 @@ class TranslateArticles extends Command
     {
         $articleId = $this->option('id');
         $limit = max(1, (int) $this->option('limit'));
-        $method = (string) ($this->option('method') ?: 'ai');
+        $method = (string) ($this->option('method') ?: 'api');
         $sourceLocale = (string) ($this->option('source') ?: config('app.locale', 'nl'));
         $supportedLocales = $this->supportedLocales();
 
