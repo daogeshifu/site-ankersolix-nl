@@ -20,7 +20,9 @@ class Kernel extends ConsoleKernel
         // 生成sitemap 每天生成一次
         $schedule->command('sitemap:generate')->daily();
         // 翻译文章每天翻译一次
-        $schedule->command('translate:articles --limit=5 --method=api')->daily();
+        $schedule->command('translate:articles --limit=5 --method=api --source=nl')
+            ->daily()
+            ->withoutOverlapping();
 
         $schedule->command('app:process-article-tasks')->everyMinute();
 
