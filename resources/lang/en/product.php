@@ -34,5 +34,7 @@ return [
     'status' => 'Status',
     'specifications' => 'Specificaties',
     'tags' => 'Tags',
+    'faq_title' => 'Veelgestelde vragen over dit product',
+    'faq_subtitle' => 'Snelle antwoorden op vragen die klanten vaak stellen.',
     'related_products' => 'Gerelateerde producten',
 ];

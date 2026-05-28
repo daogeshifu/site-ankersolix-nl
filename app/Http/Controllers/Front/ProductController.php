@@ -83,10 +83,20 @@ class ProductController extends Controller
 
     public function show(string $slug)
     {
-        $product = Product::with(['category', 'detail', 'media', 'variants'])
+        $product = Product::with(['category', 'detail', 'media', 'variants', 'faqs'])
             ->active()
             ->where('slug', $slug)
             ->firstOrFail();
+
+        $currentLocale = app()->getLocale();
+        $productFaqs = $product->faqs->where('locale', $currentLocale);
+        if ($productFaqs->isEmpty() && $currentLocale !== 'nl') {
+            $productFaqs = $product->faqs->where('locale', 'nl');
+        }
+        if ($productFaqs->isEmpty()) {
+            $productFaqs = $product->faqs;
+        }
+        $productFaqs = $productFaqs->take(5)->values();
 
         $relatedProducts = Product::with(['category', 'media'])
             ->active()
@@ -97,6 +107,6 @@ class ProductController extends Controller
             ->limit(4)
             ->get();
 
-        return view('front.products.show', compact('product', 'relatedProducts'));
+        return view('front.products.show', compact('product', 'relatedProducts', 'productFaqs'));
     }
 }

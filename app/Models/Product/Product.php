@@ -83,6 +83,14 @@ class Product extends Model
         return $this->hasMany(ProductMedia::class)->orderBy('sort_order');
     }
 
+    public function faqs()
+    {
+        return $this->hasMany(ProductFaq::class)
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('id');
+    }
+
     public function images()
     {
         return $this->hasMany(ProductMedia::class)->where('type', 'image')->orderBy('sort_order');

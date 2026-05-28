@@ -175,6 +175,30 @@
         </aside>
     </section>
 
+    @if($productFaqs->count())
+        <section class="mt-12">
+            <div class="bg-white dark:bg-[#1e293b] border border-[#e5e7eb] dark:border-[#334155] rounded-lg p-6 md:p-8">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-black">{{ __('product.faq_title') }}</h2>
+                    <p class="text-sm text-[#616f89] dark:text-[#94a3b8] mt-2">{{ __('product.faq_subtitle') }}</p>
+                </div>
+                <div class="space-y-3">
+                    @foreach($productFaqs as $faq)
+                        <details class="group rounded-lg border border-[#e5e7eb] dark:border-[#334155] bg-[#f8fafc] dark:bg-[#111827] p-4" @if($loop->first) open @endif>
+                            <summary class="flex items-start justify-between gap-3 cursor-pointer list-none">
+                                <span class="font-semibold text-[#111318] dark:text-white">{{ $faq->question }}</span>
+                                <span class="material-symbols-outlined text-[#616f89] transition-transform duration-200 group-open:rotate-45">add</span>
+                            </summary>
+                            <div class="pt-3 text-[#475569] dark:text-[#cbd5e1] leading-relaxed">
+                                {{ $faq->answer }}
+                            </div>
+                        </details>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
     @if($relatedProducts->count())
         <section class="mt-12">
             <h2 class="text-2xl font-black mb-6">{{ __('product.related_products') }}</h2>

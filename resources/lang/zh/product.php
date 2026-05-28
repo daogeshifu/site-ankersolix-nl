@@ -34,5 +34,7 @@ return [
     'status' => '状态',
     'specifications' => '规格',
     'tags' => '标签',
+    'faq_title' => '关于该产品的常见问题',
+    'faq_subtitle' => '快速查看用户最常问的问题与答案。',
     'related_products' => '相关商品',
 ];
