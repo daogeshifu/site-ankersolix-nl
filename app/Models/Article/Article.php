@@ -93,11 +93,15 @@ class Article extends Model implements TranslatableContract
 
         $cover = ltrim($this->cover, '/');
 
-        if (str_starts_with($cover, 'upload/')) {
-            return asset('storage/' . $cover);
+        if (preg_match('/^https?:\/\//i', $this->cover) || str_starts_with($this->cover, '//')) {
+            return $this->cover;
         }
 
-        return $this->cover;
+        if (str_starts_with($cover, 'uploads/')) {
+            return $this->cover;
+        }
+
+        return asset('storage/' . $cover);
     }
 
     /**

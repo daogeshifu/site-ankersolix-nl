@@ -281,7 +281,7 @@
                             // 1. 将路径存入隐藏 input
                             document.getElementById('cover_path').value = response.data.path;
                             // 2. 显示预览图
-                            document.getElementById('coverImg').src = "{{ asset('storage') }}/" + response.data.path;
+                            document.getElementById('coverImg').src = response.data.url || "{{ asset('storage') }}/" + response.data.path;
                             document.getElementById('coverPreviewWrapper').style.display = 'block';
                             console.log("Upload Success:", response.data.path);
                         }
@@ -413,7 +413,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 获取当前光标位置
                 const range = quill.getSelection(true);
                 // 插入图片
-                const imageUrl = "{{ asset('storage') }}/" + data.data.path;
+                const imageUrl = data.data.url || "{{ asset('storage') }}/" + data.data.path;
                 quill.insertEmbed(range.index, 'image', imageUrl);
 
                 // 移动光标到图片后面
