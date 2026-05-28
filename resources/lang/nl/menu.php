@@ -13,6 +13,12 @@ return [
     'services' => 'Diensten',
     'home' => 'Home',
     'backend' => 'Beheer',
+    'buying_guide' => 'Aankoopgids',
+    'installation' => 'Installatie en Configuratie',
+    'subsidy' => 'Subsidies en Beleid',
+    'more' => 'Meer',
+    'energy_saving' => 'Elektriciteitsprijzen en Bespaartips',
+    'reviews' => 'Cases en Reviews',
     'dropdown' => [
         'services' => [
             'brand_status_analysis' => ['title' => 'Merkanalyse'],

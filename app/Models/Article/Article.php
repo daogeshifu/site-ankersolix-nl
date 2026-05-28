@@ -85,6 +85,21 @@ class Article extends Model implements TranslatableContract
         );
     }
 
+    public function getCoverUrlAttribute(): ?string
+    {
+        if (empty($this->cover)) {
+            return null;
+        }
+
+        $cover = ltrim($this->cover, '/');
+
+        if (str_starts_with($cover, 'upload/')) {
+            return asset('storage/' . $cover);
+        }
+
+        return $this->cover;
+    }
+
     /**
      * 创建多语言文章
      *

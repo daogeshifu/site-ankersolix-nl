@@ -16,6 +16,12 @@ return [
     'services' => 'Services',
     'home' => 'Home',
     'backend' => 'Backend',
+    'buying_guide' => 'Buying Guide',
+    'installation' => 'Installation and Setup',
+    'subsidy' => 'Subsidies and Policy',
+    'more' => 'More',
+    'energy_saving' => 'Electricity Prices and Saving Tips',
+    'reviews' => 'Cases and Reviews',
     'dropdown' => [
         'services' => [
             'brand_status_analysis' => ['title' => 'Brand Status Analysis'],

@@ -51,7 +51,7 @@
                 <!-- Featured Article Card -->
                 <div class="flex flex-col gap-4 group cursor-pointer">
                     <a href="{{ route('article.detail.show', [$article->category->name ?? 'blog', $article->link]) }}" class="relative overflow-hidden rounded-xl aspect-video">
-                        <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="{{ $article->cover ?: '/around/picture/0126.jpg' }}" alt="{{ $article->title }}" loading="lazy">
+                        <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="{{ $article->cover_url ?: '/around/picture/0126.jpg' }}" alt="{{ $article->title }}" loading="lazy">
                         @if($article->category)
                         <div class="absolute top-3 left-3 bg-white/90 dark:bg-black/80 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">{{ $article->category->name }}</div>
                         @endif
@@ -77,7 +77,7 @@
             <div class="space-y-6 pt-6">
                 @foreach($sidebarArticles->take(4) as $sidebarArticle)
                 <a href="{{ route('article.detail.show', [$sidebarArticle->category->name ?? 'blog', $sidebarArticle->link]) }}" class="flex gap-6 items-start border-t border-gray-100 dark:border-gray-800 pt-6 group cursor-pointer">
-                    <img class="w-32 h-24 rounded-lg object-cover flex-shrink-0" src="{{ $sidebarArticle->cover ? $sidebarArticle->cover : '/around/picture/0127.jpg' }}" alt="{{ $sidebarArticle->title }}" loading="lazy">
+                    <img class="w-32 h-24 rounded-lg object-cover flex-shrink-0" src="{{ $sidebarArticle->cover_url ?: '/around/picture/0127.jpg' }}" alt="{{ $sidebarArticle->title }}" loading="lazy">
                     <div class="space-y-1">
                         @if($sidebarArticle->category)
                         <span class="text-primary text-[10px] font-bold uppercase">{{ $sidebarArticle->category->name }}</span>
@@ -116,7 +116,7 @@
                 <h2 class="text-xl font-bold border-b border-gray-100 dark:border-gray-800 pb-3">{{ __('article.most_popular') }}</h2>
                 @foreach($popularArticles as $popArticle)
                 <a href="{{ route('article.detail.show', [$popArticle->category->name ?? 'blog', $popArticle->link]) }}" class="flex items-start gap-4 group">
-                    <img class="size-16 rounded-lg object-cover flex-shrink-0" src="{{ $popArticle->cover ? $popArticle->cover : '/around/picture/0127.jpg' }}" alt="{{ $popArticle->title }}" loading="lazy">
+                    <img class="size-16 rounded-lg object-cover flex-shrink-0" src="{{ $popArticle->cover_url ?: '/around/picture/0127.jpg' }}" alt="{{ $popArticle->title }}" loading="lazy">
                     <div class="space-y-1">
                         <h4 class="text-sm font-bold leading-tight group-hover:text-primary transition-colors">{{ Str::limit($popArticle->title, 50) }}</h4>
                         <p class="text-xs text-gray-500">{{ $popArticle->created_at->format('Y-m-d') }}</p>
@@ -155,7 +155,7 @@
                 @foreach($randomArticles->take(6) as $latestArticle)
                 <article class="bg-white dark:bg-[#0c121d] rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group">
                     <a href="{{ route('article.detail.show', [$latestArticle->category->name ?? 'blog', $latestArticle->link]) }}" class="block aspect-video overflow-hidden">
-                        <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="{{ $latestArticle->cover ? $latestArticle->cover : '/around/picture/0126.jpg' }}" alt="{{ $latestArticle->title }}" loading="lazy">
+                        <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="{{ $latestArticle->cover_url ?: '/around/picture/0126.jpg' }}" alt="{{ $latestArticle->title }}" loading="lazy">
                     </a>
                     <div class="p-6">
                         <div class="flex items-center gap-3 mb-3">

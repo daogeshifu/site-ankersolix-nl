@@ -21,7 +21,7 @@
     $authorBio    = $article->author_bio ?? '';
     $headline     = $article->seo_title ?? $article->title;
     $description  = $article->seo_description ?? $article->summary ?? $article->title;
-    $coverAbsUrl  = $article->cover ?: '';
+    $coverAbsUrl  = $article->cover_url ?: '';
     $publishedAt  = $article->created_at->format('Y-m-d\TH:i:s+08:00');
     $modifiedAt   = $article->updated_at->format('Y-m-d\TH:i:s+08:00');
     $inLanguage   = $isNl ? 'nl-NL' : 'en-GB';

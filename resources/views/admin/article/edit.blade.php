@@ -381,7 +381,7 @@
                                 @if($article->cover)
                                 <div class="cover-preview-wrapper" id="coverPreviewWrapper">
                                     <label class="form-label">当前封面</label><br>
-                                    <img src="{{ asset('storage/' . $article->cover) }}"
+                                    <img src="{{ $article->cover_url }}"
                                          id="coverImg"
                                          alt="Cover preview">
                                 </div>

@@ -90,7 +90,7 @@
 									<td>{{ Str::limit($article->summary, 20) }}</td>
 									<td>
 										@if($article->cover)
-											<img src="{{ asset('storage/' . $article->cover) }}"
+											<img src="{{ $article->cover_url }}"
 												 width="40"
 												 class="img-thumbnail">
 										@else

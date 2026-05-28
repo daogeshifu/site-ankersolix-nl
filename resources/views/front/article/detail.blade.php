@@ -254,7 +254,7 @@
                 <!-- Cover Image -->
                 @if($article->cover)
                     <div class="mb-8 rounded-xl overflow-hidden shadow-lg">
-                        <img src="{{ $article->cover }}" alt="{{ $article->title }}" class="w-full h-auto max-h-[500px] object-cover" loading="lazy">
+                        <img src="{{ $article->cover_url }}" alt="{{ $article->title }}" class="w-full h-auto max-h-[500px] object-cover" loading="lazy">
                     </div>
                 @endif
 
@@ -337,7 +337,7 @@
                                 <article class="bg-white dark:bg-[#1a212f] rounded-xl shadow-lg shadow-black/5 border border-[#f0f2f4] dark:border-white/5 overflow-hidden group hover:shadow-xl transition-all">
                                     <div class="aspect-[16/10] overflow-hidden">
                                         @if($relatedArticle->cover)
-                                            <img src="{{ $relatedArticle->cover }}" alt="{{ $relatedArticle->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+                                            <img src="{{ $relatedArticle->cover_url }}" alt="{{ $relatedArticle->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
                                         @else
                                             <div class="w-full h-full bg-gradient-to-br from-primary/20 to-blue-400/20 flex items-center justify-center">
                                                 <span class="material-symbols-outlined text-[48px] text-primary/50">article</span>

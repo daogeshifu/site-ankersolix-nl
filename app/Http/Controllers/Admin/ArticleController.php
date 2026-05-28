@@ -89,6 +89,7 @@ class ArticleController extends Controller
 
         $validated = $request->validate($rules);
 
+
         try {
             DB::beginTransaction();
 

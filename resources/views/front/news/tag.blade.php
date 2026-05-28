@@ -57,7 +57,7 @@
         <div class="row row-cols-1 row-cols-sm-2 g-0">
           <div class="col position-relative" style="min-height: 220px">
             <a class="hover-effect-scale position-absolute top-0 start-0 w-100 h-100 overflow-hidden" href="{{ route('article.detail.show', [$topArticle->category->name, $topArticle->link]) }}">
-              <img src="{{ asset('storage/' . $topArticle->cover) }}" class="hover-effect-target position-absolute top-0 start-0 w-100 h-100 object-fit-cover" alt="{{ __('article.author_image') }}">
+              <img src="{{ $topArticle->cover_url }}" class="hover-effect-target position-absolute top-0 start-0 w-100 h-100 object-fit-cover" alt="{{ __('article.author_image') }}">
             </a>
           </div>
           <div class="col p-4 p-md-5">
@@ -114,7 +114,7 @@
               <a class="ratio d-flex hover-effect-scale rounded overflow-hidden mb-3 mb-sm-4"
                 href="{{ route('article.detail.show', [$article->category->name, $article->link]) }}"
                 style="--fn-aspect-ratio: calc(300 / 416 * 100%)">
-                <img src="{{ asset('storage/' . $article->cover) }}" class="hover-effect-target" alt="{{ __('article.author_image') }}">
+                <img src="{{ $article->cover_url }}" class="hover-effect-target" alt="{{ __('article.author_image') }}">
               </a>
               <div class="nav pb-1 mb-2">
                 <a class="nav-link text-body-secondary fs-xs text-uppercase p-0" href="#!">{{ $article->category->name }}</a>
