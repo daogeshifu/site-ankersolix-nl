@@ -4,6 +4,125 @@
 @section('description', $product->seo_description ?: ($product->summary ?: Str::limit($product->description_text, 150)))
 @section('keywords', $product->seo_keywords ?: implode(', ', array_filter([$product->brand, $product->product_type, 'thuisbatterij'])))
 
+@php
+    $productUrl = route('products.show', $product->slug);
+    $schemaImages = $product->images->pluck('url')
+        ->prepend($product->display_image)
+        ->filter()
+        ->unique()
+        ->values()
+        ->all();
+    $schemaDescription = $product->seo_description ?: ($product->summary ?: Str::limit(strip_tags((string) $product->description_text), 300));
+    $schemaBrand = $product->brand ?: $product->vendor ?: 'bestenthuisbatterij.nl';
+    $schemaOffer = [
+        '@type' => 'Offer',
+        '@id' => $productUrl . '#offer',
+        'url' => $productUrl,
+        'itemCondition' => 'https://schema.org/NewCondition',
+        'availability' => $product->any_variant_available ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+        'priceCurrency' => $product->currency ?: 'EUR',
+        'seller' => [
+            '@type' => 'Organization',
+            'name' => 'bestenthuisbatterij.nl',
+            'url' => url('/'),
+        ],
+    ];
+
+    if ($product->price !== null) {
+        $schemaOffer['price'] = number_format((float) $product->price, 2, '.', '');
+    }
+
+    $schemaProperties = collect($product->detail->specifications ?? [])
+        ->reject(fn ($value) => is_array($value) || is_object($value) || blank($value))
+        ->map(fn ($value, $key) => [
+            '@type' => 'PropertyValue',
+            'name' => Str::headline((string) $key),
+            'value' => (string) $value,
+        ])
+        ->values()
+        ->all();
+
+    $productSchema = array_filter([
+        '@context' => 'https://schema.org',
+        '@type' => 'Product',
+        '@id' => $productUrl . '#product',
+        'inLanguage' => app()->getLocale() === 'nl' ? 'nl-NL' : app()->getLocale(),
+        'name' => $product->title,
+        'description' => $schemaDescription,
+        'category' => $product->category->name ?? $product->product_type,
+        'image' => $schemaImages,
+        'brand' => [
+            '@type' => 'Brand',
+            'name' => $schemaBrand,
+        ],
+        'manufacturer' => [
+            '@type' => 'Organization',
+            'name' => $schemaBrand,
+        ],
+        'mainEntityOfPage' => [
+            '@id' => $productUrl,
+        ],
+        'offers' => $schemaOffer,
+        'additionalProperty' => $schemaProperties,
+    ], fn ($value) => filled($value));
+
+    $breadcrumbItems = [
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'item' => [
+                '@id' => route('index'),
+                'name' => __('menu.home'),
+            ],
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'item' => [
+                '@id' => route('products.index'),
+                'name' => __('product.products'),
+            ],
+        ],
+    ];
+
+    if ($product->category) {
+        $breadcrumbItems[] = [
+            '@type' => 'ListItem',
+            'position' => count($breadcrumbItems) + 1,
+            'item' => [
+                '@id' => route('products.category', $product->category->slug),
+                'name' => $product->category->name,
+            ],
+        ];
+    }
+
+    $breadcrumbItems[] = [
+        '@type' => 'ListItem',
+        'position' => count($breadcrumbItems) + 1,
+        'item' => [
+            '@id' => $productUrl,
+            'name' => $product->title,
+        ],
+    ];
+
+    $breadcrumbSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        '@id' => $productUrl . '#breadcrumb',
+        'inLanguage' => app()->getLocale() === 'nl' ? 'nl-NL' : app()->getLocale(),
+        'itemListElement' => $breadcrumbItems,
+    ];
+@endphp
+
+@push('head')
+<script type="application/ld+json">
+{!! json_encode($productSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+@endpush
+
 @section('content')
 @php
     $images = $product->images->count() ? $product->images : collect();

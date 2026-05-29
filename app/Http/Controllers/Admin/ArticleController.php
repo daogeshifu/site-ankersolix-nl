@@ -346,6 +346,7 @@ class ArticleController extends Controller
                 'msg' => '上传成功',
                 'data' => [
                     'path' => $path, // 只返回 upload/article/xxx.jpg
+                    'url' => Storage::disk('public')->url($path),
                 ],
             ]);
 
