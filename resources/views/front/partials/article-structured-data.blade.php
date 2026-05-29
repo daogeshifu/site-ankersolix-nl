@@ -38,17 +38,6 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
-      "@id": "https://bestenthuisbatterij.nl/#organization",
-      "name": "bestenthuisbatterij.nl",
-      "url": "https://bestenthuisbatterij.nl/",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "{{ $logoUrl }}"
-      },
-      "description": "{{ $orgDescription }}"
-    },
-    {
       "@type": "Person",
       "@id": "{{ $currentUrl }}#author",
       "name": "{{ $authorName }}",

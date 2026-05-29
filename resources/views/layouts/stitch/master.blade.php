@@ -14,6 +14,28 @@
     <meta name="author" content="bestenthuisbatterij.nl">
     <link rel="canonical" href="{{ request()->url() }}" />
 
+    @php
+        $organizationSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => ['Organization', 'Corporation'],
+            '@id' => url('/#organization'),
+            'name' => 'bestenthuisbatterij.nl',
+            'legalName' => 'bestenthuisbatterij.nl',
+            'url' => url('/'),
+            'logo' => asset('around/image/logo/logo-icon.png'),
+            'description' => 'bestenthuisbatterij.nl is an independent home battery and residential energy storage information platform for Dutch households.',
+            'brand' => [
+                '@type' => 'Brand',
+                '@id' => url('/#brand'),
+                'name' => 'bestenthuisbatterij.nl',
+            ],
+        ];
+    @endphp
+
+    <script type="application/ld+json">
+{!! json_encode($organizationSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+    </script>
+
     <!-- Hreflang alternate links -->
     @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
     <link rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" />
@@ -74,6 +96,7 @@
         }
     </style>
 
+    @stack('head')
     @stack('styles')
 </head>
 
