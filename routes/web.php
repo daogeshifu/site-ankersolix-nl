@@ -170,6 +170,9 @@ Route::group([
             ->whereNumber('page')
             ->name('products.category.page');
         Route::get('/products/{slug}.html', [FrontProductController::class, 'show'])->name('products.show');
+        Route::get('/products/{slug}', function (string $slug) {
+            return redirect()->route('products.show', ['slug' => $slug], 301);
+        })->where('slug', '[^/]+');
 
         // 博客/文章相关
         // 注意：更具体的路由要放在前面，避免被通配路由捕获
