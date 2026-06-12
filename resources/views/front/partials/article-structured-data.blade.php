@@ -1,104 +1,126 @@
 @php
-    $locale     = app()->getLocale();
-    $isNl       = $locale === 'nl';
     $currentUrl = request()->url();
+    $currentLocale = app()->getLocale();
+    $localeConfig = LaravelLocalization::getSupportedLocales()[$currentLocale] ?? [];
+    $languageCode = str_replace('_', '-', $localeConfig['regional'] ?? $currentLocale);
+    $headline = trim(preg_replace('/\s+/u', ' ', strip_tags($article->seo_title ?? $article->title ?? '')));
+    $description = trim(preg_replace('/\s+/u', ' ', strip_tags($article->seo_description ?? $article->summary ?? $article->title ?? '')));
+    $coverImage = $article->cover_url ?: null;
+    $authorName = trim((string) ($article->author ?? __('article.admin')));
+    $authorBio = trim(preg_replace('/\s+/u', ' ', strip_tags($article->author_bio ?? __('article.author_bio_default'))));
+    $wordCount = str_word_count(strip_tags((string) $article->content));
+    $categoryName = $article->category->title ?? $article->category->name ?? null;
+    $keywords = trim((string) ($article->seo_keywords ?? $article->keywords ?? ''));
+    $tagKeywords = $article->relationLoaded('tags')
+        ? $article->tags->pluck('name')->filter()->take(10)->implode(', ')
+        : '';
+
+    if ($keywords === '' && $tagKeywords !== '') {
+        $keywords = $tagKeywords;
+    }
 
     $sectionMap = [
-        'news'          => ['en' => 'News', 'nl' => 'Nieuws', 'route' => 'news'],
-        'guides'        => ['en' => 'Guides', 'nl' => 'Gidsen', 'route' => 'guides'],
-        'cases'         => ['en' => 'Cases', 'nl' => 'Cases', 'route' => 'cases'],
-        'buying-guide'  => ['en' => 'Buying Guide', 'nl' => 'Aankoopgids', 'route' => 'buying-guide'],
-        'installation'  => ['en' => 'Installation', 'nl' => 'Installatie en configuratie', 'route' => 'installation'],
-        'subsidy'       => ['en' => 'Subsidy', 'nl' => 'Subsidies en beleid', 'route' => 'subsidy'],
-        'energy-saving' => ['en' => 'Energy Saving', 'nl' => 'Elektriciteitsprijzen en bespaartips', 'route' => 'energy-saving'],
-        'reviews'       => ['en' => 'Reviews', 'nl' => 'Cases en reviews', 'route' => 'reviews'],
+        'news' => [
+            'label' => __('article.newsroom'),
+            'route' => 'news',
+        ],
+        'guides' => [
+            'label' => __('lang.seo_guides_title'),
+            'route' => 'guides',
+        ],
+        'cases' => [
+            'label' => __('lang.seo_cases_title'),
+            'route' => 'cases',
+        ],
+        'buying-guide' => [
+            'label' => __('menu.buying_guide'),
+            'route' => 'buying-guide',
+        ],
+        'installation' => [
+            'label' => __('menu.installation'),
+            'route' => 'installation',
+        ],
+        'subsidy' => [
+            'label' => __('menu.subsidy'),
+            'route' => 'subsidy',
+        ],
+        'energy-saving' => [
+            'label' => __('menu.energy_saving'),
+            'route' => 'energy-saving',
+        ],
+        'reviews' => [
+            'label' => __('menu.reviews'),
+            'route' => 'reviews',
+        ],
     ];
-    $section         = $sectionMap[$sectionKey] ?? $sectionMap['news'];
-    $categoryName    = $isNl ? $section['nl'] : $section['en'];
-    $categoryUrl     = route($section['route']);
+    $section = $sectionMap[$sectionKey] ?? null;
+    $sectionLabel = $categoryName ?: ($section['label'] ?? __('article.blog'));
+    $sectionUrl = $section ? route($section['route']) : route('articles');
+    $imageId = $coverImage ? $currentUrl . '#primaryimage' : null;
 
-    $authorName   = $article->author ?? 'Admin';
-    $authorBio    = $article->author_bio ?? '';
-    $headline     = $article->seo_title ?? $article->title;
-    $description  = $article->seo_description ?? $article->summary ?? $article->title;
-    $coverAbsUrl  = $article->cover_url ?: '';
-    $publishedAt  = $article->created_at->format('Y-m-d\TH:i:s+08:00');
-    $modifiedAt   = $article->updated_at->format('Y-m-d\TH:i:s+08:00');
-    $inLanguage   = $isNl ? 'nl-NL' : 'en-GB';
-    $homeName     = $isNl ? 'Home' : 'Home';
-    $logoUrl      = asset('logo.png');
-
-    $orgDescription = $isNl
-        ? 'bestenthuisbatterij.nl is een informatiebron over thuisbatterijen en residentiele energieopslag, met praktische aankoopgidsen, installatieadvies, subsidie-updates en bespaartips voor huishoudens.'
-        : 'bestenthuisbatterij.nl is a home battery and residential energy storage resource with practical buying guides, installation advice, subsidy updates, and smart energy-saving tips for households.';
+    $articleGraph = array_values(array_filter([
+        [
+            '@type' => 'Person',
+            '@id' => $currentUrl . '#author',
+            'name' => $authorName,
+            'description' => $authorBio,
+        ],
+        $imageId ? [
+            '@type' => 'ImageObject',
+            '@id' => $imageId,
+            'url' => $coverImage,
+            'caption' => $headline,
+        ] : null,
+        array_filter([
+            '@type' => 'BlogPosting',
+            '@id' => $currentUrl . '#article',
+            'headline' => $headline,
+            'description' => $description,
+            'image' => $imageId ? ['@id' => $imageId] : null,
+            'datePublished' => optional($article->created_at)->toAtomString(),
+            'dateModified' => optional($article->updated_at)->toAtomString(),
+            'author' => [
+                '@id' => $currentUrl . '#author',
+            ],
+            'publisher' => [
+                '@id' => url('/') . '#organization',
+            ],
+            'mainEntityOfPage' => [
+                '@id' => $currentUrl . '#webpage',
+            ],
+            'inLanguage' => $languageCode,
+            'articleSection' => $sectionLabel,
+            'keywords' => $keywords !== '' ? $keywords : null,
+            'wordCount' => $wordCount > 0 ? $wordCount : null,
+            'isAccessibleForFree' => true,
+        ], fn ($value) => filled($value)),
+        [
+            '@type' => 'BreadcrumbList',
+            '@id' => $currentUrl . '#breadcrumb',
+            'itemListElement' => [
+                [
+                    '@type' => 'ListItem',
+                    'position' => 1,
+                    'name' => __('menu.home'),
+                    'item' => route('index'),
+                ],
+                [
+                    '@type' => 'ListItem',
+                    'position' => 2,
+                    'name' => $sectionLabel,
+                    'item' => $sectionUrl,
+                ],
+                [
+                    '@type' => 'ListItem',
+                    'position' => 3,
+                    'name' => $headline,
+                    'item' => $currentUrl,
+                ],
+            ],
+        ],
+    ]));
 @endphp
 
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Person",
-      "@id": "{{ $currentUrl }}#author",
-      "name": "{{ $authorName }}",
-      "description": "{{ $authorBio }}"
-    },
-    {
-      "@type": "BlogPosting",
-      "@id": "{{ $currentUrl }}#article",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "{{ $currentUrl }}"
-      },
-      "headline": "{{ $headline }}",
-      "description": "{{ $description }}",
-      @if($coverAbsUrl)
-      "image": {
-        "@type": "ImageObject",
-        "url": "{{ $coverAbsUrl }}"
-      },
-      @endif
-      "datePublished": "{{ $publishedAt }}",
-      "dateModified": "{{ $modifiedAt }}",
-      "author": {
-        "@id": "{{ $currentUrl }}#author"
-      },
-      "publisher": {
-        "@id": "https://bestenthuisbatterij.nl/#organization"
-      },
-      "inLanguage": "{{ $inLanguage }}"
-    }
-  ]
-}
-</script>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "BreadcrumbList",
-      "@id": "{{ $currentUrl }}#breadcrumb",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "{{ $homeName }}",
-          "item": "https://bestenthuisbatterij.nl/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "{{ $categoryName }}",
-          "item": "{{ $categoryUrl }}"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "{{ $headline }}"
-        }
-      ]
-    }
-  ]
-}
+{!! json_encode(['@context' => 'https://schema.org', '@graph' => $articleGraph], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
 </script>

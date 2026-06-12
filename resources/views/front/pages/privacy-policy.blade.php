@@ -1,6 +1,6 @@
 @extends('layouts.stitch.master')
 
-@section('title', __('privacy-policy.privacy_policy_title') . ' - ' . config('app.name'))
+@section('title', __('privacy-policy.privacy_policy_title') . ' | ' . (parse_url(url('/'), PHP_URL_HOST) ?: __('home.super')))
 @section('description', __('privacy-policy.privacy_policy_description'))
 @section('keywords', __('privacy-policy.privacy_policy_keywords'))
 

@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'blog_title' => 'AI Checker Blog – Expert Insights on AI Content Detection & Rewriting | aigcchecker',
-    'blog_title_show' => 'AI Content Identification Guide',
-    'blog_title_description' => 'Whether you are a creator, developer or reviewer, you can find practical and cutting-edge insights here',
-    'seo_description' => 'Discover expert articles and the latest trends in AI content checking in our AI Checker blog category. Explore tips, tutorials, and industry updates on detecting and humanizing AI-generated text—from ChatGPT and GPT-4 to other advanced AI models—to ensure content authenticity and bypass detection.',
-    'seo_keywords' => 'AI Checker, AI content detection, AI rewriting, free AI checker, ChatGPT detector, GPT-4 detection, AI reducer, content authenticity, AI blog, aigcchecker',
+    'blog_title' => 'Home Battery Articles and Guides',
+    'blog_title_show' => 'Home Battery Knowledge Center',
+    'blog_title_description' => 'Practical guidance on choosing, installing, and getting more value from a home battery system.',
+    'seo_description' => 'Read practical articles about home batteries, battery sizing, installation, subsidies, dynamic tariffs, and household energy savings in the Netherlands.',
+    'seo_keywords' => 'home battery, residential battery, energy storage, solar battery, dynamic tariff, battery subsidy, household energy savings',
     'blog' => 'Blog',
     'blog_recommendation' => 'Recommended News',
     'home' => 'Home',
@@ -33,7 +33,7 @@ return [
     'page' => 'Page :page',
 
     'newsroom' => 'News',
-    'newsroom_description' => 'Latest updates and Hand-picked resources.',
+    'newsroom_description' => 'Latest updates, analysis, and practical resources for Dutch home battery buyers and owners.',
     'topics' => 'Topics',
     'search_placeholder' => 'Search articles...',
     'no_articles' => 'No articles found',

@@ -1,6 +1,6 @@
 @extends('layouts.stitch.master')
 
-@section('title', __('terms-of-service.terms_title') . ' - ' . config('app.name'))
+@section('title', __('terms-of-service.terms_title') . ' | ' . (parse_url(url('/'), PHP_URL_HOST) ?: __('home.super')))
 @section('description', __('terms-of-service.terms_description'))
 @section('keywords', __('terms-of-service.terms_keywords'))
 

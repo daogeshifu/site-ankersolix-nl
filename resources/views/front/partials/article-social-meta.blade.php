@@ -1,18 +1,17 @@
 @php
-    $ogTitle       = $article->seo_title ?? $article->title;
-    $ogDescription = $article->seo_description ?? $article->summary ?? $article->title;
-    $ogUrl         = request()->url();
-    $ogImage       = $article->cover_url ?: asset('logo.png');
+    $articleTags = $article->relationLoaded('tags')
+        ? $article->tags->pluck('name')->filter()->take(10)->values()
+        : collect();
 @endphp
 
-<meta property="og:type"        content="article">
-<meta property="og:title"       content="{{ $ogTitle }}">
-<meta property="og:description" content="{{ $ogDescription }}">
-<meta property="og:url"         content="{{ $ogUrl }}">
-<meta property="og:image"       content="{{ $ogImage }}">
-<meta property="og:site_name"   content="bestenthuisbatterij.nl">
-
-<meta name="twitter:card"        content="summary_large_image">
-<meta name="twitter:title"       content="{{ $ogTitle }}">
-<meta name="twitter:description" content="{{ $ogDescription }}">
-<meta name="twitter:image"       content="{{ $ogImage }}">
+<meta property="article:published_time" content="{{ optional($article->created_at)->toAtomString() }}">
+<meta property="article:modified_time" content="{{ optional($article->updated_at)->toAtomString() }}">
+@if(filled($article->author))
+<meta property="article:author" content="{{ $article->author }}">
+@endif
+@if(optional($article->category)->name)
+<meta property="article:section" content="{{ $article->category->name }}">
+@endif
+@foreach($articleTags as $tagName)
+<meta property="article:tag" content="{{ $tagName }}">
+@endforeach

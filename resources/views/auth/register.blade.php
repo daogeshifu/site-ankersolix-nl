@@ -1,6 +1,7 @@
 @extends('layouts.stitch.master')
 
-@section('title'){{ __('lang.register') }} - {{ config('app.name') }} @endsection
+@section('title'){{ __('lang.register') }} | {{ parse_url(url('/'), PHP_URL_HOST) ?: __('home.super') }} @endsection
+@section('robots', 'noindex,nofollow,noarchive')
 
 @push('styles')
 <style>

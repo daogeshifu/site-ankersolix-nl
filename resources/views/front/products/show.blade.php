@@ -1,35 +1,46 @@
 @extends('layouts.stitch.master')
 
 @section('title', $product->seo_title ?: $product->title)
-@section('description', $product->seo_description ?: ($product->summary ?: Str::limit($product->description_text, 150)))
-@section('keywords', $product->seo_keywords ?: implode(', ', array_filter([$product->brand, $product->product_type, 'thuisbatterij'])))
+@section('description', $product->seo_description ?: ($product->summary ?: Str::limit(strip_tags((string) $product->description_text), 160)))
+@section('keywords', $product->seo_keywords ?: implode(', ', array_filter([$product->brand, $product->product_type, $product->category?->name, 'thuisbatterij'])))
+@section('canonical', route('products.show', $product->slug))
+@section('meta_type', 'product')
+@section('meta_image', $product->display_image ?: asset('around/image/logo/logo-icon.png'))
+@section('meta_image_alt', $product->title)
+@section('twitter_card', $product->display_image ? 'summary_large_image' : 'summary')
 
 @php
     $productUrl = route('products.show', $product->slug);
+    $currentLocale = app()->getLocale();
+    $localeConfig = LaravelLocalization::getSupportedLocales()[$currentLocale] ?? [];
+    $languageCode = str_replace('_', '-', $localeConfig['regional'] ?? $currentLocale);
+    $selectedVariant = $product->variants->firstWhere('id', $product->selected_variant_id) ?? $product->variants->first();
     $schemaImages = $product->images->pluck('url')
         ->prepend($product->display_image)
         ->filter()
         ->unique()
         ->values()
         ->all();
-    $schemaDescription = $product->seo_description ?: ($product->summary ?: Str::limit(strip_tags((string) $product->description_text), 300));
-    $schemaBrand = $product->brand ?: $product->vendor ?: 'bestenthuisbatterij.nl';
+    $schemaDescription = trim(preg_replace('/\s+/u', ' ', strip_tags($product->seo_description ?: ($product->summary ?: Str::limit((string) $product->description_text, 300)))));
+    $schemaBrand = $product->brand ?: $product->vendor;
     $schemaOffer = [
         '@type' => 'Offer',
         '@id' => $productUrl . '#offer',
         'url' => $productUrl,
         'itemCondition' => 'https://schema.org/NewCondition',
         'availability' => $product->any_variant_available ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-        'priceCurrency' => $product->currency ?: 'EUR',
-        'seller' => [
-            '@type' => 'Organization',
-            'name' => 'bestenthuisbatterij.nl',
-            'url' => url('/'),
-        ],
+        'priceCurrency' => $product->currency ?: ($selectedVariant->currency ?? 'EUR'),
     ];
 
     if ($product->price !== null) {
         $schemaOffer['price'] = number_format((float) $product->price, 2, '.', '');
+    }
+
+    if (filled($product->vendor ?: $product->source_site)) {
+        $schemaOffer['seller'] = [
+            '@type' => 'Organization',
+            'name' => $product->vendor ?: $product->source_site,
+        ];
     }
 
     $schemaProperties = collect($product->detail->specifications ?? [])
@@ -43,45 +54,41 @@
         ->all();
 
     $productSchema = array_filter([
-        '@context' => 'https://schema.org',
         '@type' => 'Product',
         '@id' => $productUrl . '#product',
-        'inLanguage' => app()->getLocale() === 'nl' ? 'nl-NL' : app()->getLocale(),
+        'inLanguage' => $languageCode,
         'name' => $product->title,
         'description' => $schemaDescription,
         'category' => $product->category->name ?? $product->product_type,
         'image' => $schemaImages,
-        'brand' => [
+        'sku' => $selectedVariant->sku ?? null,
+        'brand' => $schemaBrand ? [
             '@type' => 'Brand',
             'name' => $schemaBrand,
-        ],
-        'manufacturer' => [
+        ] : null,
+        'manufacturer' => filled($product->vendor) ? [
             '@type' => 'Organization',
-            'name' => $schemaBrand,
-        ],
+            'name' => $product->vendor,
+        ] : null,
         'mainEntityOfPage' => [
-            '@id' => $productUrl,
+            '@id' => $productUrl . '#webpage',
         ],
         'offers' => $schemaOffer,
-        'additionalProperty' => $schemaProperties,
+        'additionalProperty' => $schemaProperties ?: null,
     ], fn ($value) => filled($value));
 
     $breadcrumbItems = [
         [
             '@type' => 'ListItem',
             'position' => 1,
-            'item' => [
-                '@id' => route('index'),
-                'name' => __('menu.home'),
-            ],
+            'name' => __('menu.home'),
+            'item' => route('index'),
         ],
         [
             '@type' => 'ListItem',
             'position' => 2,
-            'item' => [
-                '@id' => route('products.index'),
-                'name' => __('product.products'),
-            ],
+            'name' => __('product.products'),
+            'item' => route('products.index'),
         ],
     ];
 
@@ -89,37 +96,56 @@
         $breadcrumbItems[] = [
             '@type' => 'ListItem',
             'position' => count($breadcrumbItems) + 1,
-            'item' => [
-                '@id' => route('products.category', $product->category->slug),
-                'name' => $product->category->name,
-            ],
+            'name' => $product->category->name,
+            'item' => route('products.category', $product->category->slug),
         ];
     }
 
     $breadcrumbItems[] = [
         '@type' => 'ListItem',
         'position' => count($breadcrumbItems) + 1,
-        'item' => [
-            '@id' => $productUrl,
-            'name' => $product->title,
-        ],
+        'name' => $product->title,
+        'item' => $productUrl,
     ];
 
     $breadcrumbSchema = [
-        '@context' => 'https://schema.org',
         '@type' => 'BreadcrumbList',
         '@id' => $productUrl . '#breadcrumb',
-        'inLanguage' => app()->getLocale() === 'nl' ? 'nl-NL' : app()->getLocale(),
+        'inLanguage' => $languageCode,
         'itemListElement' => $breadcrumbItems,
     ];
+
+    $faqSchema = null;
+    if ($productFaqs->count()) {
+        $faqSchema = [
+            '@type' => 'FAQPage',
+            '@id' => $productUrl . '#faq',
+            'inLanguage' => $languageCode,
+            'mainEntity' => $productFaqs
+                ->filter(fn ($faq) => filled($faq->question) && filled($faq->answer))
+                ->map(fn ($faq) => [
+                    '@type' => 'Question',
+                    'name' => trim(preg_replace('/\s+/u', ' ', strip_tags($faq->question))),
+                    'acceptedAnswer' => [
+                        '@type' => 'Answer',
+                        'text' => trim(preg_replace('/\s+/u', ' ', strip_tags($faq->answer))),
+                    ],
+                ])
+                ->values()
+                ->all(),
+        ];
+    }
+
+    $productGraph = array_values(array_filter([
+        $productSchema,
+        $breadcrumbSchema,
+        $faqSchema,
+    ]));
 @endphp
 
 @push('head')
 <script type="application/ld+json">
-{!! json_encode($productSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
-</script>
-<script type="application/ld+json">
-{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+{!! json_encode(['@context' => 'https://schema.org', '@graph' => $productGraph], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
 </script>
 @endpush
 

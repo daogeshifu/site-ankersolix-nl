@@ -1,6 +1,7 @@
 @extends('layouts.stitch.master')
 
-@section('title'){{ __('lang.login') }} - {{ config('app.name') }} @endsection
+@section('title'){{ __('lang.login') }} | {{ parse_url(url('/'), PHP_URL_HOST) ?: __('home.super') }} @endsection
+@section('robots', 'noindex,nofollow,noarchive')
 
 @push('styles')
 <style>
@@ -34,7 +35,7 @@
 
             <!-- Title -->
             <div class="mb-8">
-                <h2 class="text-[#111318] dark:text-white text-2xl font-bold text-center font-display">{{ __('lang.welcome_to') }} {{ config('app.name') }}</h2>
+                <h2 class="text-[#111318] dark:text-white text-2xl font-bold text-center font-display">{{ __('lang.welcome_to') }} {{ parse_url(url('/'), PHP_URL_HOST) ?: __('home.super') }}</h2>
                 <p class="text-[#616f89] dark:text-gray-400 text-sm text-center mt-2">{{ __('lang.login_subtitle') }}</p>
             </div>
 

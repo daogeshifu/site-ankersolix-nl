@@ -2,7 +2,17 @@
 
 @section('title', $article->seo_title ?? $article->title)
 @section('description', $article->seo_description ?? $article->summary ?? $article->title)
-@section('keywords', $article->seo_keywords ?? $article->title)
+@section('keywords', $article->seo_keywords ?? $article->keywords ?? implode(', ', array_filter([$article->category?->name, $article->title])))
+@section('canonical', request()->url())
+@section('meta_type', 'article')
+@section('meta_image', $article->cover_url ?: asset('around/image/logo/logo-icon.png'))
+@section('meta_image_alt', $article->title)
+@section('twitter_card', $article->cover_url ? 'summary_large_image' : 'summary')
+
+@push('head')
+@include('front.partials.article-social-meta')
+@include('front.partials.article-structured-data', ['sectionKey' => $category_name])
+@endpush
 
 @push('styles')
 <style>

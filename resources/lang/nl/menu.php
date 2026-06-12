@@ -12,6 +12,7 @@ return [
     'pricing' => 'Prijzen',
     'services' => 'Diensten',
     'home' => 'Home',
+    'products' => 'Producten',
     'backend' => 'Beheer',
     'buying_guide' => 'Aankoopgids',
     'installation' => 'Installatie en Configuratie',
