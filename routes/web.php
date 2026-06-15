@@ -165,10 +165,20 @@ Route::group([
         Route::get('/products/page/{page}', [FrontProductController::class, 'page'])
             ->whereNumber('page')
             ->name('products.page');
-        Route::get('/products/category/{categorySlug}', [FrontProductController::class, 'index'])->name('products.category');
-        Route::get('/products/category/{categorySlug}/page/{page}', [FrontProductController::class, 'categoryPage'])
+        // 分类页：规范 URL 为 /collections/{slug}
+        Route::get('/collections/{categorySlug}', [FrontProductController::class, 'index'])->name('products.category');
+        Route::get('/collections/{categorySlug}/page/{page}', [FrontProductController::class, 'categoryPage'])
             ->whereNumber('page')
             ->name('products.category.page');
+
+        // 旧分类 URL /products/category/... → 301 跳到 /collections/...
+        Route::get('/products/category/{categorySlug}/page/{page}', function (string $categorySlug, int $page) {
+            return redirect()->route('products.category.page', ['categorySlug' => $categorySlug, 'page' => $page], 301);
+        })->whereNumber('page');
+        Route::get('/products/category/{categorySlug}', function (string $categorySlug) {
+            return redirect()->route('products.category', ['categorySlug' => $categorySlug], 301);
+        });
+
         Route::get('/products/{slug}.html', [FrontProductController::class, 'show'])->name('products.show');
         Route::get('/products/{slug}', function (string $slug) {
             return redirect()->route('products.show', ['slug' => $slug], 301);
