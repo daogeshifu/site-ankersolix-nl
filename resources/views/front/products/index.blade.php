@@ -90,7 +90,7 @@
         <aside class="space-y-3">
             <a href="{{ route('products.index') }}" class="flex items-center justify-between rounded-lg px-4 py-3 border {{ !$currentCategory ? 'bg-primary text-white border-primary' : 'bg-white dark:bg-[#1e293b] border-[#e5e7eb] dark:border-[#334155]' }}">
                 <span class="font-semibold">{{ __('product.all_categories') }}</span>
-                <span class="text-sm">{{ $categories->sum('products_count') }}</span>
+                <span class="text-sm">{{ $totalProductsCount ?? $categories->sum('products_count') }}</span>
             </a>
             @foreach($categories as $category)
                 <a href="{{ route('products.category', $category->slug) }}" class="flex items-center justify-between rounded-lg px-4 py-3 border {{ $currentCategory && $currentCategory->id === $category->id ? 'bg-primary text-white border-primary' : 'bg-white dark:bg-[#1e293b] border-[#e5e7eb] dark:border-[#334155] hover:border-primary/60' }}">

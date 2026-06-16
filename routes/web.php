@@ -165,6 +165,10 @@ Route::group([
         Route::get('/products/page/{page}', [FrontProductController::class, 'page'])
             ->whereNumber('page')
             ->name('products.page');
+        // benebomo shopify /collections/all 全部商品聚合页（必须在 {categorySlug} 之前注册）
+        Route::get('/collections/all', [FrontProductController::class, 'all'])->name('products.all');
+        Route::get('/collections/all/page/{page}', [FrontProductController::class, 'all'])
+            ->whereNumber('page')->name('products.all.page');
         // 分类页：规范 URL 为 /collections/{slug}
         Route::get('/collections/{categorySlug}', [FrontProductController::class, 'index'])->name('products.category');
         Route::get('/collections/{categorySlug}/page/{page}', [FrontProductController::class, 'categoryPage'])
@@ -183,6 +187,15 @@ Route::group([
         Route::get('/products/{slug}', function (string $slug) {
             return redirect()->route('products.show', ['slug' => $slug], 301);
         })->where('slug', '[^/]+');
+
+        // 老 Shopify 博客 URL 301 → 新文章页（文章分类名 = 老 blog handle，故 /blogs/{blog}/{post} → /{blog}/{post}.html）
+        Route::get('/blogs/{blog}/{post}', function (string $blog, string $post) {
+            return redirect()->route('article.detail.show', ['category_name' => $blog, 'link' => $post], 301);
+        })->where('post', '[^/]+');
+        Route::get('/blogs/{blog}', function (string $blog) {
+            return redirect()->route('article.category2', ['category_name' => $blog], 301);
+        });
+        Route::get('/blogs', fn () => redirect()->route('articles', [], 301));
 
         // 博客/文章相关
         // 注意：更具体的路由要放在前面，避免被通配路由捕获
