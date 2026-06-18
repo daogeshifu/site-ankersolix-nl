@@ -201,7 +201,7 @@
 
             <div>
                 <p class="text-primary text-sm font-bold uppercase tracking-wider mb-3">{{ $product->brand ?: $product->vendor }}</p>
-                <h1 class="text-4xl md:text-5xl font-black leading-tight tracking-tight">{{ $product->title }}</h1>
+                <h1 class="text-[2rem] font-black leading-tight tracking-tight">{{ $product->title }}</h1>
                 @if($product->summary)
                     <p class="mt-4 text-lg text-[#616f89] dark:text-[#94a3b8]">{{ $product->summary }}</p>
                 @endif
