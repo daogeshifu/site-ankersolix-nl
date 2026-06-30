@@ -52,6 +52,42 @@
             'label' => __('menu.reviews'),
             'route' => 'reviews',
         ],
+        'beste-thuisbatterij-2026' => [
+            'label' => __('menu.best_home_batteries_2026'),
+            'route' => 'beste-thuisbatterij-2026',
+        ],
+        'thuisbatterij-zonder-zonnepanelen' => [
+            'label' => __('menu.home_battery_without_solar_panels'),
+            'route' => 'thuisbatterij-zonder-zonnepanelen',
+        ],
+        'dynamische-energietarieven' => [
+            'label' => __('menu.dynamic_energy_rates_smart_charging'),
+            'route' => 'dynamische-energietarieven',
+        ],
+        'thuisbatterij-subsidie' => [
+            'label' => __('menu.subsidy_vat_tax'),
+            'route' => 'thuisbatterij-subsidie',
+        ],
+        'back-upstroom-noodstroom' => [
+            'label' => __('menu.backup_emergency_power'),
+            'route' => 'back-upstroom-noodstroom',
+        ],
+        'zonne-energie-opslaan' => [
+            'label' => __('menu.store_solar_energy'),
+            'route' => 'zonne-energie-opslaan',
+        ],
+        'thuisbatterij-capaciteit-uitbreiding' => [
+            'label' => __('menu.capacity_expansion'),
+            'route' => 'thuisbatterij-capaciteit-uitbreiding',
+        ],
+        'warmtepomp-elektrische-auto' => [
+            'label' => __('menu.heat_pump_electric_car'),
+            'route' => 'warmtepomp-elektrische-auto',
+        ],
+        'thuisbatterij-zelf-installeren' => [
+            'label' => __('menu.self_installation'),
+            'route' => 'thuisbatterij-zelf-installeren',
+        ],
     ];
     $section = $sectionMap[$sectionKey] ?? null;
     $sectionLabel = $categoryName ?: ($section['label'] ?? __('article.blog'));

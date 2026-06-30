@@ -91,7 +91,22 @@ class GenerateSitemap extends Command
             ->add($this->url(route('guides'), 'weekly', 0.9))
             ->add($this->url(route('cases'), 'weekly', 0.9));
 
-        foreach (['buying-guide', 'installation', 'subsidy', 'energy-saving', 'reviews'] as $routeName) {
+        foreach ([
+            'buying-guide',
+            'installation',
+            'subsidy',
+            'energy-saving',
+            'reviews',
+            'beste-thuisbatterij-2026',
+            'thuisbatterij-zonder-zonnepanelen',
+            'dynamische-energietarieven',
+            'thuisbatterij-subsidie',
+            'back-upstroom-noodstroom',
+            'zonne-energie-opslaan',
+            'thuisbatterij-capaciteit-uitbreiding',
+            'warmtepomp-elektrische-auto',
+            'thuisbatterij-zelf-installeren',
+        ] as $routeName) {
             $sitemap->add($this->url(route($routeName), 'weekly', 0.9));
         }
 

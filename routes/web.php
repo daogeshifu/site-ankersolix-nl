@@ -139,6 +139,15 @@ Route::group([
             'subsidy' => ['path' => 'subsidies-beleid', 'name' => 'subsidy'],
             'energy-saving' => ['path' => 'elektriciteitsprijzen-besparen', 'name' => 'energy-saving'],
             'reviews' => ['path' => 'cases-reviews', 'name' => 'reviews'],
+            'beste-thuisbatterij-2026' => ['path' => 'beste-thuisbatterij-2026', 'name' => 'beste-thuisbatterij-2026'],
+            'thuisbatterij-zonder-zonnepanelen' => ['path' => 'thuisbatterij-zonder-zonnepanelen', 'name' => 'thuisbatterij-zonder-zonnepanelen'],
+            'dynamische-energietarieven' => ['path' => 'dynamische-energietarieven', 'name' => 'dynamische-energietarieven'],
+            'thuisbatterij-subsidie' => ['path' => 'thuisbatterij-subsidie', 'name' => 'thuisbatterij-subsidie'],
+            'back-upstroom-noodstroom' => ['path' => 'back-upstroom-noodstroom', 'name' => 'back-upstroom-noodstroom'],
+            'zonne-energie-opslaan' => ['path' => 'zonne-energie-opslaan', 'name' => 'zonne-energie-opslaan'],
+            'thuisbatterij-capaciteit-uitbreiding' => ['path' => 'thuisbatterij-capaciteit-uitbreiding', 'name' => 'thuisbatterij-capaciteit-uitbreiding'],
+            'warmtepomp-elektrische-auto' => ['path' => 'warmtepomp-elektrische-auto', 'name' => 'warmtepomp-elektrische-auto'],
+            'thuisbatterij-zelf-installeren' => ['path' => 'thuisbatterij-zelf-installeren', 'name' => 'thuisbatterij-zelf-installeren'],
         ];
 
         foreach ($newSections as $section => $route) {
