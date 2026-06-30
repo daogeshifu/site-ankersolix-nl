@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Paypal\PayPalController;
@@ -67,5 +68,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         Route::get('/', [ProductController::class, 'index'])->name('index');
         Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [ProductController::class, 'update'])->name('update');
+    });
+
+    // 商品分类管理
+    Route::prefix('product-category')->name('product_category.')->group(function () {
+        Route::get('/', [ProductCategoryController::class, 'index'])->name('index');
+        Route::get('/create', [ProductCategoryController::class, 'create'])->name('create');
+        Route::post('/store', [ProductCategoryController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [ProductCategoryController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [ProductCategoryController::class, 'update'])->name('update');
+        Route::get('/destroy/{id}', [ProductCategoryController::class, 'destroy'])->name('destroy');
     });
 });

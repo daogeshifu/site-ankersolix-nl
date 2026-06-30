@@ -77,6 +77,13 @@
                             <span>分类管理</span>
                         </a>
                     </li>
+
+                    <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title link-nav" href="{{ route('admin.product_category.index') }}">
+                            <i class="fas fa-layer-group m-2"></i>
+                            <span>产品分类管理</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="right-arrow" id="right-arrow">
