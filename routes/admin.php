@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Paypal\PayPalController;
@@ -13,8 +14,10 @@ use Illuminate\Support\Facades\Route;
 // 后台管理（需要认证）
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
 
-    // 仪表盘
-    Route::get('/', [AdminUserController::class, 'index'])->name('index');
+    // 后台默认进入用户列表
+    Route::get('/', function () {
+        return redirect()->route('admin.user.index');
+    })->name('index');
     // 用户管理
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('/', [AdminUserController::class, 'index'])->name('index');
@@ -78,5 +81,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         Route::get('/edit/{id}', [ProductCategoryController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [ProductCategoryController::class, 'update'])->name('update');
         Route::get('/destroy/{id}', [ProductCategoryController::class, 'destroy'])->name('destroy');
+    });
+
+    // 站点设置
+    Route::prefix('site-setting')->name('site_setting.')->group(function () {
+        Route::get('/', [SiteSettingController::class, 'index'])->name('index');
     });
 });
