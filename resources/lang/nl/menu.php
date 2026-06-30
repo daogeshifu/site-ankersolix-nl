@@ -14,12 +14,23 @@ return [
     'home' => 'Home',
     'products' => 'Producten',
     'backend' => 'Beheer',
-    'buying_guide' => 'Aankoopgids',
-    'installation' => 'Installatie en Configuratie',
-    'subsidy' => 'Subsidies en Beleid',
+    'buying_guide' => 'Thuisbatterij Koopgids',//选购指南
+    'installation' => 'Plug-and-play & Stekkerbatterij',//安装和配置
+    'subsidy' => 'salderingsregeling',//补贴和政策
     'more' => 'Meer',
-    'energy_saving' => 'Elektriciteitsprijzen en Bespaartips',
+    'energy_saving' => 'Prijs & Terugverdientijd',
     'reviews' => 'Cases en Reviews',
+    'best_home_batteries_2026' => 'Beste Thuisbatterijen 2026',
+    'home_battery_without_solar_panels' => 'Thuisbatterij zonder Zonnepanelen',
+    'dynamic_energy_rates_smart_charging' => 'Dynamische Tarieven & Slim Laden',
+    'subsidy_vat_tax' => 'Subsidie, BTW & Belasting',
+    'backup_emergency_power' => 'Back-up & Noodstroom',
+    'store_solar_energy' => 'Zonne-energie Opslaan',
+    'capacity_expansion' => 'Capaciteit & Uitbreiding',
+    'heat_pump_electric_car' => 'Warmtepomp & Elektrische Auto',
+    'safety_lifespan_lfp' => 'Veiligheid & Levensduur (LFP)',
+    'self_installation' => 'Installatie & Zelf Aansluiten',
+    'renters_flexible_use' => 'Huurders & Flexibel Gebruik',
     'dropdown' => [
         'services' => [
             'brand_status_analysis' => ['title' => 'Merkanalyse'],

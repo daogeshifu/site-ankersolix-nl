@@ -42,6 +42,51 @@ class NewController extends Controller
             'route' => 'reviews',
             'per_page' => 9,
         ],
+        'beste-thuisbatterij-2026' => [
+            'category' => 'beste-thuisbatterij-2026',
+            'route' => 'beste-thuisbatterij-2026',
+            'per_page' => 9,
+        ],
+        'thuisbatterij-zonder-zonnepanelen' => [
+            'category' => 'thuisbatterij-zonder-zonnepanelen',
+            'route' => 'thuisbatterij-zonder-zonnepanelen',
+            'per_page' => 9,
+        ],
+        'dynamische-energietarieven' => [
+            'category' => 'dynamische-energietarieven',
+            'route' => 'dynamische-energietarieven',
+            'per_page' => 9,
+        ],
+        'thuisbatterij-subsidie' => [
+            'category' => 'thuisbatterij-subsidie',
+            'route' => 'thuisbatterij-subsidie',
+            'per_page' => 9,
+        ],
+        'back-upstroom-noodstroom' => [
+            'category' => 'back-upstroom-noodstroom',
+            'route' => 'back-upstroom-noodstroom',
+            'per_page' => 9,
+        ],
+        'zonne-energie-opslaan' => [
+            'category' => 'zonne-energie-opslaan',
+            'route' => 'zonne-energie-opslaan',
+            'per_page' => 9,
+        ],
+        'thuisbatterij-capaciteit-uitbreiding' => [
+            'category' => 'thuisbatterij-capaciteit-uitbreiding',
+            'route' => 'thuisbatterij-capaciteit-uitbreiding',
+            'per_page' => 9,
+        ],
+        'warmtepomp-elektrische-auto' => [
+            'category' => 'warmtepomp-elektrische-auto',
+            'route' => 'warmtepomp-elektrische-auto',
+            'per_page' => 9,
+        ],
+        'thuisbatterij-zelf-installeren' => [
+            'category' => 'thuisbatterij-zelf-installeren',
+            'route' => 'thuisbatterij-zelf-installeren',
+            'per_page' => 9,
+        ],
     ];
 
     public function index(Request $request)

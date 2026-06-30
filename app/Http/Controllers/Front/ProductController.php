@@ -37,6 +37,42 @@ class ProductController extends Controller
             'index' => 'reviews',
             'detail' => 'reviews.detail.show',
         ],
+        'beste-thuisbatterij-2026' => [
+            'index' => 'beste-thuisbatterij-2026',
+            'detail' => 'beste-thuisbatterij-2026.detail.show',
+        ],
+        'thuisbatterij-zonder-zonnepanelen' => [
+            'index' => 'thuisbatterij-zonder-zonnepanelen',
+            'detail' => 'thuisbatterij-zonder-zonnepanelen.detail.show',
+        ],
+        'dynamische-energietarieven' => [
+            'index' => 'dynamische-energietarieven',
+            'detail' => 'dynamische-energietarieven.detail.show',
+        ],
+        'thuisbatterij-subsidie' => [
+            'index' => 'thuisbatterij-subsidie',
+            'detail' => 'thuisbatterij-subsidie.detail.show',
+        ],
+        'back-upstroom-noodstroom' => [
+            'index' => 'back-upstroom-noodstroom',
+            'detail' => 'back-upstroom-noodstroom.detail.show',
+        ],
+        'zonne-energie-opslaan' => [
+            'index' => 'zonne-energie-opslaan',
+            'detail' => 'zonne-energie-opslaan.detail.show',
+        ],
+        'thuisbatterij-capaciteit-uitbreiding' => [
+            'index' => 'thuisbatterij-capaciteit-uitbreiding',
+            'detail' => 'thuisbatterij-capaciteit-uitbreiding.detail.show',
+        ],
+        'warmtepomp-elektrische-auto' => [
+            'index' => 'warmtepomp-elektrische-auto',
+            'detail' => 'warmtepomp-elektrische-auto.detail.show',
+        ],
+        'thuisbatterij-zelf-installeren' => [
+            'index' => 'thuisbatterij-zelf-installeren',
+            'detail' => 'thuisbatterij-zelf-installeren.detail.show',
+        ],
     ];
 
     public function index(Request $request, ?string $categorySlug = null, ?int $page = null)
