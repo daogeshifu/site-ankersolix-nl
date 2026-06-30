@@ -147,13 +147,13 @@ class ProductController extends Controller
         //     ->orderByDesc('id')
         //     ->paginate(12)
         //     ->appends($request->query());
-        $products = $query
-            ->orderByRaw('CASE WHEN sort_order = 1 THEN 0 ELSE 1 END')
-            ->orderByDesc('any_variant_available')
-            ->orderBy('price')
-            ->orderBy('sort_order')
-            ->paginate(12)
-            ->appends($request->query());
+            $products = $query
+                ->orderByRaw('CASE WHEN sort_order = 1 THEN 0 ELSE 1 END')
+                ->orderByDesc('any_variant_available')
+                ->orderBy('price')
+                ->orderBy('sort_order')
+                ->paginate(12)
+                ->appends($request->query());
 
         if ($currentCategory) {
             $basePath = route('products.category', $currentCategory->slug);
