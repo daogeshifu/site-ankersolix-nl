@@ -144,7 +144,7 @@ class ProductController extends Controller
 
         $products = $query->orderByDesc('any_variant_available')
             ->orderBy('price')
-            ->orderBy('sort_order')
+            ->orderByDesc('sort_order')
             ->orderByDesc('id')
             ->paginate(12)
             ->appends($request->query());
