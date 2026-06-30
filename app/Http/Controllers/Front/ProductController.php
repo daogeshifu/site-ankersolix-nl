@@ -142,10 +142,16 @@ class ProductController extends Controller
             ->when($brand !== '', fn ($q) => $q->where('brand', $brand))
             ->when($availability !== '', fn ($q) => $q->where('availability_status', $availability));
 
-        $products = $query->orderByDesc('any_variant_available')
+        // $products = $query->orderByDesc('any_variant_available')
+        //     ->orderBy('price')
+        //     ->orderByDesc('id')
+        //     ->paginate(12)
+        //     ->appends($request->query());
+        $products = $query
+            ->orderByRaw('CASE WHEN sort_order = 1 THEN 0 ELSE 1 END')
+            ->orderByDesc('any_variant_available')
             ->orderBy('price')
-            ->orderByDesc('sort_order')
-//            ->orderByDesc('id')
+            ->orderBy('sort_order')
             ->paginate(12)
             ->appends($request->query());
 
