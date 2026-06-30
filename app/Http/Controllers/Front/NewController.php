@@ -6,7 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Article\Article;
 use App\Models\Article\ArticleCategory;
 use App\Models\Article\ArticleTag;
+use App\Models\Product\Product;
+use App\Models\Product\ProductFaq;
+use App\Support\BuyingGuidePageData;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class NewController extends Controller
 {
@@ -14,7 +20,7 @@ class NewController extends Controller
         'buying-guide' => [
             'category' => 'aankoopgids',
             'route' => 'buying-guide',
-            'per_page' => 9,
+            'per_page' => 4,
         ],
         'installation' => [
             'category' => 'installatie-configuratie',
@@ -68,6 +74,12 @@ class NewController extends Controller
                 'name' => $section['category'],
                 'title' => $section['category'],
                 'seo_description' => null,
+                'seo_title' => null,
+                'seo_keywords' => null,
+                'related_product_ids' => [],
+                'related_faq_ids' => [],
+                'quick_answer' => null,
+                'page_data' => null,
             ];
         }
 
@@ -93,6 +105,28 @@ class NewController extends Controller
             ->appends(['search' => $search]);
 
         $articles->withPath(route($section['route']));
+
+        if (($request->route('section') ?? null) === 'buying-guide') {
+            $guideContent = $this->buildBuyingGuideContent(
+                $currentCategory,
+                $articles,
+                $section['route'],
+                $section['route'] . '.detail.show',
+                $search
+            );
+
+            return view('front.new.buying-guide', [
+                'articles' => $articles,
+                'categories' => $categories,
+                'currentCategory' => $currentCategory,
+                'search' => $search,
+                'currentPage' => $currentPage,
+                'indexRoute' => $section['route'],
+                'pageRoute' => $section['route'] . '.page',
+                'detailRoute' => $section['route'] . '.detail.show',
+                'guideContent' => $guideContent,
+            ]);
+        }
 
         $topArticle = null;
         if (!$search && $currentPage == 1) {
@@ -200,5 +234,203 @@ class NewController extends Controller
         }
 
         return self::SECTIONS[$key];
+    }
+
+    private function buildBuyingGuideContent(
+        object $currentCategory,
+        LengthAwarePaginator $articles,
+        string $indexRoute,
+        string $detailRoute,
+        ?string $search
+    ): array {
+        $content = BuyingGuidePageData::merge(is_array($currentCategory->page_data ?? null) ? $currentCategory->page_data : []);
+
+        $quickAnswer = BuyingGuidePageData::merge([
+            'quick_answer' => is_array($currentCategory->quick_answer ?? null) ? $currentCategory->quick_answer : [],
+        ])['quick_answer'];
+
+        $selectedProducts = $this->loadSelectedProducts($currentCategory->related_product_ids ?? []);
+        $selectedFaqs = $this->loadSelectedFaqs($currentCategory->related_faq_ids ?? []);
+
+        $content['quick_answer'] = $quickAnswer;
+        $content['product_cards'] = $this->buildProductCards($selectedProducts, $content['product_cards']);
+        $content['faq']['items'] = $this->buildFaqItems($selectedFaqs, $content['faq']['items']);
+        $content['article_cards'] = $this->buildArticleCards($articles, $content['article_cards'], $detailRoute, $search);
+
+        $content['products_section']['cta_href'] = route('products.index');
+        $content['articles_section']['cta_href'] = route($indexRoute);
+
+        return $content;
+    }
+
+    private function loadSelectedProducts(array $ids): Collection
+    {
+        $normalizedIds = array_values(array_map('intval', array_filter($ids)));
+        if ($normalizedIds === []) {
+            return collect();
+        }
+
+        $positionMap = array_flip($normalizedIds);
+
+        return Product::with(['media', 'category'])
+            ->active()
+            ->whereIn('id', $normalizedIds)
+            ->get()
+            ->sortBy(fn (Product $product) => $positionMap[$product->id] ?? PHP_INT_MAX)
+            ->values();
+    }
+
+    private function loadSelectedFaqs(array $ids): Collection
+    {
+        $normalizedIds = array_values(array_map('intval', array_filter($ids)));
+        if ($normalizedIds === []) {
+            return collect();
+        }
+
+        $positionMap = array_flip($normalizedIds);
+
+        return ProductFaq::with('product:id,title')
+            ->whereIn('id', $normalizedIds)
+            ->get()
+            ->sortBy(fn (ProductFaq $faq) => $positionMap[$faq->id] ?? PHP_INT_MAX)
+            ->values();
+    }
+
+    private function buildProductCards(Collection $selectedProducts, array $defaults): array
+    {
+        if ($selectedProducts->isEmpty()) {
+            return $defaults;
+        }
+
+        $mapped = $selectedProducts->map(function (Product $product, int $index) {
+            $palette = [
+                ['badge' => 'Topkeuze', 'badge_bg' => '#135bec', 'badge_color' => '#ffffff'],
+                ['badge' => 'Slim laden', 'badge_bg' => '#ecfdf3', 'badge_color' => '#047857'],
+                ['badge' => 'Beste app', 'badge_bg' => '#eef3fe', 'badge_color' => '#135bec'],
+                ['badge' => 'Instapper', 'badge_bg' => '#fef3c7', 'badge_color' => '#b45309'],
+                ['badge' => 'Beste prijs', 'badge_bg' => '#ecfdf3', 'badge_color' => '#047857'],
+                ['badge' => 'Voor EV', 'badge_bg' => '#eef3fe', 'badge_color' => '#135bec'],
+            ];
+
+            $badge = $palette[$index % count($palette)];
+            $summary = trim((string) ($product->summary ?: $product->description_text ?: strip_tags((string) $product->description_html)));
+
+            return [
+                'icon' => $this->resolveProductIcon($product),
+                'cap' => $this->extractCapacity($product) ?: 'Capaciteit op aanvraag',
+                'badge' => $badge['badge'],
+                'badge_bg' => $badge['badge_bg'],
+                'badge_color' => $badge['badge_color'],
+                'type' => Str::limit(Str::headline((string) ($product->product_type ?: optional($product->category)->name ?: 'Product')), 18, ''),
+                'stock' => $product->any_variant_available ? 'Op voorraad' : 'Op aanvraag',
+                'title' => $product->title,
+                'desc' => Str::limit($summary !== '' ? $summary : 'Bekijk de productspecificaties en prijzen op de productdetailpagina.', 120),
+                'brand' => $product->brand ?: $product->vendor ?: 'Beste Thuisbatterij',
+                'price' => $this->formatPrice($product),
+                'href' => route('products.show', ['slug' => $product->slug]),
+                'image' => $product->display_image,
+            ];
+        })->values()->all();
+
+        return array_slice(array_merge($mapped, array_slice($defaults, count($mapped))), 0, max(count($defaults), count($mapped)));
+    }
+
+    private function buildFaqItems(Collection $selectedFaqs, array $defaults): array
+    {
+        if ($selectedFaqs->isEmpty()) {
+            return $defaults;
+        }
+
+        $mapped = $selectedFaqs->map(fn (ProductFaq $faq) => [
+            'question' => $faq->question,
+            'answer' => $faq->answer,
+        ])->values()->all();
+
+        return array_slice(array_merge($mapped, array_slice($defaults, count($mapped))), 0, max(count($defaults), count($mapped)));
+    }
+
+    private function buildArticleCards(
+        LengthAwarePaginator $articles,
+        array $defaults,
+        string $detailRoute,
+        ?string $search
+    ): array {
+        if ($articles->isEmpty()) {
+            return $search ? [] : $defaults;
+        }
+
+        $gradients = [
+            'linear-gradient(135deg,#135bec,#0e3fa8)',
+            'linear-gradient(135deg,#047857,#065f46)',
+            'linear-gradient(135deg,#b45309,#92400e)',
+            'linear-gradient(135deg,#6d28d9,#4c1d95)',
+        ];
+
+        return $articles->getCollection()->map(function (Article $article, int $index) use ($detailRoute, $gradients) {
+            $excerptSource = $article->summary ?: strip_tags((string) $article->content);
+
+            return [
+                'icon' => $this->resolveArticleIcon($article),
+                'bg' => $gradients[$index % count($gradients)],
+                'tag' => $article->category?->name ?: 'Aankoopgids',
+                'title' => $article->title,
+                'excerpt' => Str::limit(trim((string) $excerptSource), 110),
+                'meta' => $article->created_at->format('d M Y') . ' · ' . max(1, ceil(str_word_count(strip_tags((string) $article->content)) / 200)) . ' min',
+                'href' => route($detailRoute, ['link' => $article->link]),
+                'image' => $article->cover_url,
+            ];
+        })->values()->all();
+    }
+
+    private function resolveProductIcon(Product $product): string
+    {
+        $haystack = Str::lower(trim($product->title . ' ' . $product->brand . ' ' . $product->product_type));
+
+        return match (true) {
+            Str::contains($haystack, ['anker', 'solix']) => 'battery_charging_full',
+            Str::contains($haystack, ['sessy']) => 'bolt',
+            Str::contains($haystack, ['zonneplan', 'solar']) => 'solar_power',
+            Str::contains($haystack, ['homewizard', 'plug']) => 'power',
+            Str::contains($haystack, ['marstek']) => 'battery_full',
+            Str::contains($haystack, ['ecoflow', 'ev']) => 'ev_station',
+            default => 'battery_charging_full',
+        };
+    }
+
+    private function resolveArticleIcon(Article $article): string
+    {
+        $haystack = Str::lower(trim(($article->title ?? '') . ' ' . ($article->summary ?? '')));
+
+        return match (true) {
+            Str::contains($haystack, ['salder', 'regeling']) => 'trending_down',
+            Str::contains($haystack, ['prijs', 'tarief']) => 'show_chart',
+            Str::contains($haystack, ['bereken', 'terugverdientijd']) => 'calculate',
+            Str::contains($haystack, ['lfp', 'nmc', 'techniek']) => 'science',
+            default => 'article',
+        };
+    }
+
+    private function extractCapacity(Product $product): ?string
+    {
+        $haystack = trim(($product->title ?? '') . ' ' . ($product->summary ?? '') . ' ' . ($product->description_text ?? ''));
+
+        if (preg_match('/\b\d+(?:[.,]\d+)?(?:\s*[–-]\s*\d+(?:[.,]\d+)?)?\s*kwh\b/i', $haystack, $matches)) {
+            return str_replace('kwh', 'kWh', $matches[0]);
+        }
+
+        return null;
+    }
+
+    private function formatPrice(Product $product): string
+    {
+        if ($product->price === null) {
+            return 'Prijs op aanvraag';
+        }
+
+        $price = number_format((float) $product->price, ((float) $product->price) === floor((float) $product->price) ? 0 : 2, ',', '.');
+
+        return ($product->currency ?: 'EUR') === 'EUR'
+            ? '€' . $price
+            : trim(($product->currency ?: 'EUR') . ' ' . $price);
     }
 }

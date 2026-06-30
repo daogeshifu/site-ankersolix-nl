@@ -4,23 +4,35 @@ namespace App\Models\Article;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 class ArticleCategory extends Model
 {
     use HasFactory;
 
-    // Keep the original fillable fields that aren't translatable
     protected $fillable = [
-        'name', 
+        'name',
         'description',
         'seo_title',
         'seo_description',
         'seo_keywords',
-        // 'parent_id',
+        'parent_id',
+        'related_product_ids',
+        'related_faq_ids',
+        'quick_answer',
+        'page_data',
     ];
 
     protected $table = 'article_categorys';
 
     protected $appends = ['count'];
+
+    protected $casts = [
+        'parent_id' => 'integer',
+        'related_product_ids' => 'array',
+        'related_faq_ids' => 'array',
+        'quick_answer' => 'array',
+        'page_data' => 'array',
+    ];
 
     /**
      * 获取子分类

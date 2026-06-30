@@ -65,7 +65,9 @@
 									<th>分类名称</th>
 									<th>描述</th>
 									<th width="100">文章数量</th>
-									<th width="150">SEO 标题</th>
+									<th width="180">关联产品 / FAQ</th>
+									<th width="180">快速回答</th>
+									<th width="150">TDK</th>
 									<th width="180">创建时间</th>
 									<th width="160">操作</th>
 								</tr>
@@ -82,9 +84,27 @@
 									</td>
 									<td>{{ Str::limit($category->description ?? '-', 50) }}</td>
 									<td class="text-center">
-										<span class="badge badge-info">{{ $category->count }}</span>
+										<span class="badge badge-info">{{ $category->articles_count ?? $category->count }}</span>
 									</td>
-									<td>{{ Str::limit($category->seo_title ?? '-', 30) }}</td>
+									<td>
+										<div class="d-flex flex-column gap-1">
+											<span class="badge badge-primary">产品 {{ count($category->related_product_ids ?? []) }}</span>
+											<span class="badge badge-success">FAQ {{ count($category->related_faq_ids ?? []) }}</span>
+										</div>
+									</td>
+									<td>
+										@if(filled(data_get($category->quick_answer, 'summary')))
+											{{ Str::limit(data_get($category->quick_answer, 'summary'), 60) }}
+										@else
+											<span class="text-muted">模板默认</span>
+										@endif
+									</td>
+									<td>
+										<div class="small text-muted">Title</div>
+										<div>{{ Str::limit($category->seo_title ?? '-', 28) }}</div>
+										<div class="small text-muted mt-1">Description</div>
+										<div>{{ Str::limit($category->seo_description ?? '-', 36) }}</div>
+									</td>
 									<td>{{ $category->created_at->format('Y-m-d H:i') }}</td>
 
 									<!-- Actions -->
@@ -105,7 +125,7 @@
 
 								@if($categories->isEmpty())
 								<tr>
-									<td colspan="7" class="text-center text-muted">
+									<td colspan="9" class="text-center text-muted">
 										暂无数据
 									</td>
 								</tr>
