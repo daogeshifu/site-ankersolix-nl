@@ -23,6 +23,20 @@
     </div>
 
     <div class="mb-3">
+        <label class="form-label">URL 链接<span class="required-star">*</span></label>
+        <input type="text"
+               class="form-control @error('url') is-invalid @enderror"
+               name="url"
+               value="{{ old('url', $category->url ?? '') }}"
+               placeholder="例如 thuisbatterij-zonder-zonnepanelen"
+               required>
+        <div class="form-text">前台分类页地址会使用该字段，例如 /thuisbatterij-zonder-zonnepanelen。</div>
+        @error('url')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="mb-3">
         <label class="form-label">父分类</label>
         <select class="form-select @error('parent_id') is-invalid @enderror" name="parent_id">
             <option value="">-- 无父分类（顶级分类）--</option>

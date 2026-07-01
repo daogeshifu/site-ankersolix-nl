@@ -7,7 +7,9 @@ use App\Models\Article\ArticleCategory;
 use App\Models\Product\Product;
 use App\Models\Product\ProductFaq;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -22,6 +24,7 @@ class CategoryController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('url', 'like', "%{$search}%")
                     ->orWhere('description', 'like', "%{$search}%")
                     ->orWhere('seo_title', 'like', "%{$search}%");
             });
@@ -57,8 +60,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->prepareCategoryUrl($request);
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:article_categorys,name',
+            'url' => [
+                'required',
+                'string',
+                'max:180',
+                'alpha_dash',
+                Rule::notIn($this->reservedCategoryUrls()),
+                Rule::unique('article_categorys', 'url'),
+            ],
             'description' => 'nullable|string',
             'seo_title' => 'nullable|string|max:255',
             'seo_description' => 'nullable|string',
@@ -76,6 +89,10 @@ class CategoryController extends Controller
         ], [
             'name.required' => '分类名称不能为空',
             'name.unique' => '分类名称已存在',
+            'url.required' => '分类 URL 不能为空',
+            'url.alpha_dash' => '分类 URL 只能包含字母、数字、横线和下划线',
+            'url.unique' => '分类 URL 已存在',
+            'url.not_in' => '该分类 URL 与系统路径冲突，请换一个',
             'parent_id.exists' => '父分类不存在',
         ]);
 
@@ -142,9 +159,18 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $category = ArticleCategory::findOrFail($id);
+        $this->prepareCategoryUrl($request);
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:article_categorys,name,' . $id,
+            'url' => [
+                'required',
+                'string',
+                'max:180',
+                'alpha_dash',
+                Rule::notIn($this->reservedCategoryUrls()),
+                Rule::unique('article_categorys', 'url')->ignore($id),
+            ],
             'description' => 'nullable|string',
             'seo_title' => 'nullable|string|max:255',
             'seo_description' => 'nullable|string',
@@ -162,6 +188,10 @@ class CategoryController extends Controller
         ], [
             'name.required' => '分类名称不能为空',
             'name.unique' => '分类名称已存在',
+            'url.required' => '分类 URL 不能为空',
+            'url.alpha_dash' => '分类 URL 只能包含字母、数字、横线和下划线',
+            'url.unique' => '分类 URL 已存在',
+            'url.not_in' => '该分类 URL 与系统路径冲突，请换一个',
             'parent_id.exists' => '父分类不存在',
         ]);
 
@@ -250,6 +280,7 @@ class CategoryController extends Controller
     {
         return [
             'name' => $request->input('name'),
+            'url' => $request->input('url'),
             'description' => $request->input('description'),
             'seo_title' => $request->input('seo_title'),
             'seo_description' => $request->input('seo_description'),
@@ -260,6 +291,48 @@ class CategoryController extends Controller
             'related_faq_ids' => $this->normalizeIds($request->input('related_faq_ids', [])),
             'quick_answer' => $this->buildQuickAnswerPayload($request),
             'page_data' => $this->decodePageData($request->input('page_data_json')),
+        ];
+    }
+
+    private function prepareCategoryUrl(Request $request): void
+    {
+        $url = $this->normalizeCategoryUrl($request->input('url'));
+
+        if ($url === '' && filled($request->input('name'))) {
+            $url = Str::slug((string) $request->input('name'));
+        }
+
+        $request->merge(['url' => $url]);
+    }
+
+    private function normalizeCategoryUrl(?string $url): string
+    {
+        $url = trim((string) $url);
+        $url = preg_replace('#^https?://[^/]+#i', '', $url);
+        $url = trim((string) $url, '/');
+
+        return Str::slug($url);
+    }
+
+    private function reservedCategoryUrls(): array
+    {
+        return [
+            'admin',
+            'api',
+            'article',
+            'blogs',
+            'calculator',
+            'cases',
+            'collections',
+            'contact',
+            'guides',
+            'help',
+            'news',
+            'policy',
+            'price',
+            'pricing',
+            'products',
+            'terms',
         ];
     }
 

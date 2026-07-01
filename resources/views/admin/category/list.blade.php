@@ -38,7 +38,7 @@
 								<input type="text"
 									   name="search"
 									   class="form-control"
-									   placeholder="搜索分类名称或描述..."
+									   placeholder="搜索分类名称、URL 或描述..."
 									   value="{{ request('search') }}">
 							</div>
 
@@ -87,6 +87,9 @@
 									<td>{{ $category->id }}</td>
 									<td>
 										<strong>{{ $category->name }}</strong>
+										@if($category->url)
+											<br><small class="text-muted">URL: /{{ $category->url }}</small>
+										@endif
 										@if($category->parent)
 											<br><small class="text-muted">父分类: {{ $category->parent->name }}</small>
 										@endif

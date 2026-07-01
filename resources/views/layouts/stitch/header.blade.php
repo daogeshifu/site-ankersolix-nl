@@ -99,7 +99,7 @@
             'name' => $category->name,
             'icon' => $icons[$index % count($icons)],
             'description' => \Illuminate\Support\Str::limit($category->description ?: $articleFallbackDescription, 58),
-            'href' => route('article.category2', ['category_name' => $category->name]),
+            'href' => route('article.category2', ['category_name' => $category->url ?: $category->name]),
         ];
     });
     if ($articleNavItems->isEmpty()) {
@@ -359,7 +359,7 @@
             <div class="mt-3 flex flex-col gap-2">
                 <a class="text-sm font-medium text-primary" href="{{ route('articles') }}">{{ $allArticlesLabel }}</a>
                 @forelse($articleCategories as $category)
-                    <a class="text-sm text-[#374151]" href="{{ route('article.category2', ['category_name' => $category->name]) }}">{{ $category->name }}</a>
+                    <a class="text-sm text-[#374151]" href="{{ route('article.category2', ['category_name' => $category->url ?: $category->name]) }}">{{ $category->name }}</a>
                 @empty
                     @foreach($articleNavItems as $item)
                         <a class="text-sm text-[#374151]" href="{{ $item['href'] }}">{{ $item['name'] }}</a>

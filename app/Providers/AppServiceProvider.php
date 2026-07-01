@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
                 ->active()
                 ->withCount('articles')
                 ->orderBy('id')
-                ->get(['id', 'name', 'parent_id', 'description', 'is_active']);
+                ->get(['id', 'name', 'url', 'parent_id', 'description', 'is_active']);
 
             $view->with([
                 'headerProductCategories' => $productCategories,

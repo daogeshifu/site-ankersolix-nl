@@ -99,17 +99,19 @@ class NewController extends Controller
         return $this->list($request, $page);
     }
 
+    public function category(Request $request, string $category_name)
+    {
+        return $this->listByCategoryUrl($request, $category_name);
+    }
+
+    public function categoryPage(Request $request, string $category_name, int $page)
+    {
+        return $this->listByCategoryUrl($request, $category_name, $page);
+    }
+
     private function list(Request $request, ?int $page = null)
     {
         $section = $this->section($request);
-        $search = $request->input('search');
-        $locale = app()->getLocale();
-
-        if ($page) {
-            $request->merge(['page' => $page]);
-        }
-
-        $currentPage = $request->get('page', 1);
         $categories = ArticleCategory::active()->withCount('articles')->get();
         $currentCategory = $categories->firstWhere('name', $section['category']);
 
@@ -121,12 +123,64 @@ class NewController extends Controller
                 'seo_description' => null,
                 'seo_title' => null,
                 'seo_keywords' => null,
+                'url' => $section['category'],
                 'related_product_ids' => [],
                 'related_faq_ids' => [],
                 'quick_answer' => null,
                 'page_data' => null,
             ];
         }
+
+        return $this->renderCategoryPage(
+            $request,
+            $currentCategory,
+            route($section['route']),
+            $section['route'] . '.detail.show',
+            [],
+            $section['per_page'],
+            $page
+        );
+    }
+
+    private function listByCategoryUrl(Request $request, string $categoryUrl, ?int $page = null)
+    {
+        $currentCategory = $this->findCategoryByUrl($categoryUrl);
+
+        if (!$currentCategory) {
+            abort(404);
+        }
+
+        $url = $this->categoryUrl($currentCategory);
+
+        return $this->renderCategoryPage(
+            $request,
+            $currentCategory,
+            route('article.category2', ['category_name' => $url]),
+            'article.detail.show',
+            ['category_name' => $url],
+            9,
+            $page
+        );
+    }
+
+    private function renderCategoryPage(
+        Request $request,
+        object $currentCategory,
+        string $indexHref,
+        string $detailRoute,
+        array $detailRouteParameters = [],
+        int $perPage = 9,
+        ?int $page = null
+    ) {
+        $search = $request->input('search');
+        $locale = app()->getLocale();
+
+        if ($page) {
+            $request->merge(['page' => $page]);
+        }
+
+        $currentPage = $request->get('page', 1);
+        $categories = ArticleCategory::active()->withCount('articles')->get();
 
         $query = Article::with(['category', 'user'])
             ->whereTranslation('locale', $locale);
@@ -146,16 +200,17 @@ class NewController extends Controller
         }
 
         $articles = $query->orderBy('id', 'desc')
-            ->paginate($section['per_page'])
+            ->paginate($perPage)
             ->appends(['search' => $search]);
 
-        $articles->withPath(route($section['route']));
+        $articles->withPath($indexHref);
 
         $guideContent = $this->buildBuyingGuideContent(
             $currentCategory,
             $articles,
-            $section['route'],
-            $section['route'] . '.detail.show',
+            $indexHref,
+            $detailRoute,
+            $detailRouteParameters,
             $search
         );
 
@@ -165,9 +220,6 @@ class NewController extends Controller
             'currentCategory' => $currentCategory,
             'search' => $search,
             'currentPage' => $currentPage,
-            'indexRoute' => $section['route'],
-            'pageRoute' => $section['route'] . '.page',
-            'detailRoute' => $section['route'] . '.detail.show',
             'guideContent' => $guideContent,
         ]);
     }
@@ -261,8 +313,9 @@ class NewController extends Controller
     private function buildBuyingGuideContent(
         object $currentCategory,
         LengthAwarePaginator $articles,
-        string $indexRoute,
+        string $indexHref,
         string $detailRoute,
+        array $detailRouteParameters,
         ?string $search
     ): array {
         $content = BuyingGuidePageData::merge(is_array($currentCategory->page_data ?? null) ? $currentCategory->page_data : []);
@@ -277,10 +330,10 @@ class NewController extends Controller
         $content['quick_answer'] = $quickAnswer;
         $content['product_cards'] = $this->buildProductCards($selectedProducts, $content['product_cards']);
         $content['faq']['items'] = $this->buildFaqItems($selectedFaqs, $content['faq']['items']);
-        $content['article_cards'] = $this->buildArticleCards($articles, $content['article_cards'], $detailRoute, $search);
+        $content['article_cards'] = $this->buildArticleCards($articles, $content['article_cards'], $detailRoute, $detailRouteParameters, $search);
 
         $content['products_section']['cta_href'] = route('products.index');
-        $content['articles_section']['cta_href'] = route($indexRoute);
+        $content['articles_section']['cta_href'] = $indexHref;
 
         return $content;
     }
@@ -375,6 +428,7 @@ class NewController extends Controller
         LengthAwarePaginator $articles,
         array $defaults,
         string $detailRoute,
+        array $detailRouteParameters,
         ?string $search
     ): array {
         if ($articles->isEmpty()) {
@@ -388,7 +442,7 @@ class NewController extends Controller
             'linear-gradient(135deg,#6d28d9,#4c1d95)',
         ];
 
-        return $articles->getCollection()->map(function (Article $article, int $index) use ($detailRoute, $gradients) {
+        return $articles->getCollection()->map(function (Article $article, int $index) use ($detailRoute, $detailRouteParameters, $gradients) {
             $excerptSource = $article->summary ?: strip_tags((string) $article->content);
 
             return [
@@ -398,10 +452,35 @@ class NewController extends Controller
                 'title' => $article->title,
                 'excerpt' => Str::limit(trim((string) $excerptSource), 110),
                 'meta' => $article->created_at->format('d M Y') . ' · ' . max(1, ceil(str_word_count(strip_tags((string) $article->content)) / 200)) . ' min',
-                'href' => route($detailRoute, ['link' => $article->link]),
+                'href' => route($detailRoute, array_merge($detailRouteParameters, ['link' => $article->link])),
                 'image' => $article->cover_url,
             ];
         })->values()->all();
+    }
+
+    private function findCategoryByUrl(string $categoryUrl): ?ArticleCategory
+    {
+        $categoryUrl = trim($categoryUrl, '/');
+
+        return ArticleCategory::active()
+            ->where(function ($query) use ($categoryUrl) {
+                $query->where('url', $categoryUrl)
+                    ->orWhere('name', $categoryUrl)
+                    ->orWhere(function ($query) use ($categoryUrl) {
+                        $query->whereNull('url')
+                            ->where('name', $categoryUrl);
+                    })
+                    ->orWhere(function ($query) use ($categoryUrl) {
+                        $query->where('url', '')
+                            ->where('name', $categoryUrl);
+                    });
+            })
+            ->first();
+    }
+
+    private function categoryUrl(object $category): string
+    {
+        return (string) ($category->url ?: $category->name);
     }
 
     private function resolveProductIcon(Product $product): string

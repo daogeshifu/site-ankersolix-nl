@@ -148,7 +148,7 @@ class GenerateSitemap extends Command
         $categories = ArticleCategory::active()->get();
         foreach ($categories as $category) {
             $sitemap->add(
-                $this->url(route('article.category2', [$category->name]), 'weekly', 0.9, $category->updated_at)
+                $this->url(route('article.category2', [$category->url ?: $category->name]), 'weekly', 0.9, $category->updated_at)
             );
         }
     }
