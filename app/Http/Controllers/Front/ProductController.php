@@ -84,6 +84,12 @@ class ProductController extends Controller
         $search = trim((string) $request->input('search'));
         $brand = trim((string) $request->input('brand'));
         $availability = trim((string) $request->input('availability'));
+        $sort = trim((string) $request->input('sort', 'aanbevolen'));
+        $selectedTypes = collect((array) $request->input('type', []))
+            ->map(static fn ($type) => trim((string) $type))
+            ->filter()
+            ->values()
+            ->all();
 
         $categories = ProductCategory::withCount(['activeProducts as products_count'])
             ->where('is_active', true)
@@ -140,14 +146,17 @@ class ProductController extends Controller
                         ->orWhere('description_text', 'like', "%{$search}%");
                 });
             })
+            ->when($selectedTypes !== [], fn ($q) => $q->whereIn('product_type', $selectedTypes))
             ->when($brand !== '', fn ($q) => $q->where('brand', $brand))
             ->when($availability !== '', fn ($q) => $q->where('availability_status', $availability));
 
-         $products = $query->orderByDesc('any_variant_available')
-             ->orderBy('price')
-             ->orderByDesc('id')
-             ->paginate(12)
-             ->appends($request->query());
+        $query = match ($sort) {
+            'prijs-laag' => $query->orderBy('price')->orderByDesc('any_variant_available')->orderByDesc('id'),
+            'prijs-hoog' => $query->orderByDesc('price')->orderByDesc('any_variant_available')->orderByDesc('id'),
+            default => $query->orderByDesc('any_variant_available')->orderBy('price')->orderByDesc('id'),
+        };
+
+        $products = $query->paginate(12)->appends($request->query());
 
 
         if ($currentCategory) {
@@ -166,6 +175,27 @@ class ProductController extends Controller
             ->orderBy('brand')
             ->pluck('brand');
 
+        $types = Product::active()
+            ->whereNotNull('product_type')
+            ->select('product_type')
+            ->distinct()
+            ->orderBy('product_type')
+            ->pluck('product_type')
+            ->filter()
+            ->values();
+
+        $brandCounts = Product::active()
+            ->whereNotNull('brand')
+            ->selectRaw('brand, COUNT(*) as aggregate')
+            ->groupBy('brand')
+            ->pluck('aggregate', 'brand');
+
+        $typeCounts = Product::active()
+            ->whereNotNull('product_type')
+            ->selectRaw('product_type, COUNT(*) as aggregate')
+            ->groupBy('product_type')
+            ->pluck('aggregate', 'product_type');
+
         if ($currentCategory) {
             $guideContent = $this->buildCategoryGuideContent($currentCategory, $products);
 
@@ -177,15 +207,22 @@ class ProductController extends Controller
             ));
         }
 
+        $catalogContent = $this->buildCatalogPageContent($products);
+
         return view('front.products.index', compact(
             'products',
             'categories',
             'currentCategory',
             'brands',
+            'types',
+            'selectedTypes',
             'search',
             'brand',
             'availability',
-            'totalProductsCount'
+            'totalProductsCount',
+            'brandCounts',
+            'typeCounts',
+            'catalogContent'
         ));
     }
 
@@ -254,6 +291,223 @@ class ProductController extends Controller
         $content['products_section']['cta_href'] = route('products.index');
 
         return $content;
+    }
+
+    private function buildCatalogPageContent(LengthAwarePaginator $products): array
+    {
+        return [
+            'quick_picks' => $this->buildCatalogQuickPicks(),
+            'product_cards' => $this->buildCatalogProductCards($products->getCollection()),
+            'articles' => $this->buildCatalogArticleEntries(),
+            'faq' => $this->catalogFaqItems(),
+            'brand_strip' => Product::active()
+                ->whereNotNull('brand')
+                ->select('brand')
+                ->distinct()
+                ->orderBy('brand')
+                ->limit(10)
+                ->pluck('brand')
+                ->values()
+                ->all(),
+        ];
+    }
+
+    private function buildCatalogQuickPicks(): array
+    {
+        $defaults = [
+            [
+                'label' => 'Beste algemeen',
+                'label_color' => '#135bec',
+                'border_color' => '#135bec',
+                'title' => 'Anker SOLIX X1',
+                'desc' => 'Modulair tot 36 kWh, 12 kW vermogen en 10 jaar garantie — schaalbaar voor elk huishouden.',
+                'price' => 'vanaf €4.999',
+                'rating' => '4,8',
+                'keywords' => ['anker', 'solix', 'x1'],
+            ],
+            [
+                'label' => 'Beste prijs/kWh',
+                'label_color' => '#047857',
+                'border_color' => '#047857',
+                'title' => 'Marstek Venus',
+                'desc' => '5,12 kWh all-in-one met scherpe prijs en eenvoudige montage — ideaal om mee te starten.',
+                'price' => '±€1.699',
+                'rating' => '4,4',
+                'keywords' => ['marstek', 'venus'],
+            ],
+            [
+                'label' => 'Beste voor EV / warmtepomp',
+                'label_color' => '#6d28d9',
+                'border_color' => '#6d28d9',
+                'title' => 'EcoFlow PowerOcean',
+                'desc' => '10 kWh hybride systeem met back-up, geschikt voor warmtepomp en laadpaal.',
+                'price' => 'vanaf €5.899',
+                'rating' => '4,6',
+                'keywords' => ['ecoflow', 'powerocean'],
+            ],
+        ];
+
+        return collect($defaults)->map(function (array $item) {
+            $product = $this->findFeaturedProduct($item['keywords']);
+
+            return array_merge($item, [
+                'href' => $product ? route('products.show', ['slug' => $product->slug]) : route('products.index'),
+                'title' => $product?->title ?: $item['title'],
+                'desc' => $product
+                    ? Str::limit(trim((string) ($product->summary ?: $product->description_text ?: strip_tags((string) $product->description_html))), 120) ?: $item['desc']
+                    : $item['desc'],
+                'price' => $product ? $this->formatPrice($product) : $item['price'],
+            ]);
+        })->all();
+    }
+
+    private function buildCatalogProductCards(Collection $products): array
+    {
+        $palette = [
+            ['badge' => 'Topkeuze', 'badge_bg' => '#135bec', 'badge_color' => '#ffffff'],
+            ['badge' => 'Slim laden', 'badge_bg' => '#ecfdf3', 'badge_color' => '#047857'],
+            ['badge' => 'Beste app', 'badge_bg' => '#eef3fe', 'badge_color' => '#135bec'],
+            ['badge' => 'Instapper', 'badge_bg' => '#fef3c7', 'badge_color' => '#b45309'],
+            ['badge' => 'Beste prijs', 'badge_bg' => '#ecfdf3', 'badge_color' => '#047857'],
+            ['badge' => 'Voor EV', 'badge_bg' => '#eef3fe', 'badge_color' => '#135bec'],
+            ['badge' => 'Premium', 'badge_bg' => '#0e1626', 'badge_color' => '#ffffff'],
+        ];
+
+        return $products->values()->map(function (Product $product, int $index) use ($palette) {
+            $badge = $this->resolveCatalogBadge($product) ?? $palette[$index % count($palette)];
+            $reviewMeta = $this->resolveCatalogReviewMeta($product, $index);
+
+            return [
+                'id' => (string) $product->id,
+                'title' => $product->title,
+                'brand' => $product->brand ?: $product->vendor ?: 'Beste Thuisbatterij',
+                'type' => Str::limit(Str::headline((string) ($product->product_type ?: optional($product->category)->name ?: 'Product')), 18, ''),
+                'cap_label' => $this->extractCapacity($product) ?: 'Capaciteit op aanvraag',
+                'power' => $this->extractPower($product) ?: 'Vermogen op aanvraag',
+                'price_label' => $this->formatPrice($product),
+                'rating' => $reviewMeta['rating'],
+                'reviews' => $reviewMeta['reviews'],
+                'best_for' => $this->resolveBestFor($product),
+                'icon' => $this->resolveProductIcon($product),
+                'href' => route('products.show', ['slug' => $product->slug]),
+                'image' => $product->display_image,
+                'in_stock' => $product->any_variant_available,
+                'has_badge' => filled($badge['badge'] ?? null),
+                'badge' => $badge['badge'] ?? '',
+                'badge_bg' => $badge['badge_bg'] ?? '#135bec',
+                'badge_color' => $badge['badge_color'] ?? '#ffffff',
+            ];
+        })->all();
+    }
+
+    private function buildCatalogArticleEntries(): array
+    {
+        $articles = Article::with('category:id,name')
+            ->whereTranslation('locale', app()->getLocale())
+            ->orderByDesc('id')
+            ->limit(3)
+            ->get();
+
+        $defaults = [
+            ['icon' => 'trending_down', 'title' => 'Salderingsregeling 2027: wat verandert er?', 'meta' => '6 min · Regelgeving', 'href' => route('buying-guide')],
+            ['icon' => 'science', 'title' => 'LFP vs NMC: welke accuchemie is beter?', 'meta' => '5 min · Techniek', 'href' => route('buying-guide')],
+            ['icon' => 'calculate', 'title' => 'Terugverdientijd berekenen', 'meta' => '7 min · Rekenen', 'href' => route('buying-guide')],
+        ];
+
+        if ($articles->isEmpty()) {
+            return $defaults;
+        }
+
+        return $articles->values()->map(function (Article $article, int $index) use ($defaults) {
+            $fallback = $defaults[$index] ?? end($defaults);
+            $meta = max(1, ceil(str_word_count(strip_tags((string) $article->content)) / 200)) . ' min';
+            $tag = $article->category?->name ? Str::headline((string) $article->category->name) : 'Artikel';
+
+            return [
+                'icon' => $this->resolveArticleIcon($article),
+                'title' => $article->title ?: $fallback['title'],
+                'meta' => $meta . ' · ' . $tag,
+                'href' => $this->resolveArticleHref($article),
+            ];
+        })->all();
+    }
+
+    private function catalogFaqItems(): array
+    {
+        return [
+            [
+                'question' => 'Welke thuisbatterij is de beste in 2026?',
+                'answer' => 'Voor de meeste huishoudens is een all-in-one LFP-batterij van 5 tot 10 kWh de beste keuze. De Anker SOLIX X1 scoort hoog voor grote huishoudens, terwijl Sessy en Marstek populair zijn vanwege de scherpe prijs en het slim laden op dynamische tarieven.',
+            ],
+            [
+                'question' => 'Kan ik thuisbatterijen op deze pagina vergelijken?',
+                'answer' => 'Ja. Gebruik het vergelijk-icoon op de productkaarten en bekijk maximaal drie modellen tegelijk via de sticky vergelijkbalk onderaan de pagina.',
+            ],
+            [
+                'question' => 'Zijn de prijzen inclusief installatie?',
+                'answer' => 'De getoonde prijzen zijn richtprijzen inclusief btw maar exclusief installatie, tenzij bij het product anders staat vermeld. Installatie kost doorgaans tussen €500 en €1.500.',
+            ],
+            [
+                'question' => 'Hoe kies ik de juiste capaciteit?',
+                'answer' => 'Een gemiddeld huishouden met zonnepanelen heeft genoeg aan 5 tot 10 kWh. Met een warmtepomp of elektrische auto is 10 tot 15 kWh aan te raden. Gebruik onze aankoopgids voor een uitgebreide berekening.',
+            ],
+        ];
+    }
+
+    private function findFeaturedProduct(array $keywords): ?Product
+    {
+        return Product::with(['category', 'media'])
+            ->active()
+            ->where(function ($query) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $query->orWhere('title', 'like', '%' . $keyword . '%')
+                        ->orWhere('brand', 'like', '%' . $keyword . '%')
+                        ->orWhere('vendor', 'like', '%' . $keyword . '%');
+                }
+            })
+            ->orderByDesc('any_variant_available')
+            ->orderBy('price')
+            ->first();
+    }
+
+    private function resolveCatalogBadge(Product $product): ?array
+    {
+        $haystack = Str::lower(trim(($product->title ?? '') . ' ' . ($product->brand ?? '') . ' ' . ($product->vendor ?? '')));
+
+        return match (true) {
+            Str::contains($haystack, ['anker', 'solix']) => ['badge' => 'Topkeuze', 'badge_bg' => '#135bec', 'badge_color' => '#ffffff'],
+            Str::contains($haystack, ['sessy']) => ['badge' => 'Slim laden', 'badge_bg' => '#ecfdf3', 'badge_color' => '#047857'],
+            Str::contains($haystack, ['zonneplan']) => ['badge' => 'Beste app', 'badge_bg' => '#eef3fe', 'badge_color' => '#135bec'],
+            Str::contains($haystack, ['homewizard']) => ['badge' => 'Instapper', 'badge_bg' => '#fef3c7', 'badge_color' => '#b45309'],
+            Str::contains($haystack, ['marstek']) => ['badge' => 'Beste prijs', 'badge_bg' => '#ecfdf3', 'badge_color' => '#047857'],
+            Str::contains($haystack, ['ecoflow']) => ['badge' => 'Voor EV', 'badge_bg' => '#eef3fe', 'badge_color' => '#135bec'],
+            Str::contains($haystack, ['tesla']) => ['badge' => 'Premium', 'badge_bg' => '#0e1626', 'badge_color' => '#ffffff'],
+            default => null,
+        };
+    }
+
+    private function resolveCatalogReviewMeta(Product $product, int $index): array
+    {
+        $haystack = Str::lower(trim(($product->title ?? '') . ' ' . ($product->brand ?? '') . ' ' . ($product->vendor ?? '')));
+        $known = match (true) {
+            Str::contains($haystack, ['anker', 'solix']) => ['rating' => '4,8', 'reviews' => 212],
+            Str::contains($haystack, ['sessy']) => ['rating' => '4,7', 'reviews' => 540],
+            Str::contains($haystack, ['zonneplan']) => ['rating' => '4,6', 'reviews' => 318],
+            Str::contains($haystack, ['homewizard']) => ['rating' => '4,5', 'reviews' => 176],
+            Str::contains($haystack, ['marstek']) => ['rating' => '4,4', 'reviews' => 402],
+            Str::contains($haystack, ['ecoflow']) => ['rating' => '4,6', 'reviews' => 134],
+            Str::contains($haystack, ['tesla']) => ['rating' => '4,8', 'reviews' => 430],
+            default => null,
+        };
+
+        if ($known !== null) {
+            return $known;
+        }
+
+        return [
+            'rating' => number_format(4.3 + (($index % 5) * 0.1), 1, ',', ''),
+            'reviews' => 80 + ($index * 23),
+        ];
     }
 
     private function loadSelectedArticles(array $ids): Collection

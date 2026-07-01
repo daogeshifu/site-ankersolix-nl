@@ -97,7 +97,8 @@ Route::group([
         Route::get('price', [IndexController::class, 'price'])->name('price');
 
         Route::get('terms', [PagesController::class, 'terms'])->name('terms');
-        Route::get('policy', [PagesController::class, 'policy'])->name('policy');
+        Route::get('privacy', [PagesController::class, 'policy'])->name('policy');
+        Route::get('policy', fn () => redirect()->route('policy', [], 301));
         Route::get('contact', [ContactController::class, 'contact'])->name('contact');
         Route::post('save-contact', [ContactController::class, 'submitForm'])->name('save-contact');
         Route::get('about', [PagesController::class, 'about'])->name('about');

@@ -204,7 +204,7 @@ return [
         'privacy_policy' => [
             'title' => '15. POLITIQUE DE CONFIDENTIALITÉ',
             'content' => [
-                'paragraph_1' => 'Nous attachons une grande importance à la confidentialité et à la sécurité des données. Veuillez consulter notre Politique de confidentialité : /privacy-policy. En utilisant le Site, vous acceptez d\'être lié par cette Politique, intégrée aux présentes Conditions. Le Site est hébergé aux États-Unis. Si vous accédez au Site depuis une région avec des lois différentes en matière de collecte, usage ou divulgation des données personnelles, vous consentez à ce que vos données soient transférées et traitées aux États-Unis.',
+                'paragraph_1' => 'Nous attachons une grande importance à la confidentialité et à la sécurité des données. Veuillez consulter notre Politique de confidentialité : /privacy. En utilisant le Site, vous acceptez d\'être lié par cette Politique, intégrée aux présentes Conditions. Le Site est hébergé aux États-Unis. Si vous accédez au Site depuis une région avec des lois différentes en matière de collecte, usage ou divulgation des données personnelles, vous consentez à ce que vos données soient transférées et traitées aux États-Unis.',
             ],
         ],
         'term_and_termination' => [
