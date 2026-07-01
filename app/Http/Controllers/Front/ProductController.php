@@ -116,8 +116,6 @@ class ProductController extends Controller
             }
         }
 
-        $totalProductsCount = Product::active()->count();
-
         $currentCategory = null;
         if ($categorySlug) {
             $currentCategory = ProductCategory::where('slug', $categorySlug)->where('is_active', true)->first();
@@ -133,6 +131,11 @@ class ProductController extends Controller
                 abort(404);
             }
         }
+
+        $filterBaseQuery = Product::active()
+            ->when($currentCategory, fn ($q) => $q->whereIn('product_category_id', $currentCategory->descendantIds()));
+
+        $totalProductsCount = (clone $filterBaseQuery)->count();
 
         $query = Product::with(['category', 'media'])
             ->active()
@@ -168,14 +171,14 @@ class ProductController extends Controller
         }
         $products->setPath($basePath);
 
-        $brands = Product::active()
+        $brands = (clone $filterBaseQuery)
             ->whereNotNull('brand')
             ->select('brand')
             ->distinct()
             ->orderBy('brand')
             ->pluck('brand');
 
-        $types = Product::active()
+        $types = (clone $filterBaseQuery)
             ->whereNotNull('product_type')
             ->select('product_type')
             ->distinct()
@@ -184,13 +187,13 @@ class ProductController extends Controller
             ->filter()
             ->values();
 
-        $brandCounts = Product::active()
+        $brandCounts = (clone $filterBaseQuery)
             ->whereNotNull('brand')
             ->selectRaw('brand, COUNT(*) as aggregate')
             ->groupBy('brand')
             ->pluck('aggregate', 'brand');
 
-        $typeCounts = Product::active()
+        $typeCounts = (clone $filterBaseQuery)
             ->whereNotNull('product_type')
             ->selectRaw('product_type, COUNT(*) as aggregate')
             ->groupBy('product_type')
@@ -198,12 +201,23 @@ class ProductController extends Controller
 
         if ($currentCategory) {
             $guideContent = $this->buildCategoryGuideContent($currentCategory, $products);
+            $categoryCatalogCards = $this->buildCatalogProductCards($products->getCollection());
 
             return view('front.products.category-guide', compact(
                 'categories',
                 'currentCategory',
                 'guideContent',
-                'products'
+                'products',
+                'categoryCatalogCards',
+                'brands',
+                'types',
+                'selectedTypes',
+                'search',
+                'brand',
+                'availability',
+                'totalProductsCount',
+                'brandCounts',
+                'typeCounts'
             ));
         }
 
