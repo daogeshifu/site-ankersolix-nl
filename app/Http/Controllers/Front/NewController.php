@@ -151,47 +151,24 @@ class NewController extends Controller
 
         $articles->withPath(route($section['route']));
 
-        if (($request->route('section') ?? null) === 'buying-guide') {
-            $guideContent = $this->buildBuyingGuideContent(
-                $currentCategory,
-                $articles,
-                $section['route'],
-                $section['route'] . '.detail.show',
-                $search
-            );
+        $guideContent = $this->buildBuyingGuideContent(
+            $currentCategory,
+            $articles,
+            $section['route'],
+            $section['route'] . '.detail.show',
+            $search
+        );
 
-            return view('front.new.buying-guide', [
-                'articles' => $articles,
-                'categories' => $categories,
-                'currentCategory' => $currentCategory,
-                'search' => $search,
-                'currentPage' => $currentPage,
-                'indexRoute' => $section['route'],
-                'pageRoute' => $section['route'] . '.page',
-                'detailRoute' => $section['route'] . '.detail.show',
-                'guideContent' => $guideContent,
-            ]);
-        }
-
-        $topArticle = null;
-        if (!$search && $currentPage == 1) {
-            $topArticle = Article::with(['category', 'user'])
-                ->whereTranslation('locale', $locale)
-                ->where('category_id', $currentCategory->id)
-                ->orderBy('id', 'desc')
-                ->first();
-        }
-
-        return view('front.new.list', [
+        return view('front.new.buying-guide', [
             'articles' => $articles,
             'categories' => $categories,
             'currentCategory' => $currentCategory,
-            'topArticle' => $topArticle,
             'search' => $search,
             'currentPage' => $currentPage,
             'indexRoute' => $section['route'],
             'pageRoute' => $section['route'] . '.page',
             'detailRoute' => $section['route'] . '.detail.show',
+            'guideContent' => $guideContent,
         ]);
     }
 
