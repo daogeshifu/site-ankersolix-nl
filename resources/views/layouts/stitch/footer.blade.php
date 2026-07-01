@@ -31,6 +31,7 @@
             <ul class="space-y-2 text-sm">
                 <li><a class="hover:text-primary transition-colors" href="{{ route('about') }}">{{ __('about-us.title') }}</a></li>
                 <li><a class="hover:text-primary transition-colors" href="{{ route('contact') }}">{{ __('contact-us.title') }}</a></li>
+                <li><a class="hover:text-primary transition-colors" href="{{ route('policy') }}">{{ __('privacy-policy.privacy_policy_title') }}</a></li>
             </ul>
         </div>
 
