@@ -42,6 +42,7 @@
         <nav class="hidden md:flex items-center gap-8">
             <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('index') ? 'text-primary' : '' }}" href="{{ route('index') }}">{{ __('menu.home') }}</a>
             <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('products.*') ? 'text-primary' : '' }}" href="{{ route('products.index') }}">{{ __('menu.products') }}</a>
+            <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('calculator') ? 'text-primary' : '' }}" href="{{ route('calculator') }}">{{ __('menu.calculator') }}</a>
             <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('buying-guide*') ? 'text-primary' : '' }}" href="{{ route('buying-guide') }}">{{ __('menu.buying_guide') }}</a>
             <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('installation*') ? 'text-primary' : '' }}" href="{{ route('installation') }}">{{ __('menu.installation') }}</a>
             <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors {{ request()->routeIs('subsidy*') ? 'text-primary' : '' }}" href="{{ route('subsidy') }}">{{ __('menu.subsidy') }}</a>
@@ -128,6 +129,7 @@
     <nav class="flex flex-col gap-4">
         <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="{{ route('index') }}">{{ __('menu.home') }}</a>
         <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="{{ route('products.index') }}">{{ __('menu.products') }}</a>
+        <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="{{ route('calculator') }}">{{ __('menu.calculator') }}</a>
         @foreach($mobileArticleSections as $section)
             <a class="text-[#111318] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="{{ route($section['route']) }}">{{ $section['label'] }}</a>
         @endforeach

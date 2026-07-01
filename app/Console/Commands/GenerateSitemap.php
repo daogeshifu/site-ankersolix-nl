@@ -86,6 +86,7 @@ class GenerateSitemap extends Command
             ->add($this->url(route('contact'), 'monthly', 0.6))
             ->add($this->url(route('about'), 'monthly', 0.6))
             ->add($this->url(route('help'), 'monthly', 0.6))
+            ->add($this->url(route('calculator'), 'weekly', 0.9))
             ->add($this->url(route('articles'), 'weekly', 0.9))
             ->add($this->url(route('news'), 'weekly', 0.9))
             ->add($this->url(route('guides'), 'weekly', 0.9))

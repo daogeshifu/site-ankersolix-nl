@@ -12,6 +12,7 @@ return [
     'account' => 'Account',
     'insights' => 'Insights',
     'products' => 'Products',
+    'calculator' => 'Calculator',
     'about' => 'About',
     'pricing' => 'Pricing',
     'services' => 'Services',

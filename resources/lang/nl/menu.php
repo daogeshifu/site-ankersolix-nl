@@ -13,6 +13,7 @@ return [
     'services' => 'Diensten',
     'home' => 'Home',
     'products' => 'Producten',
+    'calculator' => 'Calculator',
     'backend' => 'Beheer',
     'buying_guide' => 'Thuisbatterij Koopgids',//选购指南
     'installation' => 'Plug-and-play & Stekkerbatterij',//安装和配置

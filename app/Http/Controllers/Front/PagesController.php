@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Support\CalculatorPageData;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
@@ -50,5 +51,12 @@ class PagesController extends Controller
     public function help()
     {
         return view('front.pages.help');
+    }
+
+    public function calculator()
+    {
+        return view('front.pages.calculator', [
+            'pageData' => CalculatorPageData::forLocale(app()->getLocale()),
+        ]);
     }
 }

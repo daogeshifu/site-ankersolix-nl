@@ -102,6 +102,7 @@ Route::group([
         Route::post('save-contact', [ContactController::class, 'submitForm'])->name('save-contact');
         Route::get('about', [PagesController::class, 'about'])->name('about');
         Route::get('help', [PagesController::class, 'help'])->name('help');
+        Route::get('calculator', [PagesController::class, 'calculator'])->name('calculator');
 
         Route::get('/news', [NewsController::class, 'index'])->name('news');
         Route::get('/news/page/{page}', [NewsController::class, 'page'])

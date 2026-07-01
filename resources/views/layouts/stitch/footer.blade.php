@@ -20,6 +20,7 @@
             <ul class="space-y-2 text-sm">
 {{--                <li><a class="hover:text-primary transition-colors" href="{{ route('articles') }}">{{ __('menu.insights') }}</a></li>--}}
                 <li><a class="hover:text-primary transition-colors" href="{{ route('products.index') }}">{{ __('menu.products') }}</a></li>
+                <li><a class="hover:text-primary transition-colors" href="{{ route('calculator') }}">{{ __('menu.calculator') }}</a></li>
                 <li><a class="hover:text-primary transition-colors" href="{{ route('help') }}">{{ __('help.title') }}</a></li>
             </ul>
         </div>
