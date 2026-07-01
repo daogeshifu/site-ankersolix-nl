@@ -21,7 +21,9 @@
         : 'Read guides, analysis, and practical explanations in this category.';
 
     $productCategories = collect($headerProductCategories ?? [])->values();
-    $articleCategories = collect($headerArticleCategories ?? [])->values();
+    $articleCategories = collect($headerArticleCategories ?? [])
+        ->filter(fn ($category) => (bool) ($category->is_active ?? true))
+        ->values();
     $currentProductRoute = request()->routeIs('products.*');
     $currentArticleRoute = request()->routeIs('articles') || request()->routeIs('article.*') || request()->routeIs('buying-guide*') || request()->routeIs('installation*') || request()->routeIs('subsidy*') || request()->routeIs('energy-saving*') || request()->routeIs('reviews*') || request()->routeIs('beste-thuisbatterij-2026*') || request()->routeIs('thuisbatterij-zonder-zonnepanelen*') || request()->routeIs('dynamische-energietarieven*') || request()->routeIs('thuisbatterij-subsidie*') || request()->routeIs('back-upstroom-noodstroom*') || request()->routeIs('zonne-energie-opslaan*') || request()->routeIs('thuisbatterij-capaciteit-uitbreiding*') || request()->routeIs('warmtepomp-elektrische-auto*') || request()->routeIs('thuisbatterij-zelf-installeren*');
 
