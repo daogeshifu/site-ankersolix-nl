@@ -56,20 +56,23 @@ class ArticleController extends Controller
         $currentPage = $request->get('page', 1);
 
         // 获取分类
-        $categories = ArticleCategory::withCount('articles')->get();
+        $categories = ArticleCategory::active()->withCount('articles')->get();
         if($categories->isEmpty()){
             abort(404);
         }
 
         // 基础查询
         $query = Article::with(['category', 'user'])
-            ->whereTranslation('locale', $locale);
+            ->whereTranslation('locale', $locale)
+            ->whereHas('category', fn ($q) => $q->active());
 
         // 搜索处理
         if($search) {
-            $query->whereTranslationLike('title', "%{$search}%")
-                ->orWhereTranslationLike('content', "%{$search}%")
-                ->orWhereTranslationLike('summary', "%{$search}%");
+            $query->where(function ($q) use ($search) {
+                $q->whereTranslationLike('title', "%{$search}%")
+                    ->orWhereTranslationLike('content', "%{$search}%")
+                    ->orWhereTranslationLike('summary', "%{$search}%");
+            });
         }
 
         // 分类筛选
@@ -98,9 +101,15 @@ class ArticleController extends Controller
 
         $topArticle = null;
         if(!$search && $currentPage == 1) {
-            $topArticle = Article::whereTranslation('locale', $locale)->where('id', 12)->first();
+            $topArticle = Article::whereTranslation('locale', $locale)
+                ->whereHas('category', fn ($q) => $q->active())
+                ->where('id', 12)
+                ->first();
             if(!$topArticle){
-                $topArticle = Article::whereTranslation('locale', $locale)->orderBy('id', 'desc')->first();
+                $topArticle = Article::whereTranslation('locale', $locale)
+                    ->whereHas('category', fn ($q) => $q->active())
+                    ->orderBy('id', 'desc')
+                    ->first();
             }
         }
 
@@ -130,7 +139,10 @@ class ArticleController extends Controller
      */
     public function detail(Request $request, $category_name, $link)
     {
-        $article = Article::with(['category', 'user', 'tags'])->where('link', $link)->first();
+        $article = Article::with(['category', 'user', 'tags'])
+            ->where('link', $link)
+            ->whereHas('category', fn ($q) => $q->active())
+            ->first();
 
         if (!$article) {
             abort(404);

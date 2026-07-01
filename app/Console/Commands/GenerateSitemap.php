@@ -145,7 +145,7 @@ class GenerateSitemap extends Command
 
     private function genCategorySitemap($sitemap)
     {
-        $categories = ArticleCategory::all();
+        $categories = ArticleCategory::active()->get();
         foreach ($categories as $category) {
             $sitemap->add(
                 $this->url(route('article.category2', [$category->name]), 'weekly', 0.9, $category->updated_at)
@@ -157,7 +157,7 @@ class GenerateSitemap extends Command
     {
         Article::with('category')
             ->whereNotNull('link')
-            ->whereHas('category')
+            ->whereHas('category', fn ($q) => $q->active())
             ->orderBy('id')
             ->chunk(1000, function ($articles) use ($sitemap) {
                 foreach ($articles as $article) {

@@ -16,6 +16,7 @@ class ArticleCategory extends Model
         'seo_description',
         'seo_keywords',
         'parent_id',
+        'is_active',
         'related_product_ids',
         'related_faq_ids',
         'quick_answer',
@@ -28,11 +29,17 @@ class ArticleCategory extends Model
 
     protected $casts = [
         'parent_id' => 'integer',
+        'is_active' => 'boolean',
         'related_product_ids' => 'array',
         'related_faq_ids' => 'array',
         'quick_answer' => 'array',
         'page_data' => 'array',
     ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
 
     /**
      * 获取子分类

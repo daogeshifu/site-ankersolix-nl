@@ -44,7 +44,7 @@ class NewsController extends Controller
         $currentPage = $request->get('page', 1);
 
         // 分类
-        $categories = ArticleCategory::withCount('articles')->get();
+        $categories = ArticleCategory::active()->withCount('articles')->get();
 
         // 找到 news 分类（按 name 匹配），不存在时用默认值显示空页面
         $currentCategory = $categories->firstWhere('name', $this->categoryName);
@@ -104,7 +104,10 @@ class NewsController extends Controller
         $category_name = 'news';
 
         // 根据链接查找文章
-        $article = Article::with(['category', 'user', 'tags'])->where('link', $link)->first();
+        $article = Article::with(['category', 'user', 'tags'])
+            ->where('link', $link)
+            ->whereHas('category', fn ($q) => $q->active()->where('name', $this->categoryName))
+            ->first();
 
         if (!$article) {
             abort(404);

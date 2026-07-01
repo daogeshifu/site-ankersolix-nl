@@ -37,6 +37,23 @@
         @enderror
     </div>
 
+    <div class="mb-3">
+        <input type="hidden" name="is_active" value="0">
+        <div class="form-check form-switch">
+            <input class="form-check-input @error('is_active') is-invalid @enderror"
+                   type="checkbox"
+                   name="is_active"
+                   value="1"
+                   id="isActive"
+                   @checked(old('is_active', $category->is_active ?? true))>
+            <label class="form-check-label" for="isActive">前台展示</label>
+        </div>
+        <div class="form-text">关闭后，该分类及其分类页不会在前台展示。</div>
+        @error('is_active')
+            <div class="invalid-feedback d-block">{{ $message }}</div>
+        @enderror
+    </div>
+
     <div class="mb-0">
         <label class="form-label">描述</label>
         <textarea class="form-control @error('description') is-invalid @enderror"

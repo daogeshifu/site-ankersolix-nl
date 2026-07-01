@@ -110,7 +110,7 @@ class NewController extends Controller
         }
 
         $currentPage = $request->get('page', 1);
-        $categories = ArticleCategory::withCount('articles')->get();
+        $categories = ArticleCategory::active()->withCount('articles')->get();
         $currentCategory = $categories->firstWhere('name', $section['category']);
 
         if (!$currentCategory) {
@@ -203,7 +203,7 @@ class NewController extends Controller
         $article = Article::with(['category', 'user', 'tags'])
             ->where('link', $link)
             ->whereHas('category', function ($query) use ($category_name) {
-                $query->where('name', $category_name);
+                $query->active()->where('name', $category_name);
             })
             ->first();
 

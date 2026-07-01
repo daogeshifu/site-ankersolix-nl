@@ -42,13 +42,21 @@
 									   value="{{ request('search') }}">
 							</div>
 
-							<div class="col-md-3">
+							<div class="col-md-2">
+								<select name="status" class="form-select">
+									<option value="">全部状态</option>
+									<option value="active" @selected(request('status') === 'active')>已展示</option>
+									<option value="inactive" @selected(request('status') === 'inactive')>已隐藏</option>
+								</select>
+							</div>
+
+							<div class="col-md-2">
 								<button class="btn btn-primary w-100">
 									<i class="icofont icofont-search"></i> 搜索
 								</button>
 							</div>
 
-							<div class="col-md-3">
+							<div class="col-md-2">
 								<a href="{{ route('admin.category.index') }}"
 								   class="btn btn-secondary w-100">
 									<i class="icofont icofont-refresh"></i> 重置
@@ -63,6 +71,7 @@
 								<tr>
 									<th width="60">ID</th>
 									<th>分类名称</th>
+									<th width="90">状态</th>
 									<th>描述</th>
 									<th width="100">文章数量</th>
 									<th width="180">关联产品 / FAQ</th>
@@ -81,6 +90,11 @@
 										@if($category->parent)
 											<br><small class="text-muted">父分类: {{ $category->parent->name }}</small>
 										@endif
+									</td>
+									<td class="text-center">
+										<span class="badge {{ $category->is_active ? 'bg-primary' : 'bg-light text-dark' }}">
+											{{ $category->is_active ? '展示' : '隐藏' }}
+										</span>
 									</td>
 									<td>{{ Str::limit($category->description ?? '-', 50) }}</td>
 									<td class="text-center">
@@ -125,7 +139,7 @@
 
 								@if($categories->isEmpty())
 								<tr>
-									<td colspan="9" class="text-center text-muted">
+									<td colspan="10" class="text-center text-muted">
 										暂无数据
 									</td>
 								</tr>

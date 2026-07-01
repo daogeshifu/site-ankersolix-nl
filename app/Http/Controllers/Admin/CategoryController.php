@@ -27,6 +27,10 @@ class CategoryController extends Controller
             });
         }
 
+        if ($request->filled('status')) {
+            $query->where('is_active', $request->input('status') === 'active');
+        }
+
         $categories = $query->orderBy('id', 'desc')->paginate(15);
 
         return view('admin.category.list', compact('categories'));
@@ -60,6 +64,7 @@ class CategoryController extends Controller
             'seo_description' => 'nullable|string',
             'seo_keywords' => 'nullable|string',
             'parent_id' => 'nullable|exists:article_categorys,id',
+            'is_active' => 'nullable|boolean',
             'related_product_ids' => 'nullable|array',
             'related_product_ids.*' => 'integer|exists:products,id',
             'related_faq_ids' => 'nullable|array',
@@ -145,6 +150,7 @@ class CategoryController extends Controller
             'seo_description' => 'nullable|string',
             'seo_keywords' => 'nullable|string',
             'parent_id' => 'nullable|exists:article_categorys,id',
+            'is_active' => 'nullable|boolean',
             'related_product_ids' => 'nullable|array',
             'related_product_ids.*' => 'integer|exists:products,id',
             'related_faq_ids' => 'nullable|array',
@@ -186,7 +192,7 @@ class CategoryController extends Controller
                 ], 422);
             }
 
-            $payload = $this->buildCategoryPayload($request);
+            $payload = $this->buildCategoryPayload($request, $category);
             $category->update($payload);
 
             if ($request->expectsJson()) {
@@ -240,7 +246,7 @@ class CategoryController extends Controller
         }
     }
 
-    private function buildCategoryPayload(Request $request): array
+    private function buildCategoryPayload(Request $request, ?ArticleCategory $category = null): array
     {
         return [
             'name' => $request->input('name'),
@@ -249,6 +255,7 @@ class CategoryController extends Controller
             'seo_description' => $request->input('seo_description'),
             'seo_keywords' => $request->input('seo_keywords'),
             'parent_id' => $request->input('parent_id'),
+            'is_active' => $request->has('is_active') ? $request->boolean('is_active') : ($category?->is_active ?? true),
             'related_product_ids' => $this->normalizeIds($request->input('related_product_ids', [])),
             'related_faq_ids' => $this->normalizeIds($request->input('related_faq_ids', [])),
             'quick_answer' => $this->buildQuickAnswerPayload($request),
