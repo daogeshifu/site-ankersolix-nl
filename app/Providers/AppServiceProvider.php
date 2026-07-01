@@ -37,9 +37,7 @@ class AppServiceProvider extends ServiceProvider
             $articleCategories = ArticleCategory::query()
                 ->active()
                 ->withCount('articles')
-                ->orderByRaw('CASE WHEN parent_id IS NULL THEN 0 ELSE 1 END')
-                ->orderBy('parent_id')
-                ->orderBy('name')
+                ->orderBy('id')
                 ->get(['id', 'name', 'parent_id', 'description', 'is_active']);
 
             $view->with([
