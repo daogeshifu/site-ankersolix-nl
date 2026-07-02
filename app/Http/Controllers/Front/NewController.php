@@ -232,7 +232,7 @@ class NewController extends Controller
         $article = Article::with(['category', 'user', 'tags'])
             ->where('link', $link)
             ->whereHas('category', function ($query) use ($category_name) {
-                $query->active()->where('name', $category_name);
+//                $query->active()->where('name', $category_name);
             })
             ->first();
 
