@@ -141,7 +141,7 @@ class ArticleController extends Controller
     {
         $article = Article::with(['category', 'user', 'tags'])
             ->where('link', $link)
-            ->whereHas('category', fn ($q) => $q->active())
+//            ->whereHas('category', fn ($q) => $q->active())
             ->first();
 
         if (!$article) {
