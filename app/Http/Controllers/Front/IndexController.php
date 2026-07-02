@@ -21,6 +21,7 @@ class IndexController extends Controller
         // 获取最新的文章 (主要文章区域)
         $featuredArticles = Article::with(['category', 'categories', 'user'])
             ->frontVisible()
+            ->hasFrontCategory()
             ->whereTranslation('locale', $locale)
 //            ->whereHas('category', fn ($q) => $q->active())
             ->orderBy('id', 'desc')
@@ -30,6 +31,7 @@ class IndexController extends Controller
         // 获取侧边栏文章
         $sidebarArticles = Article::with(['category', 'categories'])
             ->frontVisible()
+            ->hasFrontCategory()
             ->whereTranslation('locale', $locale)
 //            ->whereHas('category', fn ($q) => $q->active())
             ->orderBy('id', 'desc')
@@ -40,6 +42,7 @@ class IndexController extends Controller
         // 获取热门文章 (轮播)
         $popularArticles = Article::with(['category', 'categories', 'user'])
             ->frontVisible()
+            ->hasFrontCategory()
             ->whereTranslation('locale', $locale)
 //            ->whereHas('category', fn ($q) => $q->active())
             ->orderBy('id', 'desc')
@@ -49,6 +52,7 @@ class IndexController extends Controller
         // 获取最新文章
         $latestArticles = Article::with(['category', 'categories'])
             ->frontVisible()
+            ->hasFrontCategory()
             ->whereTranslation('locale', $locale)
 //            ->whereHas('category', fn ($q) => $q->active())
             ->orderBy('id', 'desc')
@@ -58,6 +62,7 @@ class IndexController extends Controller
         // 获取随机文章
         $randomArticles = Article::with(['category', 'categories'])
             ->frontVisible()
+            ->hasFrontCategory()
             ->whereTranslation('locale', $locale)
 //            ->whereHas('category', fn ($q) => $q->active())
             ->inRandomOrder()

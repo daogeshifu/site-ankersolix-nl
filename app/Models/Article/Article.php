@@ -116,6 +116,14 @@ class Article extends Model implements TranslatableContract
         });
     }
 
+    public function scopeHasFrontCategory($query)
+    {
+        return $query->where(function ($q) {
+            $q->whereHas('category', fn ($categoryQuery) => $categoryQuery->active())
+                ->orWhereHas('categories', fn ($categoryQuery) => $categoryQuery->active());
+        });
+    }
+
     /**
      * 文章标签（多对多）
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -158,7 +166,11 @@ class Article extends Model implements TranslatableContract
                 ->first(fn (ArticleCategory $articleCategory) => $articleCategory->is_active);
         }
 
-        $categoryUrl = $category ? (string) ($category->url ?: $category->name) : 'blog';
+        if (!$category) {
+            return route('articles');
+        }
+
+        $categoryUrl = (string) ($category->url ?: $category->name);
 
         return route('article.detail.show', [
             'category_name' => $categoryUrl,
