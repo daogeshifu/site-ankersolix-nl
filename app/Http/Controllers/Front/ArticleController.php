@@ -63,7 +63,7 @@ class ArticleController extends Controller
 
         // 基础查询
         $query = Article::with(['category', 'user'])
-            ->whereTranslation('locale', $locale)
+            ->whereTranslation('locale', $locale);
 //            ->whereHas('category', fn ($q) => $q->active());
 
         // 搜索处理
