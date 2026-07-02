@@ -243,12 +243,18 @@ class NewController extends Controller
             abort(404);
         }
 
-        $sidebarArticles = $article->category->articles()
-            ->frontVisible()
-            ->with(['category', 'user'])
-            ->where('articles.id', '!=', $article->id)
-            ->take(5)
-            ->get();
+        $currentCategory = ArticleCategory::active()
+            ->where('name', $category_name)
+            ->first();
+
+        $sidebarArticles = $currentCategory
+            ? $currentCategory->articles()
+                ->frontVisible()
+                ->with(['category', 'user'])
+                ->where('articles.id', '!=', $article->id)
+                ->take(5)
+                ->get()
+            : collect();
 
         $plainText = strip_tags($article->content);
         if (mb_strlen($plainText) <= 100) {

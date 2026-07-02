@@ -356,7 +356,7 @@
                                             <span class="text-xs font-semibold text-primary">{{ $relatedArticle->category->name }}</span>
                                         @endif
                                         <h3 class="font-bold text-[#111318] dark:text-white mt-2 mb-3 line-clamp-2 group-hover:text-primary transition-colors">
-                                            <a href="{{ route('article.detail.show', [$relatedArticle->category->name ?? 'blog', $relatedArticle->link]) }}">
+                                            <a href="{{ route('news.detail.show', $relatedArticle->link) }}">
                                                 {{ $relatedArticle->title }}
                                             </a>
                                         </h3>
@@ -438,7 +438,7 @@
                             </h4>
                             <div class="space-y-4">
                                 @foreach($sidebarArticles->take(5) as $index => $trendingArticle)
-                                    <a href="{{ route('article.detail.show', [$trendingArticle->category->name ?? 'blog', $trendingArticle->link]) }}" class="flex items-start gap-3 group">
+                                    <a href="{{ route('news.detail.show', $trendingArticle->link) }}" class="flex items-start gap-3 group">
                                         <span class="text-2xl font-bold text-gray-200 dark:text-gray-700 group-hover:text-primary transition-colors">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
                                         <div class="flex-1 min-w-0">
                                             <h5 class="text-sm font-semibold text-[#111318] dark:text-white line-clamp-2 group-hover:text-primary transition-colors">{{ $trendingArticle->title }}</h5>

@@ -117,13 +117,19 @@ class NewsController extends Controller
             abort(404);
         }
 
+        $currentCategory = ArticleCategory::active()
+            ->where('name', $this->categoryName)
+            ->first();
+
         // 获取相关文章的侧边栏
-        $sidebarArticles = $article->category->articles()
+        $sidebarArticles = $currentCategory
+            ? $currentCategory->articles()
             ->frontVisible()
-            ->with(['category', 'user'])
-            ->where('articles.id', '!=', $article->id)
-            ->take(5)
-            ->get();
+                ->with(['category', 'user'])
+                ->where('articles.id', '!=', $article->id)
+                ->take(5)
+                ->get()
+            : collect();
 
         // 获取文章摘要
         $plainText = strip_tags($article->content);
