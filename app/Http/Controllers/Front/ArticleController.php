@@ -143,6 +143,7 @@ class ArticleController extends Controller
             ->where('link', $link)
 //            ->whereHas('category', fn ($q) => $q->active())
             ->first();
+  dd($article);
 
         if (!$article) {
             abort(404);
