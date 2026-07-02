@@ -260,6 +260,26 @@
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label d-block">前台展示</label>
+                                    <input type="hidden" name="is_front_visible" value="0">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input @error('is_front_visible') is-invalid @enderror"
+                                               type="checkbox"
+                                               role="switch"
+                                               name="is_front_visible"
+                                               id="is_front_visible"
+                                               value="1"
+                                               {{ old('is_front_visible', $article->is_front_visible ?? true) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="is_front_visible">
+                                            开启后文章会出现在前台列表、推荐和导航入口；关闭后仍可通过 URL 访问详情页。
+                                        </label>
+                                    </div>
+                                    @error('is_front_visible')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 @endif
 
                                 {{-- 分类（仅主语言） --}}

@@ -41,6 +41,7 @@ class Article extends Model implements TranslatableContract
         'cover',
         'ai_cover',
         'images_processed',
+        'is_front_visible',
         'title',
         'content'
     ];
@@ -53,9 +54,15 @@ class Article extends Model implements TranslatableContract
         'view_count' => 'integer',
         'read_count' => 'integer',
         'images_processed' => 'boolean',
+        'is_front_visible' => 'boolean',
         'last_viewed_at' => 'datetime',
         'last_read_at' => 'datetime',
     ];
+
+    public function scopeFrontVisible($query)
+    {
+        return $query->where('is_front_visible', true);
+    }
 
     public function user()
     {
@@ -120,6 +127,7 @@ class Article extends Model implements TranslatableContract
         $article->category_id = $data['category_id'] ?? ArticleCategory::first()->id;
         $article->link = $data['link'];
         $article->cover = $data['cover'] ?? null;
+        $article->is_front_visible = $data['is_front_visible'] ?? true;
         $article->title = $data['title'];
         $article->content = $data['content'];
         $article->save();
@@ -171,6 +179,7 @@ class Article extends Model implements TranslatableContract
         $article->category_id = $data['category_id'] ?? ArticleCategory::first()->id;
         $article->link = $data['link'] ?? null;
         $article->cover = $data['cover'] ?? null;
+        $article->is_front_visible = $data['is_front_visible'] ?? true;
         $article->title = $defaultTitle;
         $article->content = $defaultContent;
         $article->save();

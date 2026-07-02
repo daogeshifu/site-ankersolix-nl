@@ -76,6 +76,7 @@
 									<th>Title</th>
 									<th width="120">Category</th>
 									<th>Description</th>
+									<th width="90">前台展示</th>
 									<th width="80">Cover</th>
 									<th width="140">Actions</th>
 								</tr>
@@ -88,6 +89,13 @@
 									<td>{{ $article->title }}</td>
 									<td>{{ $article->category->name ?? '-' }}</td>
 									<td>{{ Str::limit($article->summary, 20) }}</td>
+									<td>
+										@if($article->is_front_visible)
+											<span class="badge bg-success">展示</span>
+										@else
+											<span class="badge bg-secondary">隐藏入口</span>
+										@endif
+									</td>
 									<td>
 										@if($article->cover)
 											<img src="{{ $article->cover_url }}"
@@ -116,7 +124,7 @@
 
 								@if($articles->isEmpty())
 								<tr>
-									<td colspan="7" class="text-center text-muted">
+									<td colspan="8" class="text-center text-muted">
 										暂无数据
 									</td>
 								</tr>

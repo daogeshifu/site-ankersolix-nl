@@ -43,7 +43,9 @@ class GuidesController extends Controller
         $currentPage = $request->get('page', 1);
 
         // 分类
-        $categories = ArticleCategory::active()->withCount('articles')->get();
+        $categories = ArticleCategory::active()
+            ->withCount(['articles' => fn ($query) => $query->frontVisible()])
+            ->get();
 
         // 找到 guides 分类（按 name 匹配），不存在时用默认值显示空页面
         $currentCategory = $categories->firstWhere('name', $this->categoryName);
@@ -58,6 +60,7 @@ class GuidesController extends Controller
 
         // 基础查询（只查 guides，category 不存在时 where null 自然返回空）
         $query = Article::with(['category', 'user'])
+            ->frontVisible()
             ->whereTranslation('locale', $locale)
             ->where('category_id', $currentCategory->id);
 
@@ -80,6 +83,7 @@ class GuidesController extends Controller
         $topArticle = null;
         if (!$search && $currentPage == 1) {
             $topArticle = Article::with(['category', 'user'])
+                ->frontVisible()
                 ->whereTranslation('locale', $locale)
                 ->where('category_id', $currentCategory->id)
                 ->orderBy('id', 'desc')
@@ -113,7 +117,12 @@ class GuidesController extends Controller
         }
 
         // 获取相关文章的侧边栏
-        $sidebarArticles = $article->category->articles()->with(['category', 'user'])->where('id', '!=', $article->id)->take(5)->get();
+        $sidebarArticles = $article->category->articles()
+            ->frontVisible()
+            ->with(['category', 'user'])
+            ->where('id', '!=', $article->id)
+            ->take(5)
+            ->get();
 
         // 获取文章摘要
         $plainText = strip_tags($article->content);

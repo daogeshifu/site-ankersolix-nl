@@ -417,6 +417,7 @@ class ProductController extends Controller
     private function buildCatalogArticleEntries(): array
     {
         $articles = Article::with('category:id,name')
+            ->frontVisible()
             ->whereTranslation('locale', app()->getLocale())
             ->orderByDesc('id')
             ->limit(3)
@@ -534,6 +535,7 @@ class ProductController extends Controller
         $positionMap = array_flip($normalizedIds);
 
         return Article::with('category:id,name')
+            ->frontVisible()
             ->whereIn('id', $normalizedIds)
             ->get()
             ->sortBy(fn (Article $article) => $positionMap[$article->id] ?? PHP_INT_MAX)

@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
 
             $articleCategories = ArticleCategory::query()
                 ->active()
-                ->withCount('articles')
+                ->withCount(['articles' => fn ($query) => $query->frontVisible()])
                 ->orderBy('id')
                 ->get(['id', 'name', 'url', 'parent_id', 'description', 'is_active']);
 

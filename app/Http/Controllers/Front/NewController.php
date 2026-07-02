@@ -112,7 +112,9 @@ class NewController extends Controller
     private function list(Request $request, ?int $page = null)
     {
         $section = $this->section($request);
-        $categories = ArticleCategory::active()->withCount('articles')->get();
+        $categories = ArticleCategory::active()
+            ->withCount(['articles' => fn ($query) => $query->frontVisible()])
+            ->get();
         $currentCategory = $categories->firstWhere('name', $section['category']);
 
         if (!$currentCategory) {
@@ -180,9 +182,12 @@ class NewController extends Controller
         }
 
         $currentPage = $request->get('page', 1);
-        $categories = ArticleCategory::active()->withCount('articles')->get();
+        $categories = ArticleCategory::active()
+            ->withCount(['articles' => fn ($query) => $query->frontVisible()])
+            ->get();
 
         $query = Article::with(['category', 'user'])
+            ->frontVisible()
             ->whereTranslation('locale', $locale);
 
         if ($currentCategory->id) {
@@ -241,6 +246,7 @@ class NewController extends Controller
         }
 
         $sidebarArticles = $article->category->articles()
+            ->frontVisible()
             ->with(['category', 'user'])
             ->where('id', '!=', $article->id)
             ->take(5)
@@ -278,7 +284,7 @@ class NewController extends Controller
             $contentWithAnchors
         );
 
-        $tags = ArticleTag::withCount('articles')
+        $tags = ArticleTag::withCount(['articles' => fn ($query) => $query->frontVisible()])
             ->orderBy('articles_count', 'desc')
             ->take(5)
             ->get();

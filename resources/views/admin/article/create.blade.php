@@ -171,6 +171,23 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label class="form-label d-block">前台展示</label>
+                                    <input type="hidden" name="is_front_visible" value="0">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               role="switch"
+                                               name="is_front_visible"
+                                               id="is_front_visible"
+                                               value="1"
+                                               checked>
+                                        <label class="form-check-label" for="is_front_visible">
+                                            开启后文章会出现在前台列表、推荐和导航入口；关闭后仍可通过 URL 访问详情页。
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
                                     <label class="form-label">Content<span class="required-star">*</span></label>
 
                                     {{-- 新增模式切换按钮 --}}

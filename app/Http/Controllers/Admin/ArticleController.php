@@ -77,6 +77,7 @@ class ArticleController extends Controller
             'keywords' => 'nullable|string|max:640',
             'author' => 'nullable|string|max:255',
             'author_bio' => 'nullable|string',
+            'is_front_visible' => 'nullable|boolean',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'summary' => 'nullable|string|max:500',
@@ -100,6 +101,7 @@ class ArticleController extends Controller
                 'keywords' => $validated['keywords'] ?? null,
                 'author' => $validated['author'] ?? null,
                 'author_bio' => $validated['author_bio'] ?? null,
+                'is_front_visible' => $request->boolean('is_front_visible', true),
                 'cover' => $validated['cover'] ?? null,
                 'title' => $validated['title'],
                 'content' => $validated['content'],
@@ -215,6 +217,7 @@ class ArticleController extends Controller
             $rules['keywords'] = 'nullable|string|max:640';
             $rules['author'] = 'nullable|string|max:255';
             $rules['author_bio'] = 'nullable|string';
+            $rules['is_front_visible'] = 'nullable|boolean';
             $rules['tags'] = 'nullable|array';
             $rules['tags.*'] = 'exists:article_tags,id';
         }
@@ -233,6 +236,7 @@ class ArticleController extends Controller
                     'keywords' => $validated['keywords'] ?? null,
                     'author' => $validated['author'] ?? null,
                     'author_bio' => $validated['author_bio'] ?? null,
+                    'is_front_visible' => $request->boolean('is_front_visible'),
                     'cover' => $validated['cover'] ?? $article->cover,
                 ]);
 

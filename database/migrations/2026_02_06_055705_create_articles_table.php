@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('seo_title', 640)->nullable()->comment('SEO 标题');
             $table->text('seo_description')->nullable()->comment('SEO 描述');
             $table->text('seo_keywords')->nullable()->comment('SEO 关键词');
+            $table->boolean('is_front_visible')->default(true)->comment('是否在前台入口展示');
             $table->unsignedBigInteger('view_count')->default(0)->comment('浏览量（宽松规则）');
             $table->unsignedBigInteger('read_count')->default(0)->comment('有效阅读量（一般严格规则）');
             $table->timestamp('last_viewed_at')->nullable()->comment('最近一次浏览时间');
