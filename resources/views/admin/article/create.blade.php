@@ -122,14 +122,27 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">Article Category<span class="required-star">*</span></label>
-                                    <select class="form-select" name="category_id" id="category_id" required>
-                                        <option value="">-- Select Category --</option>
+                                    <label class="form-label">Article Categories<span class="required-star">*</span></label>
+                                    @php
+                                        $selectedCategoryIds = array_map('intval', old('category_ids', []));
+                                    @endphp
+                                    <div class="border rounded p-3 @error('category_ids') border-danger @enderror" id="category_ids_wrapper" style="max-height: 220px; overflow-y: auto; background: #fff;">
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <div class="form-check">
+                                                <input class="form-check-input"
+                                                       type="checkbox"
+                                                       name="category_ids[]"
+                                                       value="{{ $category->id }}"
+                                                       id="category_{{ $category->id }}"
+                                                       {{ in_array($category->id, $selectedCategoryIds, true) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="category_{{ $category->id }}">{{ $category->name }}</label>
+                                            </div>
                                         @endforeach
-                                    </select>
-                                    <div class="invalid-feedback">Please select a category.</div>
+                                    </div>
+                                    <div class="invalid-feedback" id="category_ids_error">Please select at least one category.</div>
+                                    @error('category_ids')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3">
@@ -541,8 +554,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // 同步内容
         document.getElementById('hiddenArea-en').value = quill.root.innerHTML;
         
+        const hasSelectedCategory = document.querySelectorAll('input[name="category_ids[]"]:checked').length > 0;
+        document.getElementById('category_ids_wrapper').classList.toggle('border-danger', !hasSelectedCategory);
+        document.getElementById('category_ids_error').style.display = hasSelectedCategory ? 'none' : 'block';
+
         // 简单验证
-        if(!titleInput.value || quill.getText().trim().length === 0) {
+        if(!titleInput.value || quill.getText().trim().length === 0 || !hasSelectedCategory) {
             alert('Please fill in required fields');
             return;
         }

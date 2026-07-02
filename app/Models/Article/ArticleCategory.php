@@ -64,6 +64,16 @@ class ArticleCategory extends Model
      */
     public function articles()
     {
+        return $this->belongsToMany(
+            Article::class,
+            'article_category_pivot',
+            'article_category_id',
+            'article_id'
+        )->withTimestamps();
+    }
+
+    public function primaryArticles()
+    {
         return $this->hasMany(Article::class, 'category_id', 'id');
     }
 

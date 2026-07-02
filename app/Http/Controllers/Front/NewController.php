@@ -186,12 +186,12 @@ class NewController extends Controller
             ->withCount(['articles' => fn ($query) => $query->frontVisible()])
             ->get();
 
-        $query = Article::with(['category', 'user'])
+        $query = Article::with(['category', 'categories', 'user'])
             ->frontVisible()
             ->whereTranslation('locale', $locale);
 
         if ($currentCategory->id) {
-            $query->where('category_id', $currentCategory->id);
+            $query->inArticleCategory((int) $currentCategory->id);
         } else {
             $query->whereRaw('1 = 0');
         }
@@ -234,11 +234,9 @@ class NewController extends Controller
         $section = $this->section($request);
         $category_name = $section['category'];
 
-        $article = Article::with(['category', 'user', 'tags'])
+        $article = Article::with(['category', 'categories', 'user', 'tags'])
             ->where('link', $link)
-            ->whereHas('category', function ($query) use ($category_name) {
-//                $query->active()->where('name', $category_name);
-            })
+            ->inArticleCategoryName($category_name)
             ->first();
 
         if (!$article) {

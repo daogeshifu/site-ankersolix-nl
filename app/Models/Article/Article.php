@@ -79,6 +79,36 @@ class Article extends Model implements TranslatableContract
     }
 
     /**
+     * 文章分类（多对多）
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function categories()
+    {
+        return $this->belongsToMany(
+            ArticleCategory::class,
+            'article_category_pivot',
+            'article_id',
+            'article_category_id'
+        )->withTimestamps();
+    }
+
+    public function scopeInArticleCategory($query, int $categoryId)
+    {
+        return $query->where(function ($q) use ($categoryId) {
+            $q->where('category_id', $categoryId)
+                ->orWhereHas('categories', fn ($categoryQuery) => $categoryQuery->where('article_categorys.id', $categoryId));
+        });
+    }
+
+    public function scopeInArticleCategoryName($query, string $categoryName)
+    {
+        return $query->where(function ($q) use ($categoryName) {
+            $q->whereHas('category', fn ($categoryQuery) => $categoryQuery->active()->where('name', $categoryName))
+                ->orWhereHas('categories', fn ($categoryQuery) => $categoryQuery->active()->where('name', $categoryName));
+        });
+    }
+
+    /**
      * 文章标签（多对多）
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -152,6 +182,19 @@ class Article extends Model implements TranslatableContract
         }
 
         return $article;
+    }
+
+    public function syncCategories(array $categoryIds): void
+    {
+        $categoryIds = array_values(array_unique(array_map('intval', array_filter($categoryIds))));
+
+        if ($categoryIds === [] && $this->category_id) {
+            $categoryIds = [(int) $this->category_id];
+        }
+
+        if ($categoryIds !== []) {
+            $this->categories()->sync($categoryIds);
+        }
     }
 
     /**

@@ -64,7 +64,7 @@ class ArticleController extends Controller
         }
 
         // 基础查询
-        $query = Article::with(['category', 'user'])
+        $query = Article::with(['category', 'categories', 'user'])
             ->frontVisible()
             ->whereTranslation('locale', $locale);
 //            ->whereHas('category', fn ($q) => $q->active());
@@ -88,9 +88,9 @@ class ArticleController extends Controller
         }
         else
         {
-            $currentCategory = $categories->firstWhere('name', $category_name);
+            $currentCategory = $this->findCategoryByUrl($category_name);
             if($currentCategory) {
-                $query->where('category_id', $currentCategory->id);
+                $query->inArticleCategory((int) $currentCategory->id);
             } else {
                 abort(404);
             }
@@ -107,12 +107,14 @@ class ArticleController extends Controller
             $topArticle = Article::whereTranslation('locale', $locale)
                 ->frontVisible()
 //                ->whereHas('category', fn ($q) => $q->active())
+                ->when($currentCategory->id, fn ($q) => $q->inArticleCategory((int) $currentCategory->id))
                 ->where('id', 12)
                 ->first();
             if(!$topArticle){
                 $topArticle = Article::whereTranslation('locale', $locale)
                     ->frontVisible()
 //                    ->whereHas('category', fn ($q) => $q->active())
+                    ->when($currentCategory->id, fn ($q) => $q->inArticleCategory((int) $currentCategory->id))
                     ->orderBy('id', 'desc')
                     ->first();
             }
@@ -144,9 +146,14 @@ class ArticleController extends Controller
      */
     public function detail(Request $request, $category_name, $link)
     {
-        $article = Article::with(['category', 'user', 'tags'])
+        $currentCategory = $this->findCategoryByUrl($category_name);
+        if (!$currentCategory) {
+            abort(404);
+        }
+
+        $article = Article::with(['category', 'categories', 'user', 'tags'])
             ->where('link', $link)
-//            ->whereHas('category', fn ($q) => $q->active())
+            ->inArticleCategory((int) $currentCategory->id)
             ->first();
 
         if (!$article) {
@@ -208,6 +215,26 @@ class ArticleController extends Controller
             'headings',
             'contentWithAnchors'
         ));
+    }
+
+    private function findCategoryByUrl(string $categoryUrl): ?ArticleCategory
+    {
+        $categoryUrl = trim($categoryUrl, '/');
+
+        return ArticleCategory::active()
+            ->where(function ($query) use ($categoryUrl) {
+                $query->where('url', $categoryUrl)
+                    ->orWhere('name', $categoryUrl)
+                    ->orWhere(function ($query) use ($categoryUrl) {
+                        $query->whereNull('url')
+                            ->where('name', $categoryUrl);
+                    })
+                    ->orWhere(function ($query) use ($categoryUrl) {
+                        $query->where('url', '')
+                            ->where('name', $categoryUrl);
+                    });
+            })
+            ->first();
     }
 
     /**

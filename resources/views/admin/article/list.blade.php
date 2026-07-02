@@ -87,7 +87,13 @@
 									<td>{{ $article->id }}</td>
 									<td>{{ $article->link }}</td>
 									<td>{{ $article->title }}</td>
-									<td>{{ $article->category->name ?? '-' }}</td>
+									<td>
+										@forelse($article->categories as $category)
+											<span class="badge bg-light text-dark border">{{ $category->name }}</span>
+										@empty
+											{{ $article->category->name ?? '-' }}
+										@endforelse
+									</td>
 									<td>{{ Str::limit($article->summary, 20) }}</td>
 									<td>
 										@if($article->is_front_visible)

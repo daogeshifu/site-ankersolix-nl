@@ -59,10 +59,10 @@ class GuidesController extends Controller
         }
 
         // 基础查询（只查 guides，category 不存在时 where null 自然返回空）
-        $query = Article::with(['category', 'user'])
+        $query = Article::with(['category', 'categories', 'user'])
             ->frontVisible()
             ->whereTranslation('locale', $locale)
-            ->where('category_id', $currentCategory->id);
+            ->when($currentCategory->id, fn ($q) => $q->inArticleCategory((int) $currentCategory->id), fn ($q) => $q->whereRaw('1 = 0'));
 
         // 搜索（注意：要把 OR 条件包起来，否则会“跳出分类条件”）
         if ($search) {
@@ -85,7 +85,7 @@ class GuidesController extends Controller
             $topArticle = Article::with(['category', 'user'])
                 ->frontVisible()
                 ->whereTranslation('locale', $locale)
-                ->where('category_id', $currentCategory->id)
+                ->when($currentCategory->id, fn ($q) => $q->inArticleCategory((int) $currentCategory->id), fn ($q) => $q->whereRaw('1 = 0'))
                 ->orderBy('id', 'desc')
                 ->first();
         }
@@ -107,9 +107,9 @@ class GuidesController extends Controller
         $category_name = 'guides';
 
         // 根据链接查找文章
-        $article = Article::with(['category', 'user', 'tags'])
+        $article = Article::with(['category', 'categories', 'user', 'tags'])
             ->where('link', $link)
-            ->whereHas('category', fn ($q) => $q->active()->where('name', $this->categoryName))
+            ->inArticleCategoryName($this->categoryName)
             ->first();
 
         if (!$article) {

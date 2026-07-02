@@ -286,20 +286,25 @@
                                 @if($lang === 'nl')
                                 <div class="mb-3">
                                     <label class="form-label">文章分类<span class="required-star">*</span></label>
-                                    <select class="form-select @error('category_id') is-invalid @enderror"
-                                            id="category_id"
-                                            name="category_id"
-                                            required>
-                                        <option value="">-- 选择分类 --</option>
+                                    @php
+                                        $selectedCategoryIds = old('category_ids', $article->categories->pluck('id')->all() ?: [$article->category_id]);
+                                        $selectedCategoryIds = array_map('intval', array_filter((array) $selectedCategoryIds));
+                                    @endphp
+                                    <div class="border rounded p-3 @error('category_ids') border-danger @enderror" id="category_ids_wrapper" style="max-height: 220px; overflow-y: auto; background: #fff;">
                                         @foreach($categories as $category)
-                                            <option value="{{ $category->id }}"
-                                                {{ old('category_id', $article->category_id) == $category->id ? 'selected' : '' }}>
-                                                {{ $category->name }}
-                                            </option>
+                                            <div class="form-check">
+                                                <input class="form-check-input"
+                                                       type="checkbox"
+                                                       name="category_ids[]"
+                                                       value="{{ $category->id }}"
+                                                       id="category_{{ $category->id }}"
+                                                       {{ in_array($category->id, $selectedCategoryIds, true) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="category_{{ $category->id }}">{{ $category->name }}</label>
+                                            </div>
                                         @endforeach
-                                    </select>
-                                    <div class="invalid-feedback">请选择文章分类</div>
-                                    @error('category_id')
+                                    </div>
+                                    <div class="invalid-feedback" id="category_ids_error">请选择至少一个文章分类</div>
+                                    @error('category_ids')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -712,6 +717,17 @@
             } else {
                 document.getElementById('content-error').style.display = 'none';
                 document.querySelector('.toolbar-box').style.borderColor = '#ced4da';
+            }
+
+            const categoryWrapper = document.getElementById('category_ids_wrapper');
+            const categoryError = document.getElementById('category_ids_error');
+            if (categoryWrapper && document.querySelectorAll('input[name="category_ids[]"]:checked').length === 0) {
+                categoryWrapper.classList.add('border-danger');
+                categoryError.style.display = 'block';
+                isValid = false;
+            } else if (categoryWrapper) {
+                categoryWrapper.classList.remove('border-danger');
+                categoryError.style.display = 'none';
             }
 
             // 如果验证失败，滚动到第一个错误字段

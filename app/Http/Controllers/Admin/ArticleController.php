@@ -21,7 +21,7 @@ class ArticleController extends Controller
     {
         $locale = app()->getLocale(); // 当前语言
 
-        $query = Article::with(['category'])
+        $query = Article::with(['category', 'categories'])
             ->withTranslation($locale);
 
         if ($request->filled('search')) {
@@ -35,7 +35,7 @@ class ArticleController extends Controller
         }
 
         if ($request->filled('category_id')) {
-            $query->where('category_id', $request->category_id);
+            $query->inArticleCategory((int) $request->category_id);
         }
 
         $articles = $query->orderByDesc('id')->paginate(15);
@@ -72,7 +72,8 @@ class ArticleController extends Controller
     {
         $rules = [
             'link' => 'required|string|unique:articles,link',
-            'category_id' => 'required|exists:article_categorys,id',
+            'category_ids' => 'required|array|min:1',
+            'category_ids.*' => 'exists:article_categorys,id',
             'cover' => 'nullable|string',
             'keywords' => 'nullable|string|max:640',
             'author' => 'nullable|string|max:255',
@@ -93,10 +94,11 @@ class ArticleController extends Controller
 
         try {
             DB::beginTransaction();
+            $categoryIds = array_values(array_unique(array_map('intval', $validated['category_ids'])));
 
             $articleData = [
                 'user_id' => Auth::id(),
-                'category_id' => $validated['category_id'],
+                'category_id' => $categoryIds[0],
                 'link' => $validated['link'],
                 'keywords' => $validated['keywords'] ?? null,
                 'author' => $validated['author'] ?? null,
@@ -120,6 +122,7 @@ class ArticleController extends Controller
             ];
 
             $article = Article::createWithTranslations($articleData, $translations);
+            $article->syncCategories($categoryIds);
 
             // 同步标签关系
             if (!empty($validated['tags'])) {
@@ -178,7 +181,7 @@ class ArticleController extends Controller
     public function edit($id)
     {
         try {
-            $article = Article::with('tags')->findOrFail($id);
+            $article = Article::with(['tags', 'categories'])->findOrFail($id);
             $categories = ArticleCategory::orderBy('name')->get();
             $tags = ArticleTag::orderBy('name')->get();
 
@@ -212,7 +215,8 @@ class ArticleController extends Controller
         // link / category_id / cover / tags / keywords / author / author_bio 仅在荷兰语主语言模式下提交和校验
         if ($lang === 'nl') {
             $rules['link'] = 'required|string|unique:articles,link,' . $id;
-            $rules['category_id'] = 'required|exists:article_categorys,id';
+            $rules['category_ids'] = 'required|array|min:1';
+            $rules['category_ids.*'] = 'exists:article_categorys,id';
             $rules['cover'] = 'nullable|string';
             $rules['keywords'] = 'nullable|string|max:640';
             $rules['author'] = 'nullable|string|max:255';
@@ -230,9 +234,11 @@ class ArticleController extends Controller
         try {
             // 主表字段仅在荷兰语主语言模式下更新
             if ($lang === 'nl') {
+                $categoryIds = array_values(array_unique(array_map('intval', $validated['category_ids'])));
+
                 $article->update([
                     'link' => $validated['link'],
-                    'category_id' => $validated['category_id'],
+                    'category_id' => $categoryIds[0],
                     'keywords' => $validated['keywords'] ?? null,
                     'author' => $validated['author'] ?? null,
                     'author_bio' => $validated['author_bio'] ?? null,
@@ -242,6 +248,7 @@ class ArticleController extends Controller
 
                 // 同步标签关系
                 $article->tags()->sync($validated['tags'] ?? []);
+                $article->syncCategories($categoryIds);
             }
 
             // 只更新当前语言的翻译
