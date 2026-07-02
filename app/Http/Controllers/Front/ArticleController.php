@@ -102,12 +102,12 @@ class ArticleController extends Controller
         $topArticle = null;
         if(!$search && $currentPage == 1) {
             $topArticle = Article::whereTranslation('locale', $locale)
-                ->whereHas('category', fn ($q) => $q->active())
+//                ->whereHas('category', fn ($q) => $q->active())
                 ->where('id', 12)
                 ->first();
             if(!$topArticle){
                 $topArticle = Article::whereTranslation('locale', $locale)
-                    ->whereHas('category', fn ($q) => $q->active())
+//                    ->whereHas('category', fn ($q) => $q->active())
                     ->orderBy('id', 'desc')
                     ->first();
             }
