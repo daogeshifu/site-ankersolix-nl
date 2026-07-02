@@ -21,7 +21,7 @@ class IndexController extends Controller
         // 获取最新的文章 (主要文章区域)
         $featuredArticles = Article::with(['category', 'user'])
             ->whereTranslation('locale', $locale)
-            ->whereHas('category', fn ($q) => $q->active())
+//            ->whereHas('category', fn ($q) => $q->active())
             ->orderBy('id', 'desc')
             ->take(3)
             ->get();
