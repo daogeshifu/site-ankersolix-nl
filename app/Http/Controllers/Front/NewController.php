@@ -246,7 +246,7 @@ class NewController extends Controller
         $sidebarArticles = $article->category->articles()
             ->frontVisible()
             ->with(['category', 'user'])
-            ->where('id', '!=', $article->id)
+            ->where('articles.id', '!=', $article->id)
             ->take(5)
             ->get();
 
