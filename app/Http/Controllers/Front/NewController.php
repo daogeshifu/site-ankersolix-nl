@@ -53,7 +53,7 @@ class NewController extends Controller
             'per_page' => 9,
         ],
         'dynamische-energietarieven' => [
-            'category' => 'dynamische-energietarieven',
+            'category' => "Dynamische Tarieven & Slim Laden",
             'route' => 'dynamische-energietarieven',
             'per_page' => 9,
         ],
