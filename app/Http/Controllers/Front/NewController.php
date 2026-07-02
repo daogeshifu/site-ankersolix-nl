@@ -243,9 +243,7 @@ class NewController extends Controller
             abort(404);
         }
 
-        $currentCategory = ArticleCategory::active()
-            ->where('name', $category_name)
-            ->first();
+        $currentCategory = $this->findCategoryByUrl($category_name);
 
         $sidebarArticles = $currentCategory
             ? $currentCategory->articles()

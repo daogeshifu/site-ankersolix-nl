@@ -50,7 +50,7 @@
                 @foreach($featuredArticles->take(2) as $article)
                 <!-- Featured Article Card -->
                 <div class="flex flex-col gap-4 group cursor-pointer">
-                    <a href="{{ route('article.detail.show', [$article->category->name ?? 'blog', $article->link]) }}" class="relative overflow-hidden rounded-xl aspect-video">
+                    <a href="{{ $article->front_url }}" class="relative overflow-hidden rounded-xl aspect-video">
                         <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="{{ $article->cover_url ?: '/around/picture/0126.jpg' }}" alt="{{ $article->title }}" loading="lazy">
                         @if($article->category)
                         <div class="absolute top-3 left-3 bg-white/90 dark:bg-black/80 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">{{ $article->category->name }}</div>
@@ -58,7 +58,7 @@
                     </a>
                     <div class="space-y-2">
                         <h3 class="text-xl font-bold group-hover:text-primary transition-colors">
-                            <a href="{{ route('article.detail.show', [$article->category->name ?? 'blog', $article->link]) }}">{{ $article->title }}</a>
+                            <a href="{{ $article->front_url }}">{{ $article->title }}</a>
                         </h3>
                         <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{{ Str::limit($article->summary ?? strip_tags($article->content), 120) }}</p>
                         <div class="flex items-center gap-3 pt-2 text-xs font-medium text-gray-400">
@@ -76,7 +76,7 @@
             @if(isset($sidebarArticles) && $sidebarArticles->count() > 0)
             <div class="space-y-6 pt-6">
                 @foreach($sidebarArticles->take(4) as $sidebarArticle)
-                <a href="{{ route('article.detail.show', [$sidebarArticle->category->name ?? 'blog', $sidebarArticle->link]) }}" class="flex gap-6 items-start border-t border-gray-100 dark:border-gray-800 pt-6 group cursor-pointer">
+                <a href="{{ $sidebarArticle->front_url }}" class="flex gap-6 items-start border-t border-gray-100 dark:border-gray-800 pt-6 group cursor-pointer">
                     <img class="w-32 h-24 rounded-lg object-cover flex-shrink-0" src="{{ $sidebarArticle->cover_url ?: '/around/picture/0127.jpg' }}" alt="{{ $sidebarArticle->title }}" loading="lazy">
                     <div class="space-y-1">
                         @if($sidebarArticle->category)
@@ -115,7 +115,7 @@
             <div class="space-y-6">
                 <h2 class="text-xl font-bold border-b border-gray-100 dark:border-gray-800 pb-3">{{ __('article.most_popular') }}</h2>
                 @foreach($popularArticles as $popArticle)
-                <a href="{{ route('article.detail.show', [$popArticle->category->name ?? 'blog', $popArticle->link]) }}" class="flex items-start gap-4 group">
+                <a href="{{ $popArticle->front_url }}" class="flex items-start gap-4 group">
                     <img class="size-16 rounded-lg object-cover flex-shrink-0" src="{{ $popArticle->cover_url ?: '/around/picture/0127.jpg' }}" alt="{{ $popArticle->title }}" loading="lazy">
                     <div class="space-y-1">
                         <h4 class="text-sm font-bold leading-tight group-hover:text-primary transition-colors">{{ Str::limit($popArticle->title, 50) }}</h4>
@@ -154,18 +154,18 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($randomArticles->take(6) as $latestArticle)
                 <article class="bg-white dark:bg-[#0c121d] rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group">
-                    <a href="{{ route('article.detail.show', [$latestArticle->category->name ?? 'blog', $latestArticle->link]) }}" class="block aspect-video overflow-hidden">
+                    <a href="{{ $latestArticle->front_url }}" class="block aspect-video overflow-hidden">
                         <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="{{ $latestArticle->cover_url ?: '/around/picture/0126.jpg' }}" alt="{{ $latestArticle->title }}" loading="lazy">
                     </a>
                     <div class="p-6">
                         <div class="flex items-center gap-3 mb-3">
                             <span class="text-xs text-gray-500">{{ $latestArticle->created_at->format('Y-m-d H:i')}}</span>
                             @if($latestArticle->category)
-                            <a href="{{ route('article.category2', $latestArticle->category->name) }}" class="text-xs text-primary font-medium">{{ $latestArticle->category->name }}</a>
+                            <a href="{{ route('article.category2', $latestArticle->category->url ?: $latestArticle->category->name) }}" class="text-xs text-primary font-medium">{{ $latestArticle->category->name }}</a>
                             @endif
                         </div>
                         <h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors">
-                            <a href="{{ route('article.detail.show', [$latestArticle->category->name ?? 'blog', $latestArticle->link]) }}">{{ Str::limit($latestArticle->title, 60) }}</a>
+                            <a href="{{ $latestArticle->front_url }}">{{ Str::limit($latestArticle->title, 60) }}</a>
                         </h3>
                         <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{{ Str::limit($latestArticle->summary ?? strip_tags($latestArticle->content), 100) }}</p>
                     </div>

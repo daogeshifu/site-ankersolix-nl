@@ -103,8 +103,16 @@ class Article extends Model implements TranslatableContract
     public function scopeInArticleCategoryName($query, string $categoryName)
     {
         return $query->where(function ($q) use ($categoryName) {
-            $q->whereHas('category', fn ($categoryQuery) => $categoryQuery->active()->where('name', $categoryName))
-                ->orWhereHas('categories', fn ($categoryQuery) => $categoryQuery->active()->where('name', $categoryName));
+            $q->whereHas('category', fn ($categoryQuery) => $categoryQuery
+                ->active()
+                ->where(fn ($matchQuery) => $matchQuery
+                    ->where('name', $categoryName)
+                    ->orWhere('url', $categoryName)))
+                ->orWhereHas('categories', fn ($categoryQuery) => $categoryQuery
+                    ->active()
+                    ->where(fn ($matchQuery) => $matchQuery
+                        ->where('name', $categoryName)
+                        ->orWhere('url', $categoryName)));
         });
     }
 
@@ -139,6 +147,23 @@ class Article extends Model implements TranslatableContract
         }
 
         return asset('storage/' . $cover);
+    }
+
+    public function getFrontUrlAttribute(): string
+    {
+        $category = $this->category;
+
+        if (!$category || !$category->is_active) {
+            $category = $this->categories
+                ->first(fn (ArticleCategory $articleCategory) => $articleCategory->is_active);
+        }
+
+        $categoryUrl = $category ? (string) ($category->url ?: $category->name) : 'blog';
+
+        return route('article.detail.show', [
+            'category_name' => $categoryUrl,
+            'link' => $this->link,
+        ]);
     }
 
     /**
