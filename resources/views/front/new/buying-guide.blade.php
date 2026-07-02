@@ -246,36 +246,38 @@
             </div>
             <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
                 @foreach(data_get($guide, 'product_cards', []) as $product)
-                    <article class="overflow-hidden rounded-xl border border-[#e5e7eb] bg-white shadow-sm dark:border-white/10 dark:bg-[#111827]">
-                        <div class="relative aspect-[4/3]" style="background: linear-gradient(135deg,#eef3fe,#f6f8fc);">
-                            @if(!empty($product['image']))
-                                <img src="{{ $product['image'] }}" alt="{{ $product['title'] }}" class="h-full w-full object-cover">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent"></div>
-                            @else
-                                <div class="flex h-full items-center justify-center">
-                                    <span class="material-symbols-outlined text-[64px] text-primary/85">{{ $product['icon'] }}</span>
-                                </div>
-                            @endif
-                            <span class="absolute left-3 top-3 rounded-lg border border-[#e5e7eb] bg-white px-3 py-1 text-xs font-bold text-[#111318]">{{ $product['cap'] }}</span>
-                            <span class="absolute right-3 top-3 rounded-lg px-3 py-1 text-[11px] font-bold" style="background: {{ $product['badge_bg'] ?? '#135bec' }}; color: {{ $product['badge_color'] ?? '#ffffff' }};">{{ $product['badge'] }}</span>
-                        </div>
-                        <div class="flex h-full flex-col gap-3 p-5">
-                            <div class="flex flex-wrap gap-2">
-                                <span class="rounded-md bg-primary/10 px-2 py-1 text-[11px] font-bold text-primary">{{ $product['type'] }}</span>
-                                <span class="rounded-md bg-[#ecfdf3] px-2 py-1 text-[11px] font-bold text-[#047857]">{{ $product['stock'] }}</span>
+                    <article class="h-full">
+                        <a href="{{ $product['href'] }}" class="flex h-full flex-col overflow-hidden rounded-xl border border-[#e5e7eb] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary/40 dark:border-white/10 dark:bg-[#111827]">
+                            <div class="relative aspect-[4/3]" style="background: linear-gradient(135deg,#eef3fe,#f6f8fc);">
+                                @if(!empty($product['image']))
+                                    <img src="{{ $product['image'] }}" alt="{{ $product['title'] }}" class="h-full w-full object-cover">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent"></div>
+                                @else
+                                    <div class="flex h-full items-center justify-center">
+                                        <span class="material-symbols-outlined text-[64px] text-primary/85">{{ $product['icon'] }}</span>
+                                    </div>
+                                @endif
+                                <span class="absolute left-3 top-3 rounded-lg border border-[#e5e7eb] bg-white px-3 py-1 text-xs font-bold text-[#111318]">{{ $product['cap'] }}</span>
+                                <span class="absolute right-3 top-3 rounded-lg px-3 py-1 text-[11px] font-bold" style="background: {{ $product['badge_bg'] ?? '#135bec' }}; color: {{ $product['badge_color'] ?? '#ffffff' }};">{{ $product['badge'] }}</span>
                             </div>
-                            <h3 class="text-[17px] font-bold leading-6 text-[#111318] dark:text-white">{{ $product['title'] }}</h3>
-                            <p class="flex-1 text-sm leading-6 text-[#616f89] dark:text-[#9fb0c9]">{{ $product['desc'] }}</p>
-                            <div class="flex items-end justify-between gap-3">
-                                <div>
-                                    <div class="text-[11px] text-[#616f89] dark:text-[#9fb0c9]">{{ $product['brand'] }}</div>
-                                    <div class="text-[20px] font-bold tracking-[-0.02em] text-[#111318] dark:text-white">{{ $product['price'] }}</div>
+                            <div class="flex flex-1 flex-col gap-3 p-5">
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="rounded-md bg-primary/10 px-2 py-1 text-[11px] font-bold text-primary">{{ $product['type'] }}</span>
+                                    <span class="rounded-md bg-[#ecfdf3] px-2 py-1 text-[11px] font-bold text-[#047857]">{{ $product['stock'] }}</span>
                                 </div>
-                                <a href="{{ $product['href'] }}" class="inline-flex h-10 w-10 items-center justify-center rounded-[10px] bg-primary text-white hover:bg-primary/90">
-                                    <span class="material-symbols-outlined text-xl">arrow_forward</span>
-                                </a>
+                                <h3 class="text-[17px] font-bold leading-6 text-[#111318] dark:text-white">{{ $product['title'] }}</h3>
+                                <p class="flex-1 text-sm leading-6 text-[#616f89] dark:text-[#9fb0c9]">{{ $product['desc'] }}</p>
+                                <div class="flex items-end justify-between gap-3">
+                                    <div>
+                                        <div class="text-[11px] text-[#616f89] dark:text-[#9fb0c9]">{{ $product['brand'] }}</div>
+                                        <div class="text-[20px] font-bold tracking-[-0.02em] text-[#111318] dark:text-white">{{ $product['price'] }}</div>
+                                    </div>
+                                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-[10px] bg-primary text-white">
+                                        <span class="material-symbols-outlined text-xl">arrow_forward</span>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </article>
                 @endforeach
             </div>
