@@ -29,7 +29,7 @@ class IndexController extends Controller
         // 获取侧边栏文章
         $sidebarArticles = Article::with(['category'])
             ->whereTranslation('locale', $locale)
-            ->whereHas('category', fn ($q) => $q->active())
+//            ->whereHas('category', fn ($q) => $q->active())
             ->orderBy('id', 'desc')
             // ->skip(3)
             ->take(5)
@@ -38,7 +38,7 @@ class IndexController extends Controller
         // 获取热门文章 (轮播)
         $popularArticles = Article::with(['category', 'user'])
             ->whereTranslation('locale', $locale)
-            ->whereHas('category', fn ($q) => $q->active())
+//            ->whereHas('category', fn ($q) => $q->active())
             ->orderBy('id', 'desc')
             ->take(6)
             ->get();
@@ -46,7 +46,7 @@ class IndexController extends Controller
         // 获取最新文章
         $latestArticles = Article::with(['category'])
             ->whereTranslation('locale', $locale)
-            ->whereHas('category', fn ($q) => $q->active())
+//            ->whereHas('category', fn ($q) => $q->active())
             ->orderBy('id', 'desc')
             ->take(5)
             ->get();
@@ -54,7 +54,7 @@ class IndexController extends Controller
         // 获取随机文章
         $randomArticles = Article::with(['category'])
             ->whereTranslation('locale', $locale)
-            ->whereHas('category', fn ($q) => $q->active())
+//            ->whereHas('category', fn ($q) => $q->active())
             ->inRandomOrder()
             ->take(5)
             ->get();
