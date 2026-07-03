@@ -268,7 +268,6 @@ class NewController extends Controller
         $section = $this->section($request);
         $category_name = $section['category'];
         $currentCategory = $this->findCategoryByUrl($category_name);
-
         if (!$currentCategory) {
             abort(404);
         }
@@ -505,8 +504,7 @@ class NewController extends Controller
     {
         $categoryUrl = trim($categoryUrl, '/');
 
-        return ArticleCategory::active()
-            ->where(function ($query) use ($categoryUrl) {
+        return ArticleCategory::where(function ($query) use ($categoryUrl) {
                 $query->where('url', $categoryUrl)
                     ->orWhere('name', $categoryUrl)
                     ->orWhere(function ($query) use ($categoryUrl) {
