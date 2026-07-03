@@ -16,65 +16,6 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    private const ARTICLE_SECTION_ROUTES = [
-        'aankoopgids' => [
-            'index' => 'buying-guide',
-            'detail' => 'buying-guide.detail.show',
-        ],
-        'installatie-configuratie' => [
-            'index' => 'installation',
-            'detail' => 'installation.detail.show',
-        ],
-        'subsidies-beleid' => [
-            'index' => 'subsidy',
-            'detail' => 'subsidy.detail.show',
-        ],
-        'elektriciteitsprijzen-besparen' => [
-            'index' => 'energy-saving',
-            'detail' => 'energy-saving.detail.show',
-        ],
-        'cases-reviews' => [
-            'index' => 'reviews',
-            'detail' => 'reviews.detail.show',
-        ],
-        'beste-thuisbatterij-2026' => [
-            'index' => 'beste-thuisbatterij-2026',
-            'detail' => 'beste-thuisbatterij-2026.detail.show',
-        ],
-        'thuisbatterij-zonder-zonnepanelen' => [
-            'index' => 'thuisbatterij-zonder-zonnepanelen',
-            'detail' => 'thuisbatterij-zonder-zonnepanelen.detail.show',
-        ],
-        'dynamische-energietarieven' => [
-            'index' => 'dynamische-energietarieven',
-            'detail' => 'dynamische-energietarieven.detail.show',
-        ],
-        'thuisbatterij-subsidie' => [
-            'index' => 'thuisbatterij-subsidie',
-            'detail' => 'thuisbatterij-subsidie.detail.show',
-        ],
-        'back-upstroom-noodstroom' => [
-            'index' => 'back-upstroom-noodstroom',
-            'detail' => 'back-upstroom-noodstroom.detail.show',
-        ],
-        'zonne-energie-opslaan' => [
-            'index' => 'zonne-energie-opslaan',
-            'detail' => 'zonne-energie-opslaan.detail.show',
-        ],
-        'thuisbatterij-capaciteit-uitbreiding' => [
-            'index' => 'thuisbatterij-capaciteit-uitbreiding',
-            'detail' => 'thuisbatterij-capaciteit-uitbreiding.detail.show',
-        ],
-        'warmtepomp-elektrische-auto' => [
-            'index' => 'warmtepomp-elektrische-auto',
-            'detail' => 'warmtepomp-elektrische-auto.detail.show',
-        ],
-        'thuisbatterij-zelf-installeren' => [
-            'index' => 'thuisbatterij-zelf-installeren',
-            'detail' => 'thuisbatterij-zelf-installeren.detail.show',
-        ],
-    ];
-
     public function index(Request $request, ?string $categorySlug = null, ?int $page = null)
     {
         if ($page) {
@@ -416,7 +357,7 @@ class ProductController extends Controller
 
     private function buildCatalogArticleEntries(): array
     {
-        $articles = Article::with('category:id,name')
+        $articles = Article::with(['category:id,name,url,is_active', 'categories:id,name,url,is_active'])
             ->frontVisible()
             ->whereTranslation('locale', app()->getLocale())
             ->orderByDesc('id')
@@ -534,7 +475,7 @@ class ProductController extends Controller
 
         $positionMap = array_flip($normalizedIds);
 
-        return Article::with('category:id,name')
+        return Article::with(['category:id,name,url,is_active', 'categories:id,name,url,is_active'])
             ->frontVisible()
             ->whereIn('id', $normalizedIds)
             ->get()
@@ -665,10 +606,7 @@ class ProductController extends Controller
 
     private function resolveArticleHref(Article $article): string
     {
-        $categoryName = trim((string) optional($article->category)->name);
-        $detailRoute = self::ARTICLE_SECTION_ROUTES[$categoryName]['detail'] ?? 'buying-guide.detail.show';
-
-        return route($detailRoute, ['link' => $article->link]);
+        return $article->front_url;
     }
 
     private function resolveProductIcon(Product $product): string

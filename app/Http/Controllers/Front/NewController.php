@@ -267,26 +267,27 @@ class NewController extends Controller
     {
         $section = $this->section($request);
         $category_name = $section['category'];
+        $currentCategory = $this->findCategoryByUrl($category_name);
+
+        if (!$currentCategory) {
+            abort(404);
+        }
 
         $article = Article::with(['category', 'categories', 'user', 'tags'])
             ->where('link', $link)
-            ->inArticleCategoryName($category_name)
+            ->inArticleCategory((int) $currentCategory->id)
             ->first();
 
         if (!$article) {
             abort(404);
         }
 
-        $currentCategory = $this->findCategoryByUrl($category_name);
-
-        $sidebarArticles = $currentCategory
-            ? $currentCategory->articles()
-                ->frontVisible()
-                ->with(['category', 'user'])
-                ->where('articles.id', '!=', $article->id)
-                ->take(5)
-                ->get()
-            : collect();
+        $sidebarArticles = Article::with(['category', 'categories', 'user'])
+            ->frontVisible()
+            ->inArticleCategory((int) $currentCategory->id)
+            ->where('articles.id', '!=', $article->id)
+            ->take(5)
+            ->get();
 
         $plainText = strip_tags($article->content);
         if (mb_strlen($plainText) <= 100) {
