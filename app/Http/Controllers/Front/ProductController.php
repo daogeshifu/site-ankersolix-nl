@@ -123,6 +123,7 @@ class ProductController extends Controller
         $products->setPath($basePath);
 
         $brands = (clone $filterBaseQuery)
+            ->where('show_product_type', true)
             ->whereNotNull('brand')
             ->select('brand')
             ->distinct()
