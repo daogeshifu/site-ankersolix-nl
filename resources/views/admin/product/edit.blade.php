@@ -138,6 +138,12 @@
                                         </div>
 
                                         <div class="form-check form-switch mb-3">
+                                            <input type="hidden" name="show_product_type" value="0">
+                                            <input class="form-check-input" type="checkbox" name="show_product_type" value="1" id="showProductType" @checked(old('show_product_type', $product->show_product_type ?? true))>
+                                            <label class="form-check-label" for="showProductType">前台展示 Type</label>
+                                        </div>
+
+                                        <div class="form-check form-switch mb-3">
                                             <input type="hidden" name="any_variant_available" value="0">
                                             <input class="form-check-input" type="checkbox" name="any_variant_available" value="1" id="available" @checked(old('any_variant_available', $product->any_variant_available))>
                                             <label class="form-check-label" for="available">有可售变体</label>

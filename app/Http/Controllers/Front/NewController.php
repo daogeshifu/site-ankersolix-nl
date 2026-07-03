@@ -438,7 +438,10 @@ class NewController extends Controller
                 'badge' => $badge['badge'],
                 'badge_bg' => $badge['badge_bg'],
                 'badge_color' => $badge['badge_color'],
-                'type' => Str::limit(Str::headline((string) ($product->product_type ?: optional($product->category)->name ?: 'Product')), 18, ''),
+                'show_type' => (bool) $product->show_product_type && filled($product->product_type),
+                'type' => (bool) $product->show_product_type && filled($product->product_type)
+                    ? Str::limit(Str::headline((string) $product->product_type), 18, '')
+                    : '',
                 'stock' => $product->any_variant_available ? 'Op voorraad' : 'Op aanvraag',
                 'title' => $product->title,
                 'desc' => Str::limit($summary !== '' ? $summary : 'Bekijk de productspecificaties en prijzen op de productdetailpagina.', 120),
@@ -526,7 +529,8 @@ class NewController extends Controller
 
     private function resolveProductIcon(Product $product): string
     {
-        $haystack = Str::lower(trim($product->title . ' ' . $product->brand . ' ' . $product->product_type));
+        $typeText = $product->show_product_type ? (string) $product->product_type : '';
+        $haystack = Str::lower(trim($product->title . ' ' . $product->brand . ' ' . $typeText));
 
         return match (true) {
             Str::contains($haystack, ['anker', 'solix']) => 'battery_charging_full',

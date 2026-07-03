@@ -64,12 +64,14 @@ class ProductController extends Controller
             'seo_description' => 'nullable|string',
             'seo_keywords' => 'nullable|string|max:500',
             'is_active' => 'nullable|boolean',
+            'show_product_type' => 'nullable|boolean',
             'sort_order' => 'nullable|integer|min:0',
         ]);
 
         $validated['slug'] = Str::slug($validated['slug']) ?: $product->slug;
         $validated['any_variant_available'] = $request->boolean('any_variant_available');
         $validated['is_active'] = $request->boolean('is_active');
+        $validated['show_product_type'] = $request->boolean('show_product_type');
 
         $product->update($validated);
 

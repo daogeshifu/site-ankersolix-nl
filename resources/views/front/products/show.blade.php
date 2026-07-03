@@ -1,8 +1,12 @@
 @extends('layouts.stitch.master')
 
+@php
+    $frontProductType = ($product->show_product_type ?? true) ? $product->product_type : null;
+@endphp
+
 @section('title', $product->seo_title ?: $product->title)
 @section('description', $product->seo_description ?: ($product->summary ?: Str::limit(strip_tags((string) $product->description_text), 160)))
-@section('keywords', $product->seo_keywords ?: implode(', ', array_filter([$product->brand, $product->product_type, $product->category?->name, 'thuisbatterij'])))
+@section('keywords', $product->seo_keywords ?: implode(', ', array_filter([$product->brand, $frontProductType, $product->category?->name, 'thuisbatterij'])))
 @section('canonical', route('products.show', $product->slug))
 @section('meta_type', 'product')
 @section('meta_image', $product->display_image ?: asset('around/image/logo/logo-icon.png'))
@@ -59,7 +63,7 @@
         'inLanguage' => $languageCode,
         'name' => $product->title,
         'description' => $schemaDescription,
-        'category' => $product->category->name ?? $product->product_type,
+        'category' => $product->category?->name ?: $frontProductType,
         'image' => $schemaImages,
         'sku' => $selectedVariant->sku ?? null,
         'brand' => $schemaBrand ? [
@@ -235,10 +239,12 @@
                     <span class="block text-[#616f89]">{{ __('product.source_site') }}</span>
                     <strong>{{ $product->source_site ?: '-' }}</strong>
                 </div>
-                <div class="rounded-lg bg-white dark:bg-[#1e293b] border border-[#e5e7eb] dark:border-[#334155] p-4">
-                    <span class="block text-[#616f89]">{{ __('product.product_type') }}</span>
-                    <strong>{{ $product->product_type ?: '-' }}</strong>
-                </div>
+                @if(filled($frontProductType))
+                    <div class="rounded-lg bg-white dark:bg-[#1e293b] border border-[#e5e7eb] dark:border-[#334155] p-4">
+                        <span class="block text-[#616f89]">{{ __('product.product_type') }}</span>
+                        <strong>{{ $frontProductType }}</strong>
+                    </div>
+                @endif
                 <div class="rounded-lg bg-white dark:bg-[#1e293b] border border-[#e5e7eb] dark:border-[#334155] p-4">
                     <span class="block text-[#616f89]">{{ __('product.updated_at') }}</span>
                     <strong>{{ optional($product->crawled_at ?: $product->updated_at)->format('Y-m-d') }}</strong>

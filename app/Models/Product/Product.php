@@ -34,6 +34,7 @@ class Product extends Model
         'selected_variant_available',
         'any_variant_available',
         'product_type',
+        'show_product_type',
         'source_category',
         'tags',
         'main_image',
@@ -59,6 +60,7 @@ class Product extends Model
         'max_variant_price' => 'decimal:2',
         'selected_variant_available' => 'boolean',
         'any_variant_available' => 'boolean',
+        'show_product_type' => 'boolean',
         'is_active' => 'boolean',
         'crawled_at' => 'datetime',
     ];
