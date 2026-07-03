@@ -42,13 +42,24 @@ class NewController extends Controller
             'route' => 'reviews',
             'per_page' => 9,
         ],
+        'thuisbatterij-koopgids' => [
+            'category' => 'Thuisbatterij Koopgids',
+            'route' => 'thuisbatterij-koopgids',
+            'per_page' => 9,
+        ],
         'beste-thuisbatterij-2026' => [
-            'category' => 'beste-thuisbatterij-2026',
+            'category' => 'Beste Thuisbatterijen 2026',
             'route' => 'beste-thuisbatterij-2026',
             'per_page' => 9,
         ],
+        'plug-and-play-stekkerbatterij' => [
+            'category' => 'Plug-and-play & Stekkerbatterij',
+            'route' => 'plug-and-play-stekkerbatterij',
+            'per_page' => 9,
+        ],
+
         'thuisbatterij-zonder-zonnepanelen' => [
-            'category' => 'thuisbatterij-zonder-zonnepanelen',
+            'category' => 'Thuisbatterij zonder Zonnepanelen',
             'route' => 'thuisbatterij-zonder-zonnepanelen',
             'per_page' => 9,
         ],
@@ -57,34 +68,57 @@ class NewController extends Controller
             'route' => 'dynamische-energietarieven',
             'per_page' => 9,
         ],
+        'salderingsregeling' => [
+            'category' => "Salderingsregeling & Wetgeving",
+            'route' => 'salderingsregeling',
+            'per_page' => 9,
+        ],
         'thuisbatterij-subsidie' => [
-            'category' => 'thuisbatterij-subsidie',
+            'category' => "Subsidie, BTW & Belasting",
             'route' => 'thuisbatterij-subsidie',
             'per_page' => 9,
         ],
+
         'back-upstroom-noodstroom' => [
-            'category' => 'back-upstroom-noodstroom',
+            'category' => 'Back-up & Noodstroom',
             'route' => 'back-upstroom-noodstroom',
             'per_page' => 9,
         ],
+
         'zonne-energie-opslaan' => [
-            'category' => 'zonne-energie-opslaan',
+            'category' => 'Zonne-energie Opslaan',
             'route' => 'zonne-energie-opslaan',
             'per_page' => 9,
         ],
+        'thuisbatterij-prijs-terugverdientijd' => [
+            'category' => 'Prijs & Terugverdientijd',
+            'route' => 'thuisbatterij-prijs-terugverdientijd',
+            'per_page' => 9,
+        ],
         'thuisbatterij-capaciteit-uitbreiding' => [
-            'category' => 'thuisbatterij-capaciteit-uitbreiding',
+            'category' => 'Capaciteit & Uitbreiding',
             'route' => 'thuisbatterij-capaciteit-uitbreiding',
             'per_page' => 9,
         ],
+
         'warmtepomp-elektrische-auto' => [
-            'category' => 'warmtepomp-elektrische-auto',
+            'category' => 'Warmtepomp & Elektrische Auto',
             'route' => 'warmtepomp-elektrische-auto',
             'per_page' => 9,
         ],
+        'thuisbatterij-veiligheid-levensduur' => [
+            'category' => 'Veiligheid & Levensduur (LFP)',
+            'route' => 'thuisbatterij-veiligheid-levensduur',
+            'per_page' => 9,
+        ],
         'thuisbatterij-zelf-installeren' => [
-            'category' => 'thuisbatterij-zelf-installeren',
+            'category' => 'Installatie & Zelf Aansluiten',
             'route' => 'thuisbatterij-zelf-installeren',
+            'per_page' => 9,
+        ],
+        'thuisbatterij-huurders-flexibel' => [
+            'category' => 'Huurders & Flexibel Gebruik',
+            'route' => 'thuisbatterij-huurders-flexibel',
             'per_page' => 9,
         ],
     ];
