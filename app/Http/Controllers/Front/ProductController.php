@@ -24,7 +24,7 @@ class ProductController extends Controller
         $search = trim((string) $request->input('search'));
         $brand = trim((string) $request->input('brand'));
         $availability = trim((string) $request->input('availability'));
-        $sort = trim((string) $request->input('sort', 'aanbevolen'));
+        $sort = trim((string) $request->input('sort', ''));
         $selectedTypeSlugs = collect((array) $request->input('type', []))
             ->map(static fn ($type) => trim((string) $type))
             ->filter()
@@ -72,6 +72,10 @@ class ProductController extends Controller
                 }
                 abort(404);
             }
+        }
+
+        if ($sort === '') {
+            $sort = $currentCategory ? 'prijs-hoog' : 'aanbevolen';
         }
 
         $currentCategoryDescendantIds = $currentCategory?->descendantIds() ?? [];

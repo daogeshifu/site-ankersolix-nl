@@ -10,7 +10,7 @@
     $brandStrip = collect($brands)->take(10)->values();
     $articleCards = collect($guide['article_cards'] ?? [])->values();
     $faqItems = collect(data_get($guide, 'faq.items', []))->values();
-    $sortValue = request('sort', 'aanbevolen');
+    $sortValue = request('sort', 'prijs-hoog');
 
     $defaultPageTitle = $isDutch ? $currentCategory->name . ' vergelijken & kopen' : 'Compare and buy ' . $currentCategory->name;
     $defaultPageDescription = $currentCategory->description ?: ($isDutch
