@@ -68,8 +68,9 @@ class PagesController extends Controller
         $relatedProducts = Product::with(['category', 'media'])
             ->active()
             ->whereNotNull('slug')
+            ->whereHas('category', fn ($query) => $query->shown()->where('is_active', true))
+            ->orderByDesc('price')
             ->orderByDesc('any_variant_available')
-            ->orderBy('sort_order')
             ->orderByDesc('id')
             ->limit(6)
             ->get();
