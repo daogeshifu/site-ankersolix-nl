@@ -352,7 +352,7 @@
             <span class="text-[13px] font-bold uppercase tracking-[0.08em] text-primary">Twijfel je nog?</span>
             <h2 class="mt-2 text-[28px] font-bold tracking-[-0.02em] text-[#111318]">Niet zeker welke batterij past?</h2>
             <p class="mt-3 max-w-[480px] text-base leading-8 text-[#616f89]">Onze aankoopgids legt capaciteit, accuchemie, kosten en terugverdientijd stap voor stap uit — met een capaciteitshulp die in 10 seconden een advies geeft.</p>
-            <a href="{{ route('buying-guide') }}" class="mt-5 inline-flex h-[46px] items-center gap-2 rounded-[10px] bg-primary px-5 text-[15px] font-bold text-white hover:bg-primary/90">
+            <a href="{{ route('thuisbatterij-zonder-zonnepanelen') }}" class="mt-5 inline-flex h-[46px] items-center gap-2 rounded-[10px] bg-primary px-5 text-[15px] font-bold text-white hover:bg-primary/90">
                 Naar de aankoopgids
                 <span class="material-symbols-outlined text-xl">arrow_forward</span>
             </a>
