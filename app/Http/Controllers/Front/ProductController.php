@@ -16,7 +16,9 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    public function index(Request $request, ?string $categorySlug = null, ?int $page = null)
+    private const FEATURED_LISTING_PRODUCT_ID = 164;
+
+    public function index(Request $request, ?string $categorySlug = null, ?int $page = null, ?string $tagSlug = null)
     {
         if ($page) {
             $request->merge(['page' => $page]);
@@ -74,13 +76,25 @@ class ProductController extends Controller
             }
         }
 
+        $productTagCounts = $this->loadProductTagCounts();
+        $currentTag = $tagSlug ? $productTagCounts->firstWhere('slug', $tagSlug) : null;
+        if ($tagSlug && !$currentTag) {
+            abort(404);
+        }
+
+        $topTags = $productTagCounts->take(10)->values();
+        if ($currentTag && !$topTags->contains('slug', $currentTag['slug'])) {
+            $topTags = $topTags->prepend($currentTag)->take(10)->values();
+        }
+
         if ($sort === '') {
-            $sort = $currentCategory ? 'prijs-hoog' : 'aanbevolen';
+            $sort = 'prijs-hoog';
         }
 
         $currentCategoryDescendantIds = $currentCategory?->descendantIds() ?? [];
 
         $filterBaseQuery = Product::active()
+            ->when($currentTag, fn ($q) => $q->whereJsonContains('tags', $currentTag['name']))
             ->when($currentCategory, fn ($q) => $q->whereIn('product_category_id', $currentCategoryDescendantIds));
 
         $typeCategories = $categories->values();
@@ -101,6 +115,7 @@ class ProductController extends Controller
 
         $query = Product::with(['category', 'media'])
             ->active()
+            ->when($currentTag, fn ($q) => $q->whereJsonContains('tags', $currentTag['name']))
             ->when($currentCategory, fn ($q) => $q->whereIn('product_category_id', $currentCategoryDescendantIds))
             ->when($search !== '', function ($q) use ($search) {
                 $q->where(function ($inner) use ($search) {
@@ -120,17 +135,20 @@ class ProductController extends Controller
             default => $query->orderByDesc('any_variant_available')->orderBy('price')->orderByDesc('id'),
         };
 
-        $products = $query->paginate(12)->appends($request->query());
+        $products = $this->paginateProductsWithFeatured($query, $request);
 
 
         if ($currentCategory) {
             $basePath = route('products.category', $currentCategory->slug);
+        } elseif ($currentTag) {
+            $basePath = route('products.tag', $currentTag['slug']);
         } elseif (Route::is('products.all*')) {
             $basePath = route('products.all');
         } else {
             $basePath = route('products.index');
         }
         $products->setPath($basePath);
+        $products->appends($request->query());
 
         $brands = (clone $filterBaseQuery)
             ->whereNotNull('brand')
@@ -159,6 +177,8 @@ class ProductController extends Controller
                 'typeCategories',
                 'selectedTypeSlugs',
                 'activeCategorySlug',
+                'topTags',
+                'currentTag',
                 'search',
                 'brand',
                 'availability',
@@ -177,6 +197,8 @@ class ProductController extends Controller
             'typeCategories',
             'selectedTypeSlugs',
             'activeCategorySlug',
+            'topTags',
+            'currentTag',
             'search',
             'brand',
             'availability',
@@ -199,6 +221,16 @@ class ProductController extends Controller
     public function all(Request $request, ?int $page = null)
     {
         return $this->index($request, null, $page);
+    }
+
+    public function tag(Request $request, string $tagSlug)
+    {
+        return $this->index($request, null, null, $tagSlug);
+    }
+
+    public function tagPage(Request $request, string $tagSlug, int $page)
+    {
+        return $this->index($request, null, $page, $tagSlug);
     }
 
     public function show(string $slug)
@@ -269,6 +301,91 @@ class ProductController extends Controller
                 ->values()
                 ->all(),
         ];
+    }
+
+    private function loadProductTagCounts(): Collection
+    {
+        $counts = [];
+
+        Product::query()
+            ->active()
+            ->whereHas('category', fn ($query) => $query->shown()->where('is_active', true))
+            ->whereNotNull('tags')
+            ->orderBy('id')
+            ->chunk(500, function ($products) use (&$counts) {
+                foreach ($products as $product) {
+                    foreach ((array) $product->tags as $tag) {
+                        $name = trim((string) $tag);
+                        if ($name === '') {
+                            continue;
+                        }
+
+                        $key = Str::lower($name);
+                        if (!isset($counts[$key])) {
+                            $counts[$key] = [
+                                'name' => $name,
+                                'slug' => Str::slug($name) ?: substr(md5($name), 0, 12),
+                                'count' => 0,
+                            ];
+                        }
+
+                        $counts[$key]['count']++;
+                    }
+                }
+            });
+
+        return collect($counts)
+            ->sort(function (array $left, array $right) {
+                $countCompare = $right['count'] <=> $left['count'];
+                if ($countCompare !== 0) {
+                    return $countCompare;
+                }
+
+                return strcmp($left['name'], $right['name']);
+            })
+            ->values();
+    }
+
+    private function paginateProductsWithFeatured($query, Request $request, int $perPage = 12): LengthAwarePaginator
+    {
+        $currentPage = max(1, (int) $request->input('page', 1));
+        $featuredProduct = Product::with(['category', 'media'])
+            ->active()
+            ->whereKey(self::FEATURED_LISTING_PRODUCT_ID)
+            ->first();
+
+        if (!$featuredProduct) {
+            return $query->paginate($perPage)->appends($request->query());
+        }
+
+        $regularQuery = (clone $query)->whereKeyNot($featuredProduct->id);
+        $regularTotal = (clone $regularQuery)->count();
+        $total = $regularTotal + 1;
+
+        if ($currentPage === 1) {
+            $regularItems = (clone $regularQuery)
+                ->limit(max(0, $perPage - 1))
+                ->get();
+
+            $items = collect([$featuredProduct])->merge($regularItems);
+        } else {
+            $offset = ($perPage - 1) + (($currentPage - 2) * $perPage);
+            $items = (clone $regularQuery)
+                ->skip($offset)
+                ->take($perPage)
+                ->get();
+        }
+
+        return new LengthAwarePaginator(
+            $items,
+            $total,
+            $perPage,
+            $currentPage,
+            [
+                'path' => $request->url(),
+                'query' => $request->query(),
+            ]
+        );
     }
 
     private function buildCatalogQuickPicks(): array

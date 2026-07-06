@@ -177,6 +177,10 @@ Route::group([
         Route::get('/products/page/{page}', [FrontProductController::class, 'page'])
             ->whereNumber('page')
             ->name('products.page');
+        Route::get('/products/tag/{tagSlug}', [FrontProductController::class, 'tag'])->name('products.tag');
+        Route::get('/products/tag/{tagSlug}/page/{page}', [FrontProductController::class, 'tagPage'])
+            ->whereNumber('page')
+            ->name('products.tag.page');
         // benebomo shopify /collections/all 全部商品聚合页（必须在 {categorySlug} 之前注册）
         Route::get('/collections/all', [FrontProductController::class, 'all'])->name('products.all');
         Route::get('/collections/all/page/{page}', [FrontProductController::class, 'all'])

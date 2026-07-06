@@ -10,7 +10,9 @@
     $catalogArticles = $catalogContent['articles'] ?? [];
     $catalogFaqs = $catalogContent['faq'] ?? [];
     $brandStrip = $catalogContent['brand_strip'] ?? [];
-    $catalogBaseUrl = request()->routeIs('products.all*') ? route('products.all') : route('products.index');
+    $catalogBaseUrl = $currentTag
+        ? route('products.tag', $currentTag['slug'])
+        : (request()->routeIs('products.all*') ? route('products.all') : route('products.index'));
 @endphp
 
 @section('title', $pageTitle)
@@ -211,24 +213,27 @@
                     </div>
                 @endif
 
-                <div class="mb-3 text-xs font-bold uppercase tracking-[0.06em] text-[#9aa3b2]">Merk</div>
+                <div class="mb-3 text-xs font-bold uppercase tracking-[0.06em] text-[#9aa3b2]">TAG</div>
                 <div class="mb-5 flex flex-col gap-1">
-                    @foreach($brands as $brandName)
-                        <label class="catalog-brand relative flex cursor-pointer items-center gap-3 px-1 py-2">
-                            <input type="radio" name="brand" value="{{ $brandName }}" onchange="this.form.submit()" @checked($brand === $brandName)>
-                            <span class="flex h-5 w-5 items-center justify-center rounded-[5px] border {{ $brand === $brandName ? 'border-primary bg-primary' : 'border-[#cbd5e1] bg-white' }}">
-                                <span class="material-symbols-outlined text-[15px] text-white {{ $brand === $brandName ? 'opacity-100' : 'opacity-0' }}">check</span>
+                    @foreach($topTags as $tagItem)
+                        <a
+                            href="{{ route('products.tag', $tagItem['slug']) }}"
+                            class="flex items-center justify-between gap-3 rounded-[10px] border px-3 py-[10px] text-[13px] font-semibold transition {{ data_get($currentTag, 'slug') === $tagItem['slug'] ? 'border-primary bg-primary text-white' : 'border-[#dbdfe6] bg-white text-[#374151] hover:border-primary/40 hover:bg-[#f8fbff]' }}"
+                        >
+                            <span>{{ $tagItem['name'] }}</span>
+                            <span class="rounded-full px-2 py-0.5 text-[11px] {{ data_get($currentTag, 'slug') === $tagItem['slug'] ? 'bg-white/15 text-white' : 'bg-[#f0f2f4] text-[#616f89]' }}">
+                                {{ $tagItem['count'] }}
                             </span>
-                            <span class="flex-1 text-sm text-[#374151]">{{ $brandName }}</span>
-                            <span class="text-xs text-[#9aa3b2]">{{ $brandCounts[$brandName] ?? 0 }}</span>
-                        </label>
+                        </a>
                     @endforeach
-                    @if($brand !== '')
-                        <label class="catalog-brand relative flex cursor-pointer items-center gap-3 px-1 py-2">
-                            <input type="radio" name="brand" value="" onchange="this.form.submit()">
-                            <span class="flex h-5 w-5 items-center justify-center rounded-[5px] border border-[#cbd5e1] bg-white"></span>
-                            <span class="flex-1 text-sm text-[#374151]">Alle merken</span>
-                        </label>
+                    @if($currentTag)
+                        <a
+                            href="{{ route('products.index') }}"
+                            class="mt-2 flex items-center justify-between gap-3 rounded-[10px] border border-[#dbdfe6] bg-[#f8fbff] px-3 py-[10px] text-[13px] font-semibold text-[#374151] transition hover:border-primary/40"
+                        >
+                            <span>Alle tags</span>
+                            <span class="material-symbols-outlined text-[16px] text-[#616f89]">close</span>
+                        </a>
                     @endif
                 </div>
 
@@ -255,9 +260,9 @@
                     <input type="hidden" name="brand" value="{{ $brand }}">
                     <input type="hidden" name="availability" value="{{ $availability }}">
                     <select name="sort" onchange="this.form.submit()" class="h-10 rounded-[9px] border border-[#dbdfe6] bg-white px-3 text-sm font-semibold text-[#111318]">
-                        <option value="aanbevolen" @selected(request('sort', 'aanbevolen') === 'aanbevolen')>Aanbevolen</option>
+                        <option value="aanbevolen" @selected(request('sort') === 'aanbevolen')>Aanbevolen</option>
                         <option value="prijs-laag" @selected(request('sort') === 'prijs-laag')>Prijs (laag → hoog)</option>
-                        <option value="prijs-hoog" @selected(request('sort') === 'prijs-hoog')>Prijs (hoog → laag)</option>
+                        <option value="prijs-hoog" @selected(request('sort', 'prijs-hoog') === 'prijs-hoog')>Prijs (hoog → laag)</option>
                     </select>
                 </form>
             </div>
