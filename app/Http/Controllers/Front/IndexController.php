@@ -64,8 +64,12 @@ class IndexController extends Controller
             ->frontVisible()
             ->hasFrontCategory()
             ->whereTranslation('locale', $locale)
-            ->whereDoesntHave('category', fn ($categoryQuery) => $categoryQuery->where('id', '<=', 8))
-            ->whereDoesntHave('categories', fn ($categoryQuery) => $categoryQuery->where('id', '<=', 8))
+            ->whereDoesntHave('category', function ($categoryQuery) {
+                $categoryQuery->where($categoryQuery->getModel()->getTable() . '.id', '<=', 8);
+            })
+            ->whereDoesntHave('categories', function ($categoryQuery) {
+                $categoryQuery->where($categoryQuery->getModel()->getTable() . '.id', '<=', 8);
+            })
             ->inRandomOrder()
             ->take(5)
             ->get();
