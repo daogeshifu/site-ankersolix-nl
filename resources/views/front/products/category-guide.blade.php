@@ -265,14 +265,17 @@
 
                 @if($typeCategories->isNotEmpty())
                     <div class="mb-3 text-xs font-bold uppercase tracking-[0.06em] text-[#9aa3b2]">{{ $typeLabel }}</div>
-                    <div class="mb-5 flex flex-wrap gap-2">
+                    <div class="mb-5 flex flex-col gap-2">
                         @foreach($typeCategories as $typeCategory)
-                            <label class="catalog-chip relative cursor-pointer">
-                                <input type="checkbox" name="type[]" value="{{ $typeCategory->slug }}" onchange="this.form.submit()" @checked(in_array($typeCategory->slug, $activeTypeSlugs, true))>
-                                <span class="inline-flex rounded-full border px-3 py-[7px] text-[13px] font-semibold {{ in_array($typeCategory->slug, $activeTypeSlugs, true) ? 'border-primary bg-primary text-white' : 'border-[#dbdfe6] bg-white text-[#374151]' }}">
-                                    {{ $typeCategory->name }}
+                            <a
+                                href="{{ route('products.category', $typeCategory->slug) }}"
+                                class="flex items-center justify-between gap-3 rounded-[10px] border px-3 py-[10px] text-[13px] font-semibold transition {{ $activeCategorySlug === $typeCategory->slug ? 'border-primary bg-primary text-white' : 'border-[#dbdfe6] bg-white text-[#374151] hover:border-primary/40 hover:bg-[#f8fbff]' }}"
+                            >
+                                <span>{{ $typeCategory->name }}</span>
+                                <span class="rounded-full px-2 py-0.5 text-[11px] {{ $activeCategorySlug === $typeCategory->slug ? 'bg-white/15 text-white' : 'bg-[#f0f2f4] text-[#616f89]' }}">
+                                    {{ $typeCategory->products_count ?? 0 }}
                                 </span>
-                            </label>
+                            </a>
                         @endforeach
                     </div>
                 @endif
@@ -318,9 +321,6 @@
                 <form method="GET" action="{{ $catalogBaseUrl }}" class="flex items-center gap-2 text-[13px] text-[#616f89]">
                     <span>{{ $sortLabel }}</span>
                     <input type="hidden" name="search" value="{{ $search }}">
-                    @foreach($selectedTypeSlugs as $typeSlug)
-                        <input type="hidden" name="type[]" value="{{ $typeSlug }}">
-                    @endforeach
                     <input type="hidden" name="brand" value="{{ $brand }}">
                     <input type="hidden" name="availability" value="{{ $availability }}">
                     <select name="sort" onchange="this.form.submit()" class="h-10 rounded-[9px] border border-[#dbdfe6] bg-white px-3 text-sm font-semibold text-[#111318]">

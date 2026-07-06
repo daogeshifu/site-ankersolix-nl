@@ -84,10 +84,7 @@ class ProductController extends Controller
             $selectedTypeSlugs,
             $typeCategories->pluck('slug')->filter()->all()
         ));
-        $activeTypeSlugs = array_values(array_unique(array_filter(array_merge(
-            $selectedTypeSlugs,
-            $currentCategory && $typeCategories->contains('slug', $currentCategory->slug) ? [$currentCategory->slug] : []
-        ))));
+        $activeCategorySlug = $currentCategory?->slug;
         $selectedCategoryIds = $typeCategories
             ->filter(fn (ProductCategory $category) => in_array($category->slug, $selectedTypeSlugs, true))
             ->flatMap(fn (ProductCategory $category) => $category->descendantIds())
@@ -157,7 +154,7 @@ class ProductController extends Controller
                 'brands',
                 'typeCategories',
                 'selectedTypeSlugs',
-                'activeTypeSlugs',
+                'activeCategorySlug',
                 'search',
                 'brand',
                 'availability',
@@ -175,7 +172,7 @@ class ProductController extends Controller
             'brands',
             'typeCategories',
             'selectedTypeSlugs',
-            'activeTypeSlugs',
+            'activeCategorySlug',
             'search',
             'brand',
             'availability',
