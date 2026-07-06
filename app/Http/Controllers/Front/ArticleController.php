@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Article\Article;
 use App\Models\Article\ArticleCategory;
+use App\Models\Article\ArticleTag;
 use Illuminate\Support\Str;
 
 class ArticleController extends Controller
@@ -54,6 +55,10 @@ class ArticleController extends Controller
         }
 
         $currentPage = $request->get('page', 1);
+
+        if ($request->filled('tag') && (!$category_name || 'all' === $category_name)) {
+            return $this->tagList($request, (string) $request->input('tag'), $page);
+        }
 
         // 获取分类
         $categories = ArticleCategory::active()
@@ -214,6 +219,82 @@ class ArticleController extends Controller
             'navbar',
             'headings',
             'contentWithAnchors'
+        ));
+    }
+
+    public function tag(Request $request, string $tag)
+    {
+        return $this->tagList($request, $tag);
+    }
+
+    public function tagPage(Request $request, string $tag, int $page)
+    {
+        return $this->tagList($request, $tag, $page);
+    }
+
+    private function tagList(Request $request, string $tag, ?int $page = null)
+    {
+        $locale = app()->getLocale();
+        $search = $request->input('search');
+
+        if ($page) {
+            $request->merge(['page' => $page]);
+        }
+
+        $tagModel = ArticleTag::query()
+            ->where('slug', $tag)
+            ->orWhere('name', $tag)
+            ->first();
+
+        if (!$tagModel) {
+            abort(404);
+        }
+
+        $categories = ArticleCategory::active()
+            ->withCount(['articles' => fn ($query) => $query->frontVisible()])
+            ->get();
+
+        $query = Article::with(['category', 'categories', 'user', 'tags'])
+            ->frontVisible()
+            ->whereTranslation('locale', $locale)
+            ->whereHas('tags', fn ($tagQuery) => $tagQuery->where('article_tags.id', $tagModel->id));
+
+        if ($search) {
+            $query->where(function ($articleQuery) use ($search) {
+                $articleQuery->whereTranslationLike('title', "%{$search}%")
+                    ->orWhereTranslationLike('content', "%{$search}%")
+                    ->orWhereTranslationLike('summary', "%{$search}%");
+            });
+        }
+
+        $articles = $query->orderByDesc('id')
+            ->paginate(9)
+            ->appends(['search' => $search]);
+
+        $tag = $tagModel->slug ?: $tagModel->name;
+        $articles->withPath(route('article.tag', ['tag' => $tag]));
+
+        $tags = ArticleTag::withCount(['articles' => fn ($articleQuery) => $articleQuery->frontVisible()])
+            ->orderByDesc('articles_count')
+            ->take(15)
+            ->get();
+
+        $currentCategory = (object) [
+            'id' => $tagModel->id,
+            'name' => '#' . $tagModel->name,
+            'seo_description' => $tagModel->description ?: __('article.tag_exploration_desc'),
+            'seo_keywords' => $tagModel->name,
+        ];
+
+        $topAuthors = collect();
+
+        return view('front.article.tag-list', compact(
+            'articles',
+            'categories',
+            'currentCategory',
+            'topAuthors',
+            'tags',
+            'tag'
         ));
     }
 

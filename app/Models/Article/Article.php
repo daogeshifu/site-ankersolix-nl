@@ -42,6 +42,7 @@ class Article extends Model implements TranslatableContract
         'ai_cover',
         'images_processed',
         'is_front_visible',
+        'is_cate',
         'title',
         'content'
     ];
@@ -55,6 +56,7 @@ class Article extends Model implements TranslatableContract
         'read_count' => 'integer',
         'images_processed' => 'boolean',
         'is_front_visible' => 'boolean',
+        'is_cate' => 'boolean',
         'last_viewed_at' => 'datetime',
         'last_read_at' => 'datetime',
     ];

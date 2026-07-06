@@ -27,6 +27,7 @@
         ->values();
     $currentProductRoute = request()->routeIs('products.*');
     $currentArticleRoute = request()->routeIs('articles') || request()->routeIs('article.*') || request()->routeIs('buying-guide*') || request()->routeIs('installation*') || request()->routeIs('subsidy*') || request()->routeIs('energy-saving*') || request()->routeIs('reviews*') || request()->routeIs('beste-thuisbatterij-2026*') || request()->routeIs('thuisbatterij-zonder-zonnepanelen*') || request()->routeIs('dynamische-energietarieven*') || request()->routeIs('thuisbatterij-subsidie*') || request()->routeIs('back-upstroom-noodstroom*') || request()->routeIs('zonne-energie-opslaan*') || request()->routeIs('thuisbatterij-capaciteit-uitbreiding*') || request()->routeIs('warmtepomp-elektrische-auto*') || request()->routeIs('thuisbatterij-zelf-installeren*');
+    $currentNetMeteringRoute = request()->routeIs('net-metering');
 
     $productPrimaryFallback = collect([
         ['name' => $isDutch ? 'All-in-one' : 'All-in-one', 'icon' => 'inventory_2', 'description' => $isDutch ? 'Batterij + omvormer in een systeem.' : 'Battery + inverter in one system.'],
@@ -252,6 +253,11 @@
                 </div>
             </div>
 
+            <a class="flex items-center gap-1 rounded-[9px] px-3 py-2 text-sm font-semibold text-[#111318] transition-colors hover:bg-[#f0f2f4] hover:text-primary {{ $currentNetMeteringRoute ? 'bg-[#eef3fe] text-primary' : '' }}" href="{{ route('net-metering') }}">
+                <span class="material-symbols-outlined text-[18px]">monitoring</span>
+                {{ __('menu.net_metering') }}
+            </a>
+
             <a class="flex items-center gap-1 rounded-[9px] px-3 py-2 text-sm font-semibold text-[#111318] transition-colors hover:bg-[#f0f2f4] hover:text-primary {{ request()->routeIs('calculator') ? 'bg-[#eef3fe] text-primary' : '' }}" href="{{ route('calculator') }}">
                 <span class="material-symbols-outlined text-[18px]">calculate</span>
                 {{ __('menu.calculator') }}
@@ -367,6 +373,11 @@
                 @endforelse
             </div>
         </details>
+
+        <a class="flex items-center gap-1 rounded-[9px] px-1 text-sm font-semibold text-[#111318] hover:text-primary" href="{{ route('net-metering') }}">
+            <span class="material-symbols-outlined text-[18px]">monitoring</span>
+            {{ __('menu.net_metering') }}
+        </a>
 
         <a class="flex items-center gap-1 rounded-[9px] px-1 text-sm font-semibold text-[#111318] hover:text-primary" href="{{ route('calculator') }}">
             <span class="material-symbols-outlined text-[18px]">calculate</span>

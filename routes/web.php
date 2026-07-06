@@ -104,6 +104,7 @@ Route::group([
         Route::get('about', [PagesController::class, 'about'])->name('about');
         Route::get('help', [PagesController::class, 'help'])->name('help');
         Route::get('calculator', [PagesController::class, 'calculator'])->name('calculator');
+        Route::get('net-metering-2027-thuisbatterij', [PagesController::class, 'netMetering'])->name('net-metering');
 
         Route::get('/news', [NewsController::class, 'index'])->name('news');
         Route::get('/news/page/{page}', [NewsController::class, 'page'])
@@ -212,6 +213,8 @@ Route::group([
         // 注意：更具体的路由要放在前面，避免被通配路由捕获
         Route::get('/article', [FrontArticleController::class, 'index'])->name('articles');
         Route::get('/article/page/{page}', [FrontArticleController::class, 'index_page'])->name('article.page')->where('page', '[0-9]+');
+        Route::get('/article/tag/{tag}', [FrontArticleController::class, 'tag'])->name('article.tag');
+        Route::get('/article/tag/{tag}/page/{page}', [FrontArticleController::class, 'tagPage'])->name('article.tag.page')->where('page', '[0-9]+');
         Route::get('/article/{category_name}/page/{page}', [FrontArticleController::class, 'index_category_page'])->name('article.category.page')->where('page', '[0-9]+');
 //        Route::get('/article/{category_name}', [FrontArticleController::class, 'index'])->name('article.category');
 //

@@ -12,6 +12,7 @@ return [
     'account' => 'Account',
     'insights' => 'Insights',
     'products' => 'Products',
+    'net_metering' => 'Net Metering',
     'calculator' => 'Calculator',
     'about' => 'About',
     'pricing' => 'Pricing',

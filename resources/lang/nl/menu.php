@@ -13,6 +13,7 @@ return [
     'services' => 'Diensten',
     'home' => 'Home',
     'products' => 'Producten',
+    'net_metering' => 'Net metering',
     'calculator' => 'Calculator',
     'backend' => 'Beheer',
     'buying_guide' => 'Thuisbatterij Koopgids',//选购指南

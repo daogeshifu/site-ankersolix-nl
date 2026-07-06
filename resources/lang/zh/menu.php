@@ -12,6 +12,7 @@ return [
     'account' => '账户',
     'insights' => '洞察',
     'products' => '商品',
+    'net_metering' => '净计量',
     'about' => '关于',
     'pricing' => '价格',
     'services' => '服务',

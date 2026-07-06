@@ -284,13 +284,13 @@
                         <div class="flex flex-wrap gap-2">
                             @if($article->tags && count($article->tags) > 0)
                                 @foreach($article->tags as $tag)
-                                    <a href="{{ route('articles', ['tag' => $tag->name]) }}" class="inline-flex items-center px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-white/5 text-[#616f89] dark:text-gray-400 text-sm hover:bg-primary/10 hover:text-primary transition-colors">
+                                    <a href="{{ route('article.tag', ['tag' => $tag->slug ?: $tag->name]) }}" class="inline-flex items-center px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-white/5 text-[#616f89] dark:text-gray-400 text-sm hover:bg-primary/10 hover:text-primary transition-colors">
                                         <span class="text-primary mr-1">#</span>{{ $tag->name }}
                                     </a>
                                 @endforeach
                             @else
                                 {{-- Default tags when article has no tags --}}
-                                <a href="{{ route('articles', ['tag' => 'GEO']) }}" class="inline-flex items-center px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors">
+                                <a href="{{ route('articles') }}" class="inline-flex items-center px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors">
                                     <span class="mr-1">#</span>GEO
                                 </a>
                                 <a href="{{ route('articles') }}" class="inline-flex items-center px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-white/5 text-[#616f89] dark:text-gray-400 text-sm hover:bg-primary/10 hover:text-primary transition-colors">

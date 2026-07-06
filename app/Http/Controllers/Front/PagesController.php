@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Article\Article;
+use App\Models\Product\Product;
 use App\Support\CalculatorPageData;
+use App\Support\NetMeteringPageData;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
@@ -57,6 +60,33 @@ class PagesController extends Controller
     {
         return view('front.pages.calculator', [
             'pageData' => CalculatorPageData::forLocale(app()->getLocale()),
+        ]);
+    }
+
+    public function netMetering()
+    {
+        $relatedProducts = Product::with(['category', 'media'])
+            ->active()
+            ->whereNotNull('slug')
+            ->orderByDesc('any_variant_available')
+            ->orderBy('sort_order')
+            ->orderByDesc('id')
+            ->limit(6)
+            ->get();
+
+        $relatedArticles = Article::with(['category', 'categories'])
+            ->frontVisible()
+            ->hasFrontCategory()
+            ->inArticleCategoryName('salderingsregeling')
+            ->whereNotNull('link')
+            ->latest('id')
+            ->limit(4)
+            ->get();
+
+        return view('front.pages.net-metering', [
+            'pageData' => NetMeteringPageData::forLocale(app()->getLocale()),
+            'relatedProducts' => $relatedProducts,
+            'relatedArticles' => $relatedArticles,
         ]);
     }
 }

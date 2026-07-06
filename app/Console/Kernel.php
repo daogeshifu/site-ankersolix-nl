@@ -25,6 +25,9 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping();
 
         $schedule->command('app:process-article-tasks')->everyMinute();
+        $schedule->command('articles:categorize --limit=5')
+            ->everyMinute()
+            ->withoutOverlapping();
         $schedule->command('products:generate-faqs --limit=30')
             ->everySixHours()
             ->withoutOverlapping();

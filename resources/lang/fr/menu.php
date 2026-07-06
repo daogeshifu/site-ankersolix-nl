@@ -10,4 +10,5 @@ return [
     'ai_detection' => 'Détection IA',
     'ai_reduce' => 'Réduction IA',
     'account' => 'Compte',
+    'net_metering' => 'Net Metering',
 ];

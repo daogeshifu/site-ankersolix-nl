@@ -45,7 +45,7 @@
             </div>
             <div class="flex flex-wrap gap-3">
                 @foreach($tags->take(5) as $tag)
-                <a class="flex h-10 items-center gap-2 rounded-xl bg-primary/10 hover:bg-primary/20 border border-primary/20 px-4 transition-all" href="{{ route('articles', ['tag' => $tag->name]) }}">
+                <a class="flex h-10 items-center gap-2 rounded-xl bg-primary/10 hover:bg-primary/20 border border-primary/20 px-4 transition-all" href="{{ route('article.tag', ['tag' => $tag->slug ?: $tag->name]) }}">
                     <span class="material-symbols-outlined text-primary text-sm">tag</span>
                     <span class="text-primary font-bold text-sm">#{{ $tag->name }}</span>
                 </a>
@@ -72,7 +72,7 @@
                 <!-- Articles Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     @foreach($articles as $article)
-                    <a href="{{ route('article.detail.show', [$article->category->name ?? 'blog', $article->link]) }}" class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-[#f0f2f4] dark:border-gray-700 shadow-sm hover:shadow-md transition-all group cursor-pointer">
+                    <a href="{{ $article->front_url }}" class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-[#f0f2f4] dark:border-gray-700 shadow-sm hover:shadow-md transition-all group cursor-pointer">
                         <div class="flex justify-between items-start mb-3">
                             <h4 class="text-lg font-bold font-display group-hover:text-primary transition-colors text-[#111318] dark:text-white line-clamp-2">{{ $article->title }}</h4>
                             <span class="text-xs font-bold px-2 py-1 bg-[#f0f2f4] dark:bg-gray-700 rounded text-[#616f89] dark:text-gray-300 shrink-0 ml-2">{{ $article->view_count ?? 0 }} {{ __('lang.views') }}</span>
@@ -96,12 +96,12 @@
                         @php
                             $current = $articles->currentPage();
                             $last = $articles->lastPage();
-                            $tag = $currentCategory->id != 0 ? $currentCategory->name : null;
+                            $tagRouteKey = $tag ?? null;
                         @endphp
 
                         {{-- Previous --}}
                         @if ($current > 1)
-                        <a href="{{ $tag ? route('article.tag.page', ['tag' => $tag, 'page' => $current - 1]) : route('articles.page', ['page' => $current - 1]) }}" class="flex items-center justify-center w-10 h-10 rounded-lg border border-[#f0f2f4] dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        <a href="{{ $tagRouteKey ? route('article.tag.page', ['tag' => $tagRouteKey, 'page' => $current - 1]) : route('articles.page', ['page' => $current - 1]) }}" class="flex items-center justify-center w-10 h-10 rounded-lg border border-[#f0f2f4] dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                             <span class="material-symbols-outlined text-[20px]">chevron_left</span>
                         </a>
                         @else
@@ -115,13 +115,13 @@
                             @if ($i == $current)
                             <span class="flex items-center justify-center w-10 h-10 rounded-lg bg-primary text-white font-bold text-sm">{{ $i }}</span>
                             @else
-                            <a href="{{ $tag ? route('article.tag.page', ['tag' => $tag, 'page' => $i]) : route('articles.page', ['page' => $i]) }}" class="flex items-center justify-center w-10 h-10 rounded-lg border border-[#f0f2f4] dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm font-medium">{{ $i }}</a>
+                            <a href="{{ $tagRouteKey ? route('article.tag.page', ['tag' => $tagRouteKey, 'page' => $i]) : route('articles.page', ['page' => $i]) }}" class="flex items-center justify-center w-10 h-10 rounded-lg border border-[#f0f2f4] dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm font-medium">{{ $i }}</a>
                             @endif
                         @endfor
 
                         {{-- Next --}}
                         @if ($current < $last)
-                        <a href="{{ $tag ? route('article.tag.page', ['tag' => $tag, 'page' => $current + 1]) : route('articles.page', ['page' => $current + 1]) }}" class="flex items-center justify-center w-10 h-10 rounded-lg border border-[#f0f2f4] dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        <a href="{{ $tagRouteKey ? route('article.tag.page', ['tag' => $tagRouteKey, 'page' => $current + 1]) : route('articles.page', ['page' => $current + 1]) }}" class="flex items-center justify-center w-10 h-10 rounded-lg border border-[#f0f2f4] dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                             <span class="material-symbols-outlined text-[20px]">chevron_right</span>
                         </a>
                         @else
@@ -177,7 +177,7 @@
                     <h3 class="text-base font-bold font-display mb-4 text-[#111318] dark:text-white">{{ __('article.tag_cloud') }}</h3>
                     <div class="flex flex-wrap gap-2">
                         @foreach($tags->take(15) as $tag)
-                        <a href="{{ route('articles', ['tag' => $tag->name]) }}" class="px-3 py-1.5 bg-[#f0f2f4] dark:bg-gray-700 rounded-full text-xs font-medium text-[#616f89] dark:text-gray-300 hover:bg-primary hover:text-white transition-all">
+                        <a href="{{ route('article.tag', ['tag' => $tag->slug ?: $tag->name]) }}" class="px-3 py-1.5 bg-[#f0f2f4] dark:bg-gray-700 rounded-full text-xs font-medium text-[#616f89] dark:text-gray-300 hover:bg-primary hover:text-white transition-all">
                             #{{ $tag->name }}
                         </a>
                         @endforeach
