@@ -66,6 +66,7 @@
                                     <th width="120">价格</th>
                                     <th width="90">库存</th>
                                     <th width="90">展示</th>
+                                    <th width="100">Type</th>
                                     <th width="120">操作</th>
                                 </tr>
                             </thead>
@@ -104,6 +105,11 @@
                                             </span>
                                         </td>
                                         <td>
+                                            <span class="badge {{ ($product->show_product_type ?? true) ? 'bg-info' : 'bg-light text-dark' }}">
+                                                {{ ($product->show_product_type ?? true) ? '显示' : '隐藏' }}
+                                            </span>
+                                        </td>
+                                        <td>
                                             <a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-sm btn-warning">编辑</a>
                                             @if($product->is_active)
                                                 <a href="{{ route('products.show', $product->slug) }}" target="_blank" class="btn btn-sm btn-info">查看</a>
@@ -112,7 +118,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="9" class="text-center text-muted">暂无商品数据</td>
+                                        <td colspan="10" class="text-center text-muted">暂无商品数据</td>
                                     </tr>
                                 @endforelse
                             </tbody>

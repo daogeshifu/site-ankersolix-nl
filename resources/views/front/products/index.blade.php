@@ -105,7 +105,7 @@
                 Thuisbatterijen vergelijken & kopen
             </h1>
             <p class="mt-4 max-w-[540px] text-[17px] leading-8 text-[#616f89]">
-                Alle thuisbatterijen voor energieopslag op één plek. Filter op merk, type en capaciteit, vergelijk de specificaties en vind de batterij die past bij jouw verbruik.
+                Alle thuisbatterijen voor energieopslag op één plek. Filter op merk, capaciteit en voorraad, vergelijk de specificaties en vind de batterij die past bij jouw verbruik.
             </p>
             <div class="mt-6 flex flex-wrap gap-3">
                 <span class="inline-flex items-center gap-2 rounded-full border border-[#e5e7eb] bg-white px-4 py-2 text-[13px] font-semibold">
@@ -194,17 +194,19 @@
                     >
                 </div>
 
-                <div class="mb-3 text-xs font-bold uppercase tracking-[0.06em] text-[#9aa3b2]">Type</div>
-                <div class="mb-5 flex flex-wrap gap-2">
-                    @foreach($types as $type)
-                        <label class="catalog-chip relative cursor-pointer">
-                            <input type="checkbox" name="type[]" value="{{ $type }}" onchange="this.form.submit()" @checked(in_array($type, $selectedTypes, true))>
-                            <span class="inline-flex rounded-full border px-3 py-[7px] text-[13px] font-semibold {{ in_array($type, $selectedTypes, true) ? 'border-primary bg-primary text-white' : 'border-[#dbdfe6] bg-white text-[#374151]' }}">
-                                {{ $type }}
-                            </span>
-                        </label>
-                    @endforeach
-                </div>
+                @if($types->isNotEmpty())
+                    <div class="mb-3 text-xs font-bold uppercase tracking-[0.06em] text-[#9aa3b2]">Type</div>
+                    <div class="mb-5 flex flex-wrap gap-2">
+                        @foreach($types as $type)
+                            <label class="catalog-chip relative cursor-pointer">
+                                <input type="checkbox" name="type[]" value="{{ $type }}" onchange="this.form.submit()" @checked(in_array($type, $selectedTypes, true))>
+                                <span class="inline-flex rounded-full border px-3 py-[7px] text-[13px] font-semibold {{ in_array($type, $selectedTypes, true) ? 'border-primary bg-primary text-white' : 'border-[#dbdfe6] bg-white text-[#374151]' }}">
+                                    {{ $type }}
+                                </span>
+                            </label>
+                        @endforeach
+                    </div>
+                @endif
 
                 <div class="mb-3 text-xs font-bold uppercase tracking-[0.06em] text-[#9aa3b2]">Merk</div>
                 <div class="mb-5 flex flex-col gap-1">
@@ -291,7 +293,9 @@
                             </div>
                             <div class="flex flex-1 flex-col gap-3 p-5">
                                 <div class="flex items-center justify-between gap-2">
-                                    <span class="rounded-md bg-primary/10 px-2 py-1 text-[11px] font-bold text-primary">{{ $product['type'] }}</span>
+                                    @if(data_get($product, 'show_type'))
+                                        <span class="rounded-md bg-primary/10 px-2 py-1 text-[11px] font-bold text-primary">{{ $product['type'] }}</span>
+                                    @endif
                                     <span class="inline-flex items-center gap-1 text-xs text-[#616f89]">
                                         <span class="material-symbols-outlined text-[15px] text-[#f59e0b]">star</span>
                                         <strong class="text-[#111318]">{{ $product['rating'] }}</strong> ({{ $product['reviews'] }})
@@ -348,7 +352,7 @@
             <span class="text-[13px] font-bold uppercase tracking-[0.08em] text-primary">Twijfel je nog?</span>
             <h2 class="mt-2 text-[28px] font-bold tracking-[-0.02em] text-[#111318]">Niet zeker welke batterij past?</h2>
             <p class="mt-3 max-w-[480px] text-base leading-8 text-[#616f89]">Onze aankoopgids legt capaciteit, accuchemie, kosten en terugverdientijd stap voor stap uit — met een capaciteitshulp die in 10 seconden een advies geeft.</p>
-            <a href="{{ route('buying-guide') }}" class="mt-5 inline-flex h-[46px] items-center gap-2 rounded-[10px] bg-primary px-5 text-[15px] font-bold text-white hover:bg-primary/90">
+            <a href="{{ route('thuisbatterij-zonder-zonnepanelen') }}" class="mt-5 inline-flex h-[46px] items-center gap-2 rounded-[10px] bg-primary px-5 text-[15px] font-bold text-white hover:bg-primary/90">
                 Naar de aankoopgids
                 <span class="material-symbols-outlined text-xl">arrow_forward</span>
             </a>

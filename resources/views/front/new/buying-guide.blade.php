@@ -262,7 +262,9 @@
                             </div>
                             <div class="flex flex-1 flex-col gap-3 p-5">
                                 <div class="flex flex-wrap gap-2">
-                                    <span class="rounded-md bg-primary/10 px-2 py-1 text-[11px] font-bold text-primary">{{ $product['type'] }}</span>
+                                    @if(data_get($product, 'show_type'))
+                                        <span class="rounded-md bg-primary/10 px-2 py-1 text-[11px] font-bold text-primary">{{ $product['type'] }}</span>
+                                    @endif
                                     <span class="rounded-md bg-[#ecfdf3] px-2 py-1 text-[11px] font-bold text-[#047857]">{{ $product['stock'] }}</span>
                                 </div>
                                 <h3 class="text-[17px] font-bold leading-6 text-[#111318] dark:text-white">{{ $product['title'] }}</h3>

@@ -16,71 +16,11 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    private const ARTICLE_SECTION_ROUTES = [
-        'aankoopgids' => [
-            'index' => 'buying-guide',
-            'detail' => 'buying-guide.detail.show',
-        ],
-        'installatie-configuratie' => [
-            'index' => 'installation',
-            'detail' => 'installation.detail.show',
-        ],
-        'subsidies-beleid' => [
-            'index' => 'subsidy',
-            'detail' => 'subsidy.detail.show',
-        ],
-        'elektriciteitsprijzen-besparen' => [
-            'index' => 'energy-saving',
-            'detail' => 'energy-saving.detail.show',
-        ],
-        'cases-reviews' => [
-            'index' => 'reviews',
-            'detail' => 'reviews.detail.show',
-        ],
-        'beste-thuisbatterij-2026' => [
-            'index' => 'beste-thuisbatterij-2026',
-            'detail' => 'beste-thuisbatterij-2026.detail.show',
-        ],
-        'thuisbatterij-zonder-zonnepanelen' => [
-            'index' => 'thuisbatterij-zonder-zonnepanelen',
-            'detail' => 'thuisbatterij-zonder-zonnepanelen.detail.show',
-        ],
-        'dynamische-energietarieven' => [
-            'index' => 'dynamische-energietarieven',
-            'detail' => 'dynamische-energietarieven.detail.show',
-        ],
-        'thuisbatterij-subsidie' => [
-            'index' => 'thuisbatterij-subsidie',
-            'detail' => 'thuisbatterij-subsidie.detail.show',
-        ],
-        'back-upstroom-noodstroom' => [
-            'index' => 'back-upstroom-noodstroom',
-            'detail' => 'back-upstroom-noodstroom.detail.show',
-        ],
-        'zonne-energie-opslaan' => [
-            'index' => 'zonne-energie-opslaan',
-            'detail' => 'zonne-energie-opslaan.detail.show',
-        ],
-        'thuisbatterij-capaciteit-uitbreiding' => [
-            'index' => 'thuisbatterij-capaciteit-uitbreiding',
-            'detail' => 'thuisbatterij-capaciteit-uitbreiding.detail.show',
-        ],
-        'warmtepomp-elektrische-auto' => [
-            'index' => 'warmtepomp-elektrische-auto',
-            'detail' => 'warmtepomp-elektrische-auto.detail.show',
-        ],
-        'thuisbatterij-zelf-installeren' => [
-            'index' => 'thuisbatterij-zelf-installeren',
-            'detail' => 'thuisbatterij-zelf-installeren.detail.show',
-        ],
-    ];
-
     public function index(Request $request, ?string $categorySlug = null, ?int $page = null)
     {
         if ($page) {
             $request->merge(['page' => $page]);
         }
-
         $search = trim((string) $request->input('search'));
         $brand = trim((string) $request->input('brand'));
         $availability = trim((string) $request->input('availability'));
@@ -91,13 +31,13 @@ class ProductController extends Controller
             ->values()
             ->all();
 
+
         $categories = ProductCategory::withCount(['activeProducts as products_count'])
             ->where('is_active', true)
             ->orderByRaw('CASE WHEN product_categories.sort_order = 1 THEN 0 ELSE 1 END')
             ->orderBy('product_categories.sort_order')
             ->orderBy('name')
             ->get();
-
         if (ProductCategory::supportsHierarchy()) {
             $directById = $categories->pluck('products_count', 'id');
             $childrenByParent = [];
@@ -118,7 +58,7 @@ class ProductController extends Controller
 
         $currentCategory = null;
         if ($categorySlug) {
-            $currentCategory = ProductCategory::where('slug', $categorySlug)->where('is_active', true)->first();
+            $currentCategory = ProductCategory::where('slug', $categorySlug)->first();
 
             if (!$currentCategory) {
                 $target = config('collection_redirects')[$categorySlug] ?? null;
@@ -135,7 +75,19 @@ class ProductController extends Controller
         $filterBaseQuery = Product::active()
             ->when($currentCategory, fn ($q) => $q->whereIn('product_category_id', $currentCategory->descendantIds()));
 
+        $types = (clone $filterBaseQuery)
+            ->where('show_product_type', true)
+            ->whereNotNull('product_type')
+            ->select('product_type')
+            ->distinct()
+            ->orderBy('product_type')
+            ->pluck('product_type')
+            ->filter()
+            ->values();
+        $selectedTypes = array_values(array_intersect($selectedTypes, $types->all()));
+
         $totalProductsCount = (clone $filterBaseQuery)->count();
+
 
         $query = Product::with(['category', 'media'])
             ->active()
@@ -145,11 +97,10 @@ class ProductController extends Controller
                     $inner->where('title', 'like', "%{$search}%")
                         ->orWhere('brand', 'like', "%{$search}%")
                         ->orWhere('vendor', 'like', "%{$search}%")
-                        ->orWhere('product_type', 'like', "%{$search}%")
                         ->orWhere('description_text', 'like', "%{$search}%");
                 });
             })
-            ->when($selectedTypes !== [], fn ($q) => $q->whereIn('product_type', $selectedTypes))
+            ->when($selectedTypes !== [], fn ($q) => $q->where('show_product_type', true)->whereIn('product_type', $selectedTypes))
             ->when($brand !== '', fn ($q) => $q->where('brand', $brand))
             ->when($availability !== '', fn ($q) => $q->where('availability_status', $availability));
 
@@ -172,32 +123,18 @@ class ProductController extends Controller
         $products->setPath($basePath);
 
         $brands = (clone $filterBaseQuery)
+            ->where('show_product_type', true)
             ->whereNotNull('brand')
             ->select('brand')
             ->distinct()
             ->orderBy('brand')
             ->pluck('brand');
 
-        $types = (clone $filterBaseQuery)
-            ->whereNotNull('product_type')
-            ->select('product_type')
-            ->distinct()
-            ->orderBy('product_type')
-            ->pluck('product_type')
-            ->filter()
-            ->values();
-
         $brandCounts = (clone $filterBaseQuery)
             ->whereNotNull('brand')
             ->selectRaw('brand, COUNT(*) as aggregate')
             ->groupBy('brand')
             ->pluck('aggregate', 'brand');
-
-        $typeCounts = (clone $filterBaseQuery)
-            ->whereNotNull('product_type')
-            ->selectRaw('product_type, COUNT(*) as aggregate')
-            ->groupBy('product_type')
-            ->pluck('aggregate', 'product_type');
 
         if ($currentCategory) {
             $guideContent = $this->buildCategoryGuideContent($currentCategory, $products);
@@ -216,8 +153,7 @@ class ProductController extends Controller
                 'brand',
                 'availability',
                 'totalProductsCount',
-                'brandCounts',
-                'typeCounts'
+                'brandCounts'
             ));
         }
 
@@ -235,7 +171,6 @@ class ProductController extends Controller
             'availability',
             'totalProductsCount',
             'brandCounts',
-            'typeCounts',
             'catalogContent'
         ));
     }
@@ -258,7 +193,6 @@ class ProductController extends Controller
     public function show(string $slug)
     {
         $product = Product::with(['category', 'detail', 'media', 'variants', 'faqs'])
-            ->active()
             ->where('slug', $slug)
             ->firstOrFail();
 
@@ -395,7 +329,10 @@ class ProductController extends Controller
                 'id' => (string) $product->id,
                 'title' => $product->title,
                 'brand' => $product->brand ?: $product->vendor ?: 'Beste Thuisbatterij',
-                'type' => Str::limit(Str::headline((string) ($product->product_type ?: optional($product->category)->name ?: 'Product')), 18, ''),
+                'show_type' => (bool) $product->show_product_type && filled($product->product_type),
+                'type' => (bool) $product->show_product_type && filled($product->product_type)
+                    ? Str::limit(Str::headline((string) $product->product_type), 18, '')
+                    : '',
                 'cap_label' => $this->extractCapacity($product) ?: 'Capaciteit op aanvraag',
                 'power' => $this->extractPower($product) ?: 'Vermogen op aanvraag',
                 'price_label' => $this->formatPrice($product),
@@ -416,7 +353,7 @@ class ProductController extends Controller
 
     private function buildCatalogArticleEntries(): array
     {
-        $articles = Article::with('category:id,name')
+        $articles = Article::with(['category:id,name,url,is_active', 'categories:id,name,url,is_active'])
             ->frontVisible()
             ->whereTranslation('locale', app()->getLocale())
             ->orderByDesc('id')
@@ -534,7 +471,7 @@ class ProductController extends Controller
 
         $positionMap = array_flip($normalizedIds);
 
-        return Article::with('category:id,name')
+        return Article::with(['category:id,name,url,is_active', 'categories:id,name,url,is_active'])
             ->frontVisible()
             ->whereIn('id', $normalizedIds)
             ->get()
@@ -583,7 +520,10 @@ class ProductController extends Controller
                 'badge' => $badge['badge'],
                 'badge_bg' => $badge['badge_bg'],
                 'badge_color' => $badge['badge_color'],
-                'type' => Str::limit(Str::headline((string) ($product->product_type ?: optional($product->category)->name ?: 'Product')), 18, ''),
+                'show_type' => (bool) $product->show_product_type && filled($product->product_type),
+                'type' => (bool) $product->show_product_type && filled($product->product_type)
+                    ? Str::limit(Str::headline((string) $product->product_type), 18, '')
+                    : '',
                 'stock' => $product->any_variant_available ? 'Op voorraad' : 'Op aanvraag',
                 'title' => $product->title,
                 'desc' => Str::limit($summary !== '' ? $summary : 'Bekijk de productspecificaties en prijzen op de productdetailpagina.', 120),
@@ -665,15 +605,13 @@ class ProductController extends Controller
 
     private function resolveArticleHref(Article $article): string
     {
-        $categoryName = trim((string) optional($article->category)->name);
-        $detailRoute = self::ARTICLE_SECTION_ROUTES[$categoryName]['detail'] ?? 'buying-guide.detail.show';
-
-        return route($detailRoute, ['link' => $article->link]);
+        return $article->front_url;
     }
 
     private function resolveProductIcon(Product $product): string
     {
-        $haystack = Str::lower(trim($product->title . ' ' . $product->brand . ' ' . $product->product_type));
+        $typeText = $product->show_product_type ? (string) $product->product_type : '';
+        $haystack = Str::lower(trim($product->title . ' ' . $product->brand . ' ' . $typeText));
 
         return match (true) {
             Str::contains($haystack, ['anker', 'solix']) => 'battery_charging_full',
@@ -756,14 +694,15 @@ class ProductController extends Controller
 
     private function resolveBestFor(Product $product): string
     {
-        $haystack = Str::lower(trim(($product->title ?? '') . ' ' . ($product->brand ?? '') . ' ' . ($product->product_type ?? '') . ' ' . ($product->summary ?? '')));
+        $typeText = $product->show_product_type ? (string) $product->product_type : '';
+        $haystack = Str::lower(trim(($product->title ?? '') . ' ' . ($product->brand ?? '') . ' ' . $typeText . ' ' . ($product->summary ?? '')));
 
         return match (true) {
             Str::contains($haystack, ['ev', 'laadpaal', 'warmtepomp']) => 'Warmtepomp, EV',
             Str::contains($haystack, ['plug', 'instap']) => 'Instappers',
             Str::contains($haystack, ['dynamisch', 'slim']) => 'Slim laden',
             Str::contains($haystack, ['modulair']) => 'Grotere huishoudens',
-            default => Str::limit(Str::headline((string) ($product->product_type ?: optional($product->category)->name ?: 'Huishoudens')), 26, ''),
+            default => Str::limit(Str::headline((string) ($typeText ?: optional($product->category)->name ?: 'Huishoudens')), 26, ''),
         };
     }
 

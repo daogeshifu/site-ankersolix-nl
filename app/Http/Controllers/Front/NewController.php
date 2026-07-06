@@ -267,26 +267,26 @@ class NewController extends Controller
     {
         $section = $this->section($request);
         $category_name = $section['category'];
+        $currentCategory = $this->findCategoryByUrl($category_name);
+        if (!$currentCategory) {
+            abort(404);
+        }
 
         $article = Article::with(['category', 'categories', 'user', 'tags'])
             ->where('link', $link)
-            ->inArticleCategoryName($category_name)
+            ->inArticleCategory((int) $currentCategory->id)
             ->first();
 
         if (!$article) {
             abort(404);
         }
 
-        $currentCategory = $this->findCategoryByUrl($category_name);
-
-        $sidebarArticles = $currentCategory
-            ? $currentCategory->articles()
-                ->frontVisible()
-                ->with(['category', 'user'])
-                ->where('articles.id', '!=', $article->id)
-                ->take(5)
-                ->get()
-            : collect();
+        $sidebarArticles = Article::with(['category', 'categories', 'user'])
+            ->frontVisible()
+            ->inArticleCategory((int) $currentCategory->id)
+            ->where('articles.id', '!=', $article->id)
+            ->take(5)
+            ->get();
 
         $plainText = strip_tags($article->content);
         if (mb_strlen($plainText) <= 100) {
@@ -438,7 +438,10 @@ class NewController extends Controller
                 'badge' => $badge['badge'],
                 'badge_bg' => $badge['badge_bg'],
                 'badge_color' => $badge['badge_color'],
-                'type' => Str::limit(Str::headline((string) ($product->product_type ?: optional($product->category)->name ?: 'Product')), 18, ''),
+                'show_type' => (bool) $product->show_product_type && filled($product->product_type),
+                'type' => (bool) $product->show_product_type && filled($product->product_type)
+                    ? Str::limit(Str::headline((string) $product->product_type), 18, '')
+                    : '',
                 'stock' => $product->any_variant_available ? 'Op voorraad' : 'Op aanvraag',
                 'title' => $product->title,
                 'desc' => Str::limit($summary !== '' ? $summary : 'Bekijk de productspecificaties en prijzen op de productdetailpagina.', 120),
@@ -504,8 +507,7 @@ class NewController extends Controller
     {
         $categoryUrl = trim($categoryUrl, '/');
 
-        return ArticleCategory::active()
-            ->where(function ($query) use ($categoryUrl) {
+        return ArticleCategory::where(function ($query) use ($categoryUrl) {
                 $query->where('url', $categoryUrl)
                     ->orWhere('name', $categoryUrl)
                     ->orWhere(function ($query) use ($categoryUrl) {
@@ -527,7 +529,8 @@ class NewController extends Controller
 
     private function resolveProductIcon(Product $product): string
     {
-        $haystack = Str::lower(trim($product->title . ' ' . $product->brand . ' ' . $product->product_type));
+        $typeText = $product->show_product_type ? (string) $product->product_type : '';
+        $haystack = Str::lower(trim($product->title . ' ' . $product->brand . ' ' . $typeText));
 
         return match (true) {
             Str::contains($haystack, ['anker', 'solix']) => 'battery_charging_full',
