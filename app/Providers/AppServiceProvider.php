@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('layouts.stitch.header', function ($view) {
             $productCategories = ProductCategory::query()
+                ->shown()
                 ->where('is_active', true)
                 ->orderByRaw('CASE WHEN sort_order = 1 THEN 0 ELSE 1 END')
                 ->orderBy('sort_order')

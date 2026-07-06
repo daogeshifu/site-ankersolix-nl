@@ -60,7 +60,8 @@ class GenerateSitemap extends Command
     {
         $sitemap = Sitemap::create();
 
-        ProductCategory::where('is_active', true)
+        ProductCategory::shown()
+            ->where('is_active', true)
             ->whereNotNull('slug')
             ->orderBy('sort_order')
             ->orderBy('name')

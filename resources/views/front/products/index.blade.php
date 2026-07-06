@@ -194,14 +194,14 @@
                     >
                 </div>
 
-                @if($types->isNotEmpty())
+                @if($typeCategories->isNotEmpty())
                     <div class="mb-3 text-xs font-bold uppercase tracking-[0.06em] text-[#9aa3b2]">Type</div>
                     <div class="mb-5 flex flex-wrap gap-2">
-                        @foreach($types as $type)
+                        @foreach($typeCategories as $typeCategory)
                             <label class="catalog-chip relative cursor-pointer">
-                                <input type="checkbox" name="type[]" value="{{ $type }}" onchange="this.form.submit()" @checked(in_array($type, $selectedTypes, true))>
-                                <span class="inline-flex rounded-full border px-3 py-[7px] text-[13px] font-semibold {{ in_array($type, $selectedTypes, true) ? 'border-primary bg-primary text-white' : 'border-[#dbdfe6] bg-white text-[#374151]' }}">
-                                    {{ $type }}
+                                <input type="checkbox" name="type[]" value="{{ $typeCategory->slug }}" onchange="this.form.submit()" @checked(in_array($typeCategory->slug, $activeTypeSlugs, true))>
+                                <span class="inline-flex rounded-full border px-3 py-[7px] text-[13px] font-semibold {{ in_array($typeCategory->slug, $activeTypeSlugs, true) ? 'border-primary bg-primary text-white' : 'border-[#dbdfe6] bg-white text-[#374151]' }}">
+                                    {{ $typeCategory->name }}
                                 </span>
                             </label>
                         @endforeach
@@ -249,8 +249,8 @@
                 <form method="GET" action="{{ $catalogBaseUrl }}" class="flex items-center gap-2 text-[13px] text-[#616f89]">
                     <span>Sorteren op</span>
                     <input type="hidden" name="search" value="{{ $search }}">
-                    @foreach($selectedTypes as $type)
-                        <input type="hidden" name="type[]" value="{{ $type }}">
+                    @foreach($selectedTypeSlugs as $typeSlug)
+                        <input type="hidden" name="type[]" value="{{ $typeSlug }}">
                     @endforeach
                     <input type="hidden" name="brand" value="{{ $brand }}">
                     <input type="hidden" name="availability" value="{{ $availability }}">

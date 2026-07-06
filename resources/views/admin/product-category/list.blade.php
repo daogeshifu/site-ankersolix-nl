@@ -62,6 +62,7 @@
                                     <th width="60">ID</th>
                                     <th>分类名称</th>
                                     <th>描述</th>
+                                    <th width="100">前台显示</th>
                                     <th width="100">商品数量</th>
                                     <th width="180">关联文章 / FAQ</th>
                                     <th width="180">快速回答</th>
@@ -81,6 +82,11 @@
                                             @endif
                                         </td>
                                         <td>{{ Str::limit($category->description ?? '-', 50) }}</td>
+                                        <td class="text-center">
+                                            <span class="badge {{ $category->is_show ? 'badge-success' : 'badge-secondary' }}">
+                                                {{ $category->is_show ? '显示' : '隐藏' }}
+                                            </span>
+                                        </td>
                                         <td class="text-center">
                                             <span class="badge badge-info">{{ $category->products_count }}</span>
                                         </td>
@@ -118,7 +124,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="9" class="text-center text-muted">暂无数据</td>
+                                        <td colspan="10" class="text-center text-muted">暂无数据</td>
                                     </tr>
                                 @endforelse
                             </tbody>

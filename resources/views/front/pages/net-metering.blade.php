@@ -312,7 +312,7 @@
                                     </p>
                                     <div class="flex items-end justify-between gap-3">
                                         <div>
-                                            <div class="text-[11px] text-[#616f89] dark:text-[#9fb0c9]">{{ optional($product->category)->name ?: ($isDutch ? 'Opslagoplossing' : 'Storage solution') }}</div>
+                                            <div class="text-[11px] text-[#616f89] dark:text-[#9fb0c9]">{{ ($product->category && $product->category->is_show ? $product->category->name : null) ?: ($isDutch ? 'Opslagoplossing' : 'Storage solution') }}</div>
                                             <div class="text-[20px] font-bold tracking-[-0.02em] text-[#111318] dark:text-white">{{ $product->display_price ?: ($isDutch ? 'Prijs op aanvraag' : 'Price on request') }}</div>
                                         </div>
                                         <span class="inline-flex h-10 w-10 items-center justify-center rounded-[10px] bg-primary text-white">

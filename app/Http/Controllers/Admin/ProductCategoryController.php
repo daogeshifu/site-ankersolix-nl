@@ -188,6 +188,7 @@ class ProductCategoryController extends Controller
             'related_faq_ids' => $this->normalizeIds($request->input('related_faq_ids', [])),
             'quick_answer' => $this->buildQuickAnswerPayload($request),
             'page_data' => $this->decodePageData($request->input('page_data_json')),
+            'is_show' => $request->boolean('is_show', true),
         ];
     }
 

@@ -2,11 +2,12 @@
 
 @php
     $frontProductType = ($product->show_product_type ?? true) ? $product->product_type : null;
+    $visibleCategory = $product->category && $product->category->is_show ? $product->category : null;
 @endphp
 
 @section('title', $product->seo_title ?: $product->title)
 @section('description', $product->seo_description ?: ($product->summary ?: Str::limit(strip_tags((string) $product->description_text), 160)))
-@section('keywords', $product->seo_keywords ?: implode(', ', array_filter([$product->brand, $frontProductType, $product->category?->name, 'thuisbatterij'])))
+@section('keywords', $product->seo_keywords ?: implode(', ', array_filter([$product->brand, $frontProductType, $visibleCategory?->name, 'thuisbatterij'])))
 @section('canonical', route('products.show', $product->slug))
 @section('meta_type', 'product')
 @section('meta_image', $product->display_image ?: asset('around/image/logo/logo-icon.png'))
@@ -63,7 +64,7 @@
         'inLanguage' => $languageCode,
         'name' => $product->title,
         'description' => $schemaDescription,
-        'category' => $product->category?->name ?: $frontProductType,
+        'category' => $visibleCategory?->name ?: $frontProductType,
         'image' => $schemaImages,
         'sku' => $selectedVariant->sku ?? null,
         'brand' => $schemaBrand ? [
@@ -96,12 +97,12 @@
         ],
     ];
 
-    if ($product->category) {
+    if ($visibleCategory) {
         $breadcrumbItems[] = [
             '@type' => 'ListItem',
             'position' => count($breadcrumbItems) + 1,
-            'name' => $product->category->name,
-            'item' => route('products.category', $product->category->slug),
+            'name' => $visibleCategory->name,
+            'item' => route('products.category', $visibleCategory->slug),
         ];
     }
 
@@ -167,9 +168,9 @@
         </a>
         <span class="text-[#616f89]">/</span>
         <a class="text-[#616f89] hover:text-primary" href="{{ route('products.index') }}">{{ __('product.products') }}</a>
-        @if($product->category)
+        @if($visibleCategory)
             <span class="text-[#616f89]">/</span>
-            <a class="text-[#616f89] hover:text-primary" href="{{ route('products.category', $product->category->slug) }}">{{ $product->category->name }}</a>
+            <a class="text-[#616f89] hover:text-primary" href="{{ route('products.category', $visibleCategory->slug) }}">{{ $visibleCategory->name }}</a>
         @endif
     </nav>
 
@@ -195,8 +196,8 @@
 
         <div class="space-y-6">
             <div class="flex flex-wrap items-center gap-2 text-xs">
-                @if($product->category)
-                    <a href="{{ route('products.category', $product->category->slug) }}" class="rounded bg-primary/10 px-2 py-1 font-semibold text-primary">{{ $product->category->name }}</a>
+                @if($visibleCategory)
+                    <a href="{{ route('products.category', $visibleCategory->slug) }}" class="rounded bg-primary/10 px-2 py-1 font-semibold text-primary">{{ $visibleCategory->name }}</a>
                 @endif
                 <span class="rounded px-2 py-1 font-semibold {{ $product->any_variant_available ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300' : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-300' }}">
                     {{ $product->any_variant_available ? __('product.in_stock') : __('product.out_of_stock') }}

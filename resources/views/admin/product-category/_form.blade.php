@@ -60,6 +60,12 @@
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
     </div>
+
+    <div class="form-check form-switch mt-3">
+        <input class="form-check-input" type="checkbox" id="isShow" name="is_show" value="1" @checked(old('is_show', $category->is_show ?? true))>
+        <label class="form-check-label" for="isShow">前台显示该分类</label>
+        <div class="form-text">关闭后，该分类不会出现在前台导航、筛选和列表中，但仍可通过直链访问。</div>
+    </div>
 </div>
 
 <div class="form-section">

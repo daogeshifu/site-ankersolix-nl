@@ -11,6 +11,7 @@ class ProductCategory extends Model
     use HasFactory;
 
     private static ?bool $hasParentColumn = null;
+    private static ?bool $hasShowColumn = null;
 
     protected $fillable = [
         'name',
@@ -26,10 +27,12 @@ class ProductCategory extends Model
         'page_data',
         'sort_order',
         'is_active',
+        'is_show',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'is_show' => 'boolean',
         'sort_order' => 'integer',
         'parent_id' => 'integer',
         'related_article_ids' => 'array',
@@ -56,6 +59,15 @@ class ProductCategory extends Model
     public function children()
     {
         return $this->hasMany(self::class, 'parent_id');
+    }
+
+    public function scopeShown($query)
+    {
+        if (!self::supportsShowFlag()) {
+            return $query;
+        }
+
+        return $query->where('is_show', true);
     }
 
     /**
@@ -97,5 +109,16 @@ class ProductCategory extends Model
         self::$hasParentColumn = Schema::hasColumn('product_categories', 'parent_id');
 
         return self::$hasParentColumn;
+    }
+
+    public static function supportsShowFlag(): bool
+    {
+        if (self::$hasShowColumn !== null) {
+            return self::$hasShowColumn;
+        }
+
+        self::$hasShowColumn = Schema::hasColumn('product_categories', 'is_show');
+
+        return self::$hasShowColumn;
     }
 }

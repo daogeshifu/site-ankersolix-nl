@@ -15,7 +15,7 @@
     </a>
     <div class="p-5 space-y-4">
         <div class="flex flex-wrap items-center gap-2 text-xs">
-            @if($product->category)
+            @if($product->category && $product->category->is_show)
                 <a href="{{ route('products.category', $product->category->slug) }}" class="rounded bg-primary/10 px-2 py-1 font-semibold text-primary">{{ $product->category->name }}</a>
             @endif
             @if($product->availability_status)

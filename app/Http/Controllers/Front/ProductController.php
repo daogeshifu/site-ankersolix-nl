@@ -25,14 +25,16 @@ class ProductController extends Controller
         $brand = trim((string) $request->input('brand'));
         $availability = trim((string) $request->input('availability'));
         $sort = trim((string) $request->input('sort', 'aanbevolen'));
-        $selectedTypes = collect((array) $request->input('type', []))
+        $selectedTypeSlugs = collect((array) $request->input('type', []))
             ->map(static fn ($type) => trim((string) $type))
             ->filter()
             ->values()
             ->all();
 
 
-        $categories = ProductCategory::withCount(['activeProducts as products_count'])
+        $categories = ProductCategory::query()
+            ->shown()
+            ->withCount(['activeProducts as products_count'])
             ->where('is_active', true)
             ->orderByRaw('CASE WHEN product_categories.sort_order = 1 THEN 0 ELSE 1 END')
             ->orderBy('product_categories.sort_order')
@@ -72,26 +74,33 @@ class ProductController extends Controller
             }
         }
 
-        $filterBaseQuery = Product::active()
-            ->when($currentCategory, fn ($q) => $q->whereIn('product_category_id', $currentCategory->descendantIds()));
+        $currentCategoryDescendantIds = $currentCategory?->descendantIds() ?? [];
 
-        $types = (clone $filterBaseQuery)
-            ->where('show_product_type', true)
-            ->whereNotNull('product_type')
-            ->select('product_type')
-            ->distinct()
-            ->orderBy('product_type')
-            ->pluck('product_type')
-            ->filter()
-            ->values();
-        $selectedTypes = array_values(array_intersect($selectedTypes, $types->all()));
+        $filterBaseQuery = Product::active()
+            ->when($currentCategory, fn ($q) => $q->whereIn('product_category_id', $currentCategoryDescendantIds));
+
+        $typeCategories = $categories->values();
+        $selectedTypeSlugs = array_values(array_intersect(
+            $selectedTypeSlugs,
+            $typeCategories->pluck('slug')->filter()->all()
+        ));
+        $activeTypeSlugs = array_values(array_unique(array_filter(array_merge(
+            $selectedTypeSlugs,
+            $currentCategory && $typeCategories->contains('slug', $currentCategory->slug) ? [$currentCategory->slug] : []
+        ))));
+        $selectedCategoryIds = $typeCategories
+            ->filter(fn (ProductCategory $category) => in_array($category->slug, $selectedTypeSlugs, true))
+            ->flatMap(fn (ProductCategory $category) => $category->descendantIds())
+            ->unique()
+            ->values()
+            ->all();
 
         $totalProductsCount = (clone $filterBaseQuery)->count();
 
 
         $query = Product::with(['category', 'media'])
             ->active()
-            ->when($currentCategory, fn ($q) => $q->whereIn('product_category_id', $currentCategory->descendantIds()))
+            ->when($currentCategory, fn ($q) => $q->whereIn('product_category_id', $currentCategoryDescendantIds))
             ->when($search !== '', function ($q) use ($search) {
                 $q->where(function ($inner) use ($search) {
                     $inner->where('title', 'like', "%{$search}%")
@@ -100,7 +109,7 @@ class ProductController extends Controller
                         ->orWhere('description_text', 'like', "%{$search}%");
                 });
             })
-            ->when($selectedTypes !== [], fn ($q) => $q->where('show_product_type', true)->whereIn('product_type', $selectedTypes))
+            ->when($selectedCategoryIds !== [], fn ($q) => $q->whereIn('product_category_id', $selectedCategoryIds))
             ->when($brand !== '', fn ($q) => $q->where('brand', $brand))
             ->when($availability !== '', fn ($q) => $q->where('availability_status', $availability));
 
@@ -123,7 +132,6 @@ class ProductController extends Controller
         $products->setPath($basePath);
 
         $brands = (clone $filterBaseQuery)
-            ->where('show_product_type', true)
             ->whereNotNull('brand')
             ->select('brand')
             ->distinct()
@@ -147,8 +155,9 @@ class ProductController extends Controller
                 'products',
                 'categoryCatalogCards',
                 'brands',
-                'types',
-                'selectedTypes',
+                'typeCategories',
+                'selectedTypeSlugs',
+                'activeTypeSlugs',
                 'search',
                 'brand',
                 'availability',
@@ -164,8 +173,9 @@ class ProductController extends Controller
             'categories',
             'currentCategory',
             'brands',
-            'types',
-            'selectedTypes',
+            'typeCategories',
+            'selectedTypeSlugs',
+            'activeTypeSlugs',
             'search',
             'brand',
             'availability',
@@ -702,7 +712,7 @@ class ProductController extends Controller
             Str::contains($haystack, ['plug', 'instap']) => 'Instappers',
             Str::contains($haystack, ['dynamisch', 'slim']) => 'Slim laden',
             Str::contains($haystack, ['modulair']) => 'Grotere huishoudens',
-            default => Str::limit(Str::headline((string) ($typeText ?: optional($product->category)->name ?: 'Huishoudens')), 26, ''),
+            default => Str::limit(Str::headline((string) ($typeText ?: (($product->category && $product->category->is_show) ? $product->category->name : null) ?: 'Huishoudens')), 26, ''),
         };
     }
 
