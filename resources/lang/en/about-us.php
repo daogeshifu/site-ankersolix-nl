@@ -5,7 +5,9 @@ return [
     'subtitle' => 'Learn more about who we are and what we do.',
 
     'intro_title' => 'Who We Are',
-    'intro_text' => 'We are a content-focused platform dedicated to sharing useful, accurate, and easy-to-understand information for readers around the world.',
+    'intro_text' => "bestenthuisbatterij.nl is a fully independent, comprehensive information and evaluation platform. We closely monitor the challenges Dutch households face during their transition to green energy.
+
+Due to ongoing changes in grid policies—such as negative electricity tariffs and the gradual adjustment of net-metering schemes—an increasing number of households are focusing on making smarter use of the solar energy generated on their roofs. We were established to meet this need and to create a clear, transparent source of information for Dutch households navigating the complex market of home batteries, solar energy systems, and smart energy management systems.",
 
     'mission_title' => 'Our Mission',
     'mission_text' => 'To provide reliable content that helps users learn, explore, and make better decisions.',

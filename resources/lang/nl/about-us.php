@@ -4,7 +4,7 @@ return [
     'title' => 'Over ons',
     'subtitle' => 'Leer wie we zijn en waarom we duidelijke informatie over thuisbatterijen delen.',
     'intro_title' => 'Wie we zijn',
-    'intro_text' => 'bestenthuisbatterij.nl is een onafhankelijk informatieplatform voor Nederlandse huishoudens die thuisbatterijen, zonne-energie en slimme energieopslag beter willen begrijpen.',
+    'intro_text' => "bestenthuisbatterij.nl is een volledig onafhankelijk, uitgebreid informatie- en evaluatieplatform. We volgen nauwlettend de knelpunten waarmee Nederlandse huishoudens te maken krijgen tijdens hun transitie naar groene energie.Door de voortdurende veranderingen in het netbeleid (zoals negatieve elektriciteitstarieven en de geleidelijke aanpassing van netmetingsregelingen) richten steeds meer huishoudens zich op slimmer gebruik van hun zonne-energie op het dak. Wij zijn opgericht om aan deze behoefte te voldoen en een helder en transparant kenniskanaal te creëren voor Nederlandse huishoudens in de complexe markt van thuisbatterijen, zonne-energiesystemen en slimme energiebeheersystemen.",
     'mission_title' => 'Onze missie',
     'mission_text' => 'Wij helpen lezers betere keuzes te maken met heldere uitleg, praktische gidsen en eerlijke aandacht voor kosten, rendement en installatie.',
     'vision_title' => 'Onze visie',
