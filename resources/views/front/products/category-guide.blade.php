@@ -427,7 +427,7 @@
             <p class="mt-3 max-w-[480px] text-base leading-8 text-[#616f89]">
                 {{ $isDutch ? 'Onze aankoopgids legt capaciteit, accuchemie, kosten en terugverdientijd stap voor stap uit, zodat je sneller een goede keuze maakt.' : 'Our buying guide explains capacity, battery chemistry, costs, and payback step by step so you can choose faster.' }}
             </p>
-            <a href="" class="mt-5 inline-flex h-[46px] items-center gap-2 rounded-[10px] bg-primary px-5 text-[15px] font-bold text-white hover:bg-primary/90">
+            <a href="{{ route('thuisbatterij-zonder-zonnepanelen') }}" class="mt-5 inline-flex h-[46px] items-center gap-2 rounded-[10px] bg-primary px-5 text-[15px] font-bold text-white hover:bg-primary/90">
                 {{ $isDutch ? 'Naar de aankoopgids' : 'Go to the buying guide' }}
                 <span class="material-symbols-outlined text-xl">arrow_forward</span>
             </a>
