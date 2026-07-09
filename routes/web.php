@@ -154,6 +154,7 @@ Route::group([
             'thuisbatterij-zelf-installeren' => ['path' => 'thuisbatterij-zelf-installeren', 'name' => 'thuisbatterij-zelf-installeren'],
             'installatie-zelf-aansluiten' => ['path' => 'installatie-zelf-aansluiten', 'name' => 'installatie-zelf-aansluiten'],
             'salderingsregeling' => ['path' => 'salderingsregeling', 'name' => 'salderingsregeling'],
+            'plug-and-play-stekkerbatterij' => ['path' => 'plug-and-play-stekkerbatterij', 'name' => 'plug-and-play-stekkerbatterij'],
         ];
 
         foreach ($newSections as $section => $route) {
