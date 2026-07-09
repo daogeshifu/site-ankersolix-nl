@@ -10,7 +10,7 @@
     $buyLabel = $article->product_widget_buy_label ?: 'Nu kopen';
 @endphp
 
-@if($hasStructuredWidget)
+@if(($article->show_product_widget ?? true) && $hasStructuredWidget)
     <section class="article-product-widget mb-8 rounded-[28px] border border-[#e5e7eb] bg-white p-4 shadow-[0_10px_30px_rgba(15,23,42,0.06)] dark:border-white/10 dark:bg-[#111827] md:p-6">
         <div class="article-product-widget__shell rounded-[24px] bg-[#f6f8fc] p-4 md:p-8">
             <div class="article-product-widget__card flex flex-col gap-6 md:flex-row md:items-center md:gap-8">

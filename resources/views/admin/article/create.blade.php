@@ -245,6 +245,14 @@
                                             <small class="text-muted d-block mt-1">请输入可跳转的 https 链接地址</small>
                                         </div>
                                     </div>
+
+                                    <div class="mt-3">
+                                        <input type="hidden" name="show_product_widget" value="0">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch" name="show_product_widget" id="show_product_widget" value="1" {{ old('show_product_widget', true) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="show_product_widget">前台显示产品卡片</label>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">
