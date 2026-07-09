@@ -120,6 +120,35 @@
     .dropzone-custom .dz-error-mark {
         display: none;
     }
+    .product-widget-generator {
+        border: 1px solid #e9ecef;
+        border-radius: 12px;
+        background: #ffffff;
+        padding: 16px;
+    }
+    .product-widget-preview {
+        border: 1px solid #dbe3ef;
+        border-radius: 12px;
+        background: #f8fbff;
+        padding: 12px;
+    }
+    .product-widget-preview .empty-state {
+        color: #8a94a6;
+        font-size: 14px;
+        padding: 18px 12px;
+        text-align: center;
+    }
+    .product-widget-code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+        font-size: 13px;
+        line-height: 1.55;
+        min-height: 220px;
+        white-space: pre;
+    }
+    .product-widget-status {
+        min-width: 96px;
+        text-align: center;
+    }
 </style>
 @endsection
 
@@ -379,7 +408,8 @@
 
                                     <div class="mt-3">
                                         <input type="hidden" name="hide_product_widget" value="0">
-                                        <div class="form-check form-switch">
+                                        <div class="d-flex flex-wrap align-items-center gap-3">
+                                            <div class="form-check form-switch mb-0">
                                             <input class="form-check-input @error('hide_product_widget') is-invalid @enderror"
                                                    type="checkbox"
                                                    role="switch"
@@ -388,10 +418,36 @@
                                                    value="1"
                                                    {{ old('hide_product_widget', $article->hide_product_widget ?? false) ? 'checked' : '' }}>
                                             <label class="form-check-label" for="hide_product_widget">隐藏产品卡片</label>
+                                            </div>
+                                            <span class="badge product-widget-status" id="productWidgetStatusBadge">当前：显示</span>
                                         </div>
                                         @error('hide_product_widget')
                                             <div class="invalid-feedback d-block">{{ $message }}</div>
                                         @enderror
+                                        <small class="text-muted d-block mt-2">绿色表示前台显示，红色表示前台隐藏。隐藏后你仍然可以生成 HTML 并插入正文。</small>
+                                    </div>
+
+                                    <div class="product-widget-generator mt-4">
+                                        <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
+                                            <div>
+                                                <label class="form-label mb-1">产品卡片 HTML 代码</label>
+                                                <div class="text-muted small">可直接复制，也可以一键插入到下方富文本的任意位置。</div>
+                                            </div>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" id="refreshProductWidgetHtml">刷新预览</button>
+                                        </div>
+
+                                        <div class="product-widget-preview mb-3" id="productWidgetHtmlPreview"></div>
+
+                                        <textarea class="form-control product-widget-code" id="productWidgetHtmlCode" rows="12" readonly></textarea>
+
+                                        <div class="d-flex flex-wrap gap-2 mt-3">
+                                            <button type="button" class="btn btn-outline-primary" id="copyProductWidgetHtml">
+                                                <i class="fa fa-copy me-1"></i>复制 HTML
+                                            </button>
+                                            <button type="button" class="btn btn-primary" id="insertProductWidgetHtml">
+                                                <i class="fa fa-code me-1"></i>插入到正文
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -823,6 +879,218 @@
 
         // 设置初始内容
         editor8.root.innerHTML = document.getElementById('hiddenArea').value;
+
+        const productWidgetStatusBadge = document.getElementById('productWidgetStatusBadge');
+        const productWidgetPreview = document.getElementById('productWidgetHtmlPreview');
+        const productWidgetCode = document.getElementById('productWidgetHtmlCode');
+        const refreshProductWidgetHtmlBtn = document.getElementById('refreshProductWidgetHtml');
+        const copyProductWidgetHtmlBtn = document.getElementById('copyProductWidgetHtml');
+        const insertProductWidgetHtmlBtn = document.getElementById('insertProductWidgetHtml');
+        const hideProductWidgetInput = document.getElementById('hide_product_widget');
+        const productWidgetFields = [
+            'product_widget_image',
+            'product_widget_title',
+            'product_widget_price',
+            'product_widget_description',
+            'product_widget_more_label',
+            'product_widget_more_url',
+            'product_widget_buy_label',
+            'product_widget_buy_url',
+            'hide_product_widget',
+        ].map((name) => document.querySelector(`[name="${name}"]`)).filter(Boolean);
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function escapeAttr(value) {
+            return escapeHtml(value).replace(/`/g, '&#096;');
+        }
+
+        function resolveStorageUrl(path) {
+            const cleaned = String(path ?? '').trim();
+            if (!cleaned) {
+                return '';
+            }
+
+            if (/^(https?:)?\/\//i.test(cleaned) || /^data:/i.test(cleaned)) {
+                return cleaned;
+            }
+
+            return "{{ asset('storage') }}/" + cleaned.replace(/^\/+/, '');
+        }
+
+        function isHttpUrl(url) {
+            return /^https?:\/\//i.test(String(url ?? '').trim());
+        }
+
+        function getFieldValue(name, fallback = '') {
+            const field = document.querySelector(`[name="${name}"]`);
+            if (!field) {
+                return fallback;
+            }
+
+            return String(field.value ?? '').trim() || fallback;
+        }
+
+        function buildProductWidgetHtml() {
+            const imageUrl = resolveStorageUrl(getFieldValue('product_widget_image'));
+            const title = getFieldValue('product_widget_title', 'Product title');
+            const price = getFieldValue('product_widget_price', '€ 0,00');
+            const description = getFieldValue('product_widget_description', 'Product description');
+            const moreLabel = getFieldValue('product_widget_more_label', 'Meer informatie');
+            const moreUrl = getFieldValue('product_widget_more_url');
+            const buyLabel = getFieldValue('product_widget_buy_label', 'Nu kopen');
+            const buyUrl = getFieldValue('product_widget_buy_url');
+            const hidden = hideProductWidgetInput ? hideProductWidgetInput.checked : false;
+
+            const imageBlock = imageUrl
+                ? `
+                    <div style="position:relative; flex:0 0 180px; display:flex; align-items:center; justify-content:center;">
+                        ${moreUrl ? `
+                            <a href="${escapeAttr(moreUrl)}" style="position:absolute; inset:0; border-radius:20px;" aria-label="${escapeAttr(moreLabel)}"${isHttpUrl(moreUrl) ? ' target="_blank" rel="noopener noreferrer"' : ''}></a>
+                        ` : ''}
+                        <img src="${escapeAttr(imageUrl)}" alt="${escapeAttr(title)}" loading="lazy" style="display:block; width:100%; max-width:180px; height:auto; object-fit:contain;">
+                    </div>`
+                : `
+                    <div style="flex:0 0 180px; display:flex; align-items:center; justify-content:center;">
+                        <div style="width:100%; max-width:180px; height:120px; border-radius:20px; background:#ffffff; color:#cbd5e1; display:flex; align-items:center; justify-content:center; font-size:14px;">
+                            No image
+                        </div>
+                    </div>`;
+
+            const buttons = [];
+
+            if (moreUrl) {
+                buttons.push(`
+                    <a href="${escapeAttr(moreUrl)}"
+                       style="display:inline-flex; align-items:center; justify-content:center; min-height:48px; min-width:180px; padding:0 24px; border-radius:9999px; border:1.5px solid #29a9ef; color:#29a9ef; text-decoration:none; font-size:15px; font-weight:500; background:transparent; box-sizing:border-box;"
+                       ${isHttpUrl(moreUrl) ? 'target="_blank" rel="noopener noreferrer"' : ''}>${escapeHtml(moreLabel)}</a>`);
+            }
+
+            if (buyUrl) {
+                buttons.push(`
+                    <a href="${escapeAttr(buyUrl)}"
+                       style="display:inline-flex; align-items:center; justify-content:center; min-height:48px; min-width:180px; padding:0 24px; border-radius:9999px; border:1.5px solid #29a9ef; color:#ffffff; text-decoration:none; font-size:15px; font-weight:500; background:#29a9ef; box-sizing:border-box;"
+                       ${isHttpUrl(buyUrl) ? 'target="_blank" rel="noopener noreferrer"' : ''}>${escapeHtml(buyLabel)}</a>`);
+            }
+
+            const actionsHtml = buttons.length
+                ? `<div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:24px;">${buttons.join('')}</div>`
+                : `<div style="margin-top:24px; color:#8a94a6; font-size:14px;">暂无按钮链接</div>`;
+
+            return `
+<section style="margin:0 0 32px; border:1px solid #e5e7eb; border-radius:28px; background:#fff; padding:16px; box-shadow:0 10px 30px rgba(15,23,42,0.06);">
+  <div style="border-radius:24px; background:${hidden ? '#fff5f5' : '#f6f8fc'}; padding:16px;">
+    <div style="display:flex; flex-wrap:wrap; gap:24px; align-items:center;">
+      ${imageBlock}
+      <div style="flex:1; min-width:240px;">
+        <p style="margin:0; font-size:22px; line-height:1.25; font-weight:500; color:#2f3441;">${escapeHtml(title)}</p>
+        <div style="margin-top:6px; font-size:20px; line-height:1.2; font-weight:700; color:#2f3441;">${escapeHtml(price)}</div>
+        <p style="margin:14px 0 0; font-size:15px; line-height:1.75; color:#616f89; white-space:pre-wrap;">${escapeHtml(description)}</p>
+        ${actionsHtml}
+      </div>
+    </div>
+  </div>
+</section>`.trim();
+        }
+
+        function refreshProductWidgetPreview() {
+            const html = buildProductWidgetHtml();
+            if (productWidgetPreview) {
+                productWidgetPreview.innerHTML = html;
+            }
+
+            if (productWidgetCode) {
+                productWidgetCode.value = html;
+            }
+
+            if (productWidgetStatusBadge && hideProductWidgetInput) {
+                const hidden = hideProductWidgetInput.checked;
+                productWidgetStatusBadge.textContent = hidden ? '当前：隐藏' : '当前：显示';
+                productWidgetStatusBadge.className = hidden
+                    ? 'badge product-widget-status bg-danger text-white'
+                    : 'badge product-widget-status bg-success text-white';
+            }
+        }
+
+        async function copyProductWidgetHtml() {
+            const html = productWidgetCode ? productWidgetCode.value : buildProductWidgetHtml();
+
+            if (!html) {
+                return;
+            }
+
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(html);
+                return;
+            }
+
+            productWidgetCode.focus();
+            productWidgetCode.select();
+            document.execCommand('copy');
+        }
+
+        function insertProductWidgetHtml() {
+            const html = productWidgetCode ? productWidgetCode.value : buildProductWidgetHtml();
+            if (!html) {
+                return;
+            }
+
+            if (isCodeMode) {
+                const start = codeEditor.selectionStart ?? codeEditor.value.length;
+                const end = codeEditor.selectionEnd ?? codeEditor.value.length;
+                codeEditor.setRangeText(`${html}\n`, start, end, 'end');
+                codeEditor.focus();
+                return;
+            }
+
+            const range = editor8.getSelection(true) || { index: editor8.getLength(), length: 0 };
+            editor8.clipboard.dangerouslyPasteHTML(range.index, html);
+            editor8.setSelection(range.index + 1);
+            editor8.focus();
+        }
+
+        if (productWidgetFields.length) {
+            productWidgetFields.forEach((field) => {
+                field.addEventListener('input', refreshProductWidgetPreview);
+                field.addEventListener('change', refreshProductWidgetPreview);
+            });
+        }
+
+        if (refreshProductWidgetHtmlBtn) {
+            refreshProductWidgetHtmlBtn.addEventListener('click', refreshProductWidgetPreview);
+        }
+
+        if (hideProductWidgetInput) {
+            hideProductWidgetInput.addEventListener('change', refreshProductWidgetPreview);
+        }
+
+        if (copyProductWidgetHtmlBtn) {
+            copyProductWidgetHtmlBtn.addEventListener('click', async function() {
+                try {
+                    await copyProductWidgetHtml();
+                    this.innerHTML = '<i class="fa fa-check me-1"></i>已复制';
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fa fa-copy me-1"></i>复制 HTML';
+                    }, 1500);
+                } catch (error) {
+                    console.error(error);
+                    alert('复制失败，请手动复制');
+                }
+            });
+        }
+
+        if (insertProductWidgetHtmlBtn) {
+            insertProductWidgetHtmlBtn.addEventListener('click', insertProductWidgetHtml);
+        }
+
+        refreshProductWidgetPreview();
 
         /**
          * ===============================
