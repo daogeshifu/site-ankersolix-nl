@@ -130,9 +130,9 @@ class ProductController extends Controller
             ->when($availability !== '', fn ($q) => $q->where('availability_status', $availability));
 
         $query = match ($sort) {
-            'prijs-laag' => $query->orderBy('price')->orderByDesc('any_variant_available')->orderByDesc('id'),
-            'prijs-hoog' => $query->orderByDesc('price')->orderByDesc('any_variant_available')->orderByDesc('id'),
-            default => $query->orderByDesc('any_variant_available')->orderBy('price')->orderByDesc('id'),
+            'prijs-laag' => $query->orderByDesc('sort_order')->orderBy('price')->orderByDesc('any_variant_available')->orderByDesc('id'),
+            'prijs-hoog' => $query->orderByDesc('sort_order')->orderByDesc('price')->orderByDesc('any_variant_available')->orderByDesc('id'),
+            default => $query->orderByDesc('sort_order')->orderByDesc('any_variant_available')->orderBy('price')->orderByDesc('id'),
         };
 
         $products = $this->paginateProductsWithFeatured($query, $request);

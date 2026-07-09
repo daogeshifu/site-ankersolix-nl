@@ -135,13 +135,13 @@ Route::group([
         | New article sections
         |--------------------------------------------------------------------------
         */
-
         $newSections = [
             'buying-guide' => ['path' => 'aankoopgids', 'name' => 'buying-guide'],
             'installation' => ['path' => 'installatie-configuratie', 'name' => 'installation'],
             'subsidy' => ['path' => 'subsidies-beleid', 'name' => 'subsidy'],
             'energy-saving' => ['path' => 'elektriciteitsprijzen-besparen', 'name' => 'energy-saving'],
             'reviews' => ['path' => 'cases-reviews', 'name' => 'reviews'],
+
             'beste-thuisbatterij-2026' => ['path' => 'beste-thuisbatterij-2026', 'name' => 'beste-thuisbatterij-2026'],
             'thuisbatterij-zonder-zonnepanelen' => ['path' => 'thuisbatterij-koopgids', 'name' => 'thuisbatterij-zonder-zonnepanelen'],
             'thuisbatterij-koopgids' => ['path' => 'thuisbatterij-koopgids', 'name' => 'thuisbatterij-koopgids'],
@@ -152,6 +152,7 @@ Route::group([
             'thuisbatterij-capaciteit-uitbreiding' => ['path' => 'thuisbatterij-capaciteit-uitbreiding', 'name' => 'thuisbatterij-capaciteit-uitbreiding'],
             'warmtepomp-elektrische-auto' => ['path' => 'warmtepomp-elektrische-auto', 'name' => 'warmtepomp-elektrische-auto'],
             'thuisbatterij-zelf-installeren' => ['path' => 'thuisbatterij-zelf-installeren', 'name' => 'thuisbatterij-zelf-installeren'],
+            'installatie-zelf-aansluiten' => ['path' => 'installatie-zelf-aansluiten', 'name' => 'installatie-zelf-aansluiten'],
         ];
 
         foreach ($newSections as $section => $route) {
