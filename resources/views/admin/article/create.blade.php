@@ -589,6 +589,11 @@ document.addEventListener('DOMContentLoaded', function() {
         console.warn('Product card blot already registered:', error);
     }
 
+    const Delta = Quill.import('delta');
+    quill.clipboard.addMatcher('[data-product-card="1"]', function(node) {
+        return new Delta().insert({ productCard: { html: node.innerHTML } }).insert('\n');
+    });
+
     const productWidgetStatusBadge = document.getElementById('productWidgetStatusBadge');
     const productWidgetPreview = document.getElementById('productWidgetHtmlPreview');
     const productWidgetCode = document.getElementById('productWidgetHtmlCode');

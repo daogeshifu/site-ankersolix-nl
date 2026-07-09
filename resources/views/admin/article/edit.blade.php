@@ -912,6 +912,11 @@
             console.warn('Product card blot already registered:', error);
         }
 
+        const Delta = Quill.import('delta');
+        editor8.clipboard.addMatcher('[data-product-card="1"]', function(node) {
+            return new Delta().insert({ productCard: { html: node.innerHTML } }).insert('\n');
+        });
+
         // 设置初始内容
         editor8.root.innerHTML = document.getElementById('hiddenArea').value;
 
