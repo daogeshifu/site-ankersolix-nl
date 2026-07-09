@@ -378,18 +378,18 @@
                                     </div>
 
                                     <div class="mt-3">
-                                        <input type="hidden" name="show_product_widget" value="0">
+                                        <input type="hidden" name="hide_product_widget" value="0">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input @error('show_product_widget') is-invalid @enderror"
+                                            <input class="form-check-input @error('hide_product_widget') is-invalid @enderror"
                                                    type="checkbox"
                                                    role="switch"
-                                                   name="show_product_widget"
-                                                   id="show_product_widget"
+                                                   name="hide_product_widget"
+                                                   id="hide_product_widget"
                                                    value="1"
-                                                   {{ old('show_product_widget', $article->show_product_widget ?? true) ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="show_product_widget">前台显示产品卡片</label>
+                                                   {{ old('hide_product_widget', $article->hide_product_widget ?? false) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="hide_product_widget">隐藏产品卡片</label>
                                         </div>
-                                        @error('show_product_widget')
+                                        @error('hide_product_widget')
                                             <div class="invalid-feedback d-block">{{ $message }}</div>
                                         @enderror
                                     </div>

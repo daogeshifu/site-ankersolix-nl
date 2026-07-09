@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('articles', function (Blueprint $table) {
-            if (!Schema::hasColumn('articles', 'show_product_widget')) {
-                $table->boolean('show_product_widget')
+            if (!Schema::hasColumn('articles', 'hide_product_widget')) {
+                $table->boolean('hide_product_widget')
                     ->default(true)
-                    ->comment('是否显示文章产品卡片');
+                    ->comment('是否隐藏文章产品卡片');
             }
         });
     }
@@ -26,8 +26,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('articles', function (Blueprint $table) {
-            if (Schema::hasColumn('articles', 'show_product_widget')) {
-                $table->dropColumn('show_product_widget');
+            if (Schema::hasColumn('articles', 'hide_product_widget')) {
+                $table->dropColumn('hide_product_widget');
             }
         });
     }

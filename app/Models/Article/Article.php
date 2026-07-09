@@ -48,7 +48,7 @@ class Article extends Model implements TranslatableContract
         'product_widget_buy_label',
         'product_widget_buy_url',
         'product_widget_html',
-        'show_product_widget',
+        'hide_product_widget',
         'ai_cover',
         'images_processed',
         'is_front_visible',
@@ -234,7 +234,7 @@ class Article extends Model implements TranslatableContract
         $article->product_widget_buy_label = $data['product_widget_buy_label'] ?? null;
         $article->product_widget_buy_url = $data['product_widget_buy_url'] ?? null;
         $article->product_widget_html = $data['product_widget_html'] ?? null;
-        $article->show_product_widget = $data['show_product_widget'] ?? true;
+        $article->hide_product_widget = $data['hide_product_widget'] ?? false;
         $article->is_front_visible = $data['is_front_visible'] ?? true;
         $article->title = $data['title'];
         $article->content = $data['content'];
@@ -309,7 +309,7 @@ class Article extends Model implements TranslatableContract
         $article->product_widget_buy_label = $data['product_widget_buy_label'] ?? null;
         $article->product_widget_buy_url = $data['product_widget_buy_url'] ?? null;
         $article->product_widget_html = $data['product_widget_html'] ?? null;
-        $article->show_product_widget = $data['show_product_widget'] ?? true;
+        $article->hide_product_widget = $data['hide_product_widget'] ?? false;
         $article->is_front_visible = $data['is_front_visible'] ?? true;
         $article->title = $defaultTitle;
         $article->content = $defaultContent;
@@ -396,7 +396,7 @@ class Article extends Model implements TranslatableContract
                 'product_widget_buy_label',
                 'product_widget_buy_url',
                 'product_widget_html',
-                'show_product_widget',
+                'hide_product_widget',
             ] as $field) {
                 if (array_key_exists($field, $data)) {
                     $updates[$field] = $data[$field];

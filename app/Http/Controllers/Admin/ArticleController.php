@@ -86,7 +86,7 @@ class ArticleController extends Controller
             'product_widget_more_url' => 'nullable|string|max:640',
             'product_widget_buy_label' => 'nullable|string|max:255',
             'product_widget_buy_url' => 'nullable|string|max:640',
-            'show_product_widget' => 'nullable|boolean',
+            'hide_product_widget' => 'nullable|boolean',
             'is_front_visible' => 'nullable|boolean',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -120,7 +120,7 @@ class ArticleController extends Controller
                 'product_widget_more_url' => $validated['product_widget_more_url'] ?? null,
                 'product_widget_buy_label' => $validated['product_widget_buy_label'] ?? null,
                 'product_widget_buy_url' => $validated['product_widget_buy_url'] ?? null,
-                'show_product_widget' => $request->boolean('show_product_widget', true),
+                'hide_product_widget' => $request->boolean('hide_product_widget', false),
                 'is_front_visible' => $request->boolean('is_front_visible', true),
                 'cover' => $validated['cover'] ?? null,
                 'title' => $validated['title'],
@@ -247,7 +247,7 @@ class ArticleController extends Controller
             $rules['product_widget_more_url'] = 'nullable|string|max:640';
             $rules['product_widget_buy_label'] = 'nullable|string|max:255';
             $rules['product_widget_buy_url'] = 'nullable|string|max:640';
-            $rules['show_product_widget'] = 'nullable|boolean';
+            $rules['hide_product_widget'] = 'nullable|boolean';
             $rules['is_front_visible'] = 'nullable|boolean';
             $rules['tags'] = 'nullable|array';
             $rules['tags.*'] = 'exists:article_tags,id';
@@ -277,7 +277,7 @@ class ArticleController extends Controller
                     'product_widget_more_url' => $validated['product_widget_more_url'] ?? null,
                     'product_widget_buy_label' => $validated['product_widget_buy_label'] ?? null,
                     'product_widget_buy_url' => $validated['product_widget_buy_url'] ?? null,
-                    'show_product_widget' => $request->boolean('show_product_widget', true),
+                    'hide_product_widget' => $request->boolean('hide_product_widget', false),
                     'is_front_visible' => $request->boolean('is_front_visible'),
                     'cover' => $validated['cover'] ?? $article->cover,
                 ]);

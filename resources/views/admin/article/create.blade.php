@@ -247,10 +247,10 @@
                                     </div>
 
                                     <div class="mt-3">
-                                        <input type="hidden" name="show_product_widget" value="0">
+                                        <input type="hidden" name="hide_product_widget" value="0">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" role="switch" name="show_product_widget" id="show_product_widget" value="1" {{ old('show_product_widget', true) ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="show_product_widget">前台显示产品卡片</label>
+                                            <input class="form-check-input" type="checkbox" role="switch" name="hide_product_widget" id="hide_product_widget" value="1" {{ old('hide_product_widget') ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="hide_product_widget">隐藏产品卡片</label>
                                         </div>
                                     </div>
                                 </div>
