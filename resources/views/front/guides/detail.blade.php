@@ -298,6 +298,8 @@
                     </div>
                 </article>
 
+                @include('front.partials.article-product-widget')
+
                 <!-- Author Card -->
                 <div class="bg-white dark:bg-[#1a212f] rounded-xl shadow-lg shadow-black/5 border border-[#f0f2f4] dark:border-white/5 p-6 md:p-8 mb-8">
                     <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">

@@ -39,6 +39,15 @@ class Article extends Model implements TranslatableContract
         'author',
         'author_bio',
         'cover',
+        'product_widget_image',
+        'product_widget_title',
+        'product_widget_price',
+        'product_widget_description',
+        'product_widget_more_label',
+        'product_widget_more_url',
+        'product_widget_buy_label',
+        'product_widget_buy_url',
+        'product_widget_html',
         'ai_cover',
         'images_processed',
         'is_front_visible',
@@ -159,6 +168,25 @@ class Article extends Model implements TranslatableContract
         return asset('storage/' . $cover);
     }
 
+    public function getProductWidgetImageUrlAttribute(): ?string
+    {
+        if (empty($this->product_widget_image)) {
+            return null;
+        }
+
+        $image = ltrim($this->product_widget_image, '/');
+
+        if (preg_match('/^https?:\/\//i', $this->product_widget_image) || str_starts_with($this->product_widget_image, '//')) {
+            return $this->product_widget_image;
+        }
+
+        if (str_starts_with($image, 'uploads/')) {
+            return $this->product_widget_image;
+        }
+
+        return asset('storage/' . $image);
+    }
+
     public function getFrontUrlAttribute(): string
     {
         $category = $this->category;
@@ -196,6 +224,15 @@ class Article extends Model implements TranslatableContract
         $article->category_id = $data['category_id'] ?? ArticleCategory::first()->id;
         $article->link = $data['link'];
         $article->cover = $data['cover'] ?? null;
+        $article->product_widget_image = $data['product_widget_image'] ?? null;
+        $article->product_widget_title = $data['product_widget_title'] ?? null;
+        $article->product_widget_price = $data['product_widget_price'] ?? null;
+        $article->product_widget_description = $data['product_widget_description'] ?? null;
+        $article->product_widget_more_label = $data['product_widget_more_label'] ?? null;
+        $article->product_widget_more_url = $data['product_widget_more_url'] ?? null;
+        $article->product_widget_buy_label = $data['product_widget_buy_label'] ?? null;
+        $article->product_widget_buy_url = $data['product_widget_buy_url'] ?? null;
+        $article->product_widget_html = $data['product_widget_html'] ?? null;
         $article->is_front_visible = $data['is_front_visible'] ?? true;
         $article->title = $data['title'];
         $article->content = $data['content'];
@@ -261,6 +298,15 @@ class Article extends Model implements TranslatableContract
         $article->category_id = $data['category_id'] ?? ArticleCategory::first()->id;
         $article->link = $data['link'] ?? null;
         $article->cover = $data['cover'] ?? null;
+        $article->product_widget_image = $data['product_widget_image'] ?? null;
+        $article->product_widget_title = $data['product_widget_title'] ?? null;
+        $article->product_widget_price = $data['product_widget_price'] ?? null;
+        $article->product_widget_description = $data['product_widget_description'] ?? null;
+        $article->product_widget_more_label = $data['product_widget_more_label'] ?? null;
+        $article->product_widget_more_url = $data['product_widget_more_url'] ?? null;
+        $article->product_widget_buy_label = $data['product_widget_buy_label'] ?? null;
+        $article->product_widget_buy_url = $data['product_widget_buy_url'] ?? null;
+        $article->product_widget_html = $data['product_widget_html'] ?? null;
         $article->is_front_visible = $data['is_front_visible'] ?? true;
         $article->title = $defaultTitle;
         $article->content = $defaultContent;
@@ -336,6 +382,21 @@ class Article extends Model implements TranslatableContract
             }
             if (isset($data['content'])) {
                 $updates['content'] = $data['content'];
+            }
+            foreach ([
+                'product_widget_image',
+                'product_widget_title',
+                'product_widget_price',
+                'product_widget_description',
+                'product_widget_more_label',
+                'product_widget_more_url',
+                'product_widget_buy_label',
+                'product_widget_buy_url',
+                'product_widget_html',
+            ] as $field) {
+                if (array_key_exists($field, $data)) {
+                    $updates[$field] = $data[$field];
+                }
             }
             if (!empty($updates)) {
                 self::where('id', $this->id)->update($updates);

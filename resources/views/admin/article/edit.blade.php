@@ -262,6 +262,123 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label class="form-label d-block">产品卡片设置</label>
+                                    <small class="text-muted d-block mb-3">非必填。填写后前台会自动生成固定格式的产品卡片。</small>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">产品图片</label>
+                                        <div class="dropzone-custom" id="article_product_widget_upload">
+                                            <div class="dz-message needsclick">
+                                                <i class="icon-image" style="font-size: 48px; color: #007bff;"></i>
+                                                <h6 class="mt-3">拖放图片到这里或点击上传</h6>
+                                                <small class="text-muted">支持格式: JPG, PNG, GIF, WebP (最大 10MB)</small>
+                                            </div>
+                                        </div>
+
+                                        @if($article->product_widget_image)
+                                            <div class="cover-preview-wrapper" id="productWidgetPreviewWrapper">
+                                                <label class="form-label">当前图片</label><br>
+                                                <img src="{{ $article->product_widget_image_url }}"
+                                                     id="productWidgetImg"
+                                                     alt="Product preview">
+                                            </div>
+                                        @else
+                                            <div class="cover-preview-wrapper" id="productWidgetPreviewWrapper" style="display: none;">
+                                                <label class="form-label">图片预览</label><br>
+                                                <img id="productWidgetImg" alt="Product preview">
+                                            </div>
+                                        @endif
+
+                                        <input type="hidden"
+                                               name="product_widget_image"
+                                               id="product_widget_image"
+                                               value="{{ old('product_widget_image', $article->product_widget_image) }}">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">产品标题</label>
+                                        <input type="text"
+                                               class="form-control @error('product_widget_title') is-invalid @enderror"
+                                               name="product_widget_title"
+                                               value="{{ old('product_widget_title', $article->product_widget_title) }}"
+                                               placeholder="例如：Anker SOLIX Solarbank Max AC">
+                                        @error('product_widget_title')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">产品价格</label>
+                                        <input type="text"
+                                               class="form-control @error('product_widget_price') is-invalid @enderror"
+                                               name="product_widget_price"
+                                               value="{{ old('product_widget_price', $article->product_widget_price) }}"
+                                               placeholder="例如：€ 2.499,00">
+                                        @error('product_widget_price')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">产品说明</label>
+                                        <textarea class="form-control @error('product_widget_description') is-invalid @enderror"
+                                                  name="product_widget_description"
+                                                  rows="3"
+                                                  placeholder="简短描述这个产品">{{ old('product_widget_description', $article->product_widget_description) }}</textarea>
+                                        @error('product_widget_description')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">按钮一文案</label>
+                                            <input type="text"
+                                                   class="form-control @error('product_widget_more_label') is-invalid @enderror"
+                                                   name="product_widget_more_label"
+                                                   value="{{ old('product_widget_more_label', $article->product_widget_more_label ?: 'Meer informatie') }}">
+                                            @error('product_widget_more_label')
+                                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">按钮一链接</label>
+                                            <input type="url"
+                                                   class="form-control @error('product_widget_more_url') is-invalid @enderror"
+                                                   name="product_widget_more_url"
+                                                   value="{{ old('product_widget_more_url', $article->product_widget_more_url) }}"
+                                                   placeholder="https://example.com">
+                                            <small class="text-muted d-block mt-1">请输入可跳转的 https 链接地址</small>
+                                            @error('product_widget_more_url')
+                                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">按钮二文案</label>
+                                            <input type="text"
+                                                   class="form-control @error('product_widget_buy_label') is-invalid @enderror"
+                                                   name="product_widget_buy_label"
+                                                   value="{{ old('product_widget_buy_label', $article->product_widget_buy_label ?: 'Nu kopen') }}">
+                                            @error('product_widget_buy_label')
+                                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">按钮二链接</label>
+                                            <input type="url"
+                                                   class="form-control @error('product_widget_buy_url') is-invalid @enderror"
+                                                   name="product_widget_buy_url"
+                                                   value="{{ old('product_widget_buy_url', $article->product_widget_buy_url) }}"
+                                                   placeholder="https://example.com">
+                                            <small class="text-muted d-block mt-1">请输入可跳转的 https 链接地址</small>
+                                            @error('product_widget_buy_url')
+                                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
                                     <label class="form-label d-block">前台展示</label>
                                     <input type="hidden" name="is_front_visible" value="0">
                                     <div class="form-check form-switch">
@@ -519,6 +636,60 @@
 
                             alert(errorMessage);
                             this.removeFile(file); // 移除上传失败的文件卡片
+                        });
+                    }
+                });
+            }
+        }
+
+        const productWidgetDropzoneElement = document.querySelector('#article_product_widget_upload');
+
+        if (productWidgetDropzoneElement) {
+            if (!productWidgetDropzoneElement.dropzone) {
+                const productWidgetDropzone = new Dropzone("#article_product_widget_upload", {
+                    url: "{{ route('admin.article.upload') }}",
+                    method: 'post',
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    maxFiles: 1,
+                    maxFilesize: 10,
+                    acceptedFiles: 'image/*',
+                    addRemoveLinks: true,
+                    dictRemoveFile: 'Remove Image',
+                    dictDefaultMessage: 'Drop files here to upload',
+                    init: function() {
+                        this.on("success", function(file, response) {
+                            if (response.code == 200 && response.data.path) {
+                                document.getElementById('product_widget_image').value = response.data.path;
+                                document.getElementById('productWidgetImg').src = response.data.url || "{{ asset('storage') }}/" + response.data.path;
+                                document.getElementById('productWidgetPreviewWrapper').style.display = 'block';
+                            }
+                        });
+
+                        this.on("removedfile", function(file) {
+                            document.getElementById('product_widget_image').value = "";
+                            document.getElementById('productWidgetPreviewWrapper').style.display = 'none';
+                        });
+
+                        this.on("error", function(file, message, xhr) {
+                            let errorMessage = 'Upload failed';
+
+                            if (xhr && xhr.responseText) {
+                                try {
+                                    const res = JSON.parse(xhr.responseText);
+                                    errorMessage = res.msg || res.message || errorMessage;
+                                } catch (e) {
+                                    errorMessage = xhr.responseText;
+                                }
+                            } else if (typeof message === 'string') {
+                                errorMessage = message;
+                            } else if (message && typeof message === 'object') {
+                                errorMessage = message.msg || message.message || errorMessage;
+                            }
+
+                            alert(errorMessage);
+                            this.removeFile(file);
                         });
                     }
                 });

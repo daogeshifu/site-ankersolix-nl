@@ -78,6 +78,14 @@ class ArticleController extends Controller
             'keywords' => 'nullable|string|max:640',
             'author' => 'nullable|string|max:255',
             'author_bio' => 'nullable|string',
+            'product_widget_image' => 'nullable|string',
+            'product_widget_title' => 'nullable|string|max:255',
+            'product_widget_price' => 'nullable|string|max:255',
+            'product_widget_description' => 'nullable|string',
+            'product_widget_more_label' => 'nullable|string|max:255',
+            'product_widget_more_url' => 'nullable|string|max:640',
+            'product_widget_buy_label' => 'nullable|string|max:255',
+            'product_widget_buy_url' => 'nullable|string|max:640',
             'is_front_visible' => 'nullable|boolean',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -103,6 +111,14 @@ class ArticleController extends Controller
                 'keywords' => $validated['keywords'] ?? null,
                 'author' => $validated['author'] ?? null,
                 'author_bio' => $validated['author_bio'] ?? null,
+                'product_widget_image' => $validated['product_widget_image'] ?? null,
+                'product_widget_title' => $validated['product_widget_title'] ?? null,
+                'product_widget_price' => $validated['product_widget_price'] ?? null,
+                'product_widget_description' => $validated['product_widget_description'] ?? null,
+                'product_widget_more_label' => $validated['product_widget_more_label'] ?? null,
+                'product_widget_more_url' => $validated['product_widget_more_url'] ?? null,
+                'product_widget_buy_label' => $validated['product_widget_buy_label'] ?? null,
+                'product_widget_buy_url' => $validated['product_widget_buy_url'] ?? null,
                 'is_front_visible' => $request->boolean('is_front_visible', true),
                 'cover' => $validated['cover'] ?? null,
                 'title' => $validated['title'],
@@ -221,6 +237,14 @@ class ArticleController extends Controller
             $rules['keywords'] = 'nullable|string|max:640';
             $rules['author'] = 'nullable|string|max:255';
             $rules['author_bio'] = 'nullable|string';
+            $rules['product_widget_image'] = 'nullable|string';
+            $rules['product_widget_title'] = 'nullable|string|max:255';
+            $rules['product_widget_price'] = 'nullable|string|max:255';
+            $rules['product_widget_description'] = 'nullable|string';
+            $rules['product_widget_more_label'] = 'nullable|string|max:255';
+            $rules['product_widget_more_url'] = 'nullable|string|max:640';
+            $rules['product_widget_buy_label'] = 'nullable|string|max:255';
+            $rules['product_widget_buy_url'] = 'nullable|string|max:640';
             $rules['is_front_visible'] = 'nullable|boolean';
             $rules['tags'] = 'nullable|array';
             $rules['tags.*'] = 'exists:article_tags,id';
@@ -242,6 +266,14 @@ class ArticleController extends Controller
                     'keywords' => $validated['keywords'] ?? null,
                     'author' => $validated['author'] ?? null,
                     'author_bio' => $validated['author_bio'] ?? null,
+                    'product_widget_image' => $validated['product_widget_image'] ?? null,
+                    'product_widget_title' => $validated['product_widget_title'] ?? null,
+                    'product_widget_price' => $validated['product_widget_price'] ?? null,
+                    'product_widget_description' => $validated['product_widget_description'] ?? null,
+                    'product_widget_more_label' => $validated['product_widget_more_label'] ?? null,
+                    'product_widget_more_url' => $validated['product_widget_more_url'] ?? null,
+                    'product_widget_buy_label' => $validated['product_widget_buy_label'] ?? null,
+                    'product_widget_buy_url' => $validated['product_widget_buy_url'] ?? null,
                     'is_front_visible' => $request->boolean('is_front_visible'),
                     'cover' => $validated['cover'] ?? $article->cover,
                 ]);
@@ -252,11 +284,24 @@ class ArticleController extends Controller
             }
 
             // 只更新当前语言的翻译
-            $article->updateTranslation($lang, [
+            $translationData = [
                 'title' => $validated['title'],
                 'content' => $validated['content'],
                 'summary' => $validated['summary'] ?? null,
-            ]);
+            ];
+
+            if ($lang === 'nl') {
+                $translationData['product_widget_image'] = $validated['product_widget_image'] ?? null;
+                $translationData['product_widget_title'] = $validated['product_widget_title'] ?? null;
+                $translationData['product_widget_price'] = $validated['product_widget_price'] ?? null;
+                $translationData['product_widget_description'] = $validated['product_widget_description'] ?? null;
+                $translationData['product_widget_more_label'] = $validated['product_widget_more_label'] ?? null;
+                $translationData['product_widget_more_url'] = $validated['product_widget_more_url'] ?? null;
+                $translationData['product_widget_buy_label'] = $validated['product_widget_buy_label'] ?? null;
+                $translationData['product_widget_buy_url'] = $validated['product_widget_buy_url'] ?? null;
+            }
+
+            $article->updateTranslation($lang, $translationData);
 
             DB::commit();
 
