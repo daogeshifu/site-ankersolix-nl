@@ -69,9 +69,7 @@ class PagesController extends Controller
             ->active()
             ->whereNotNull('slug')
             ->whereHas('category', fn ($query) => $query->shown()->where('is_active', true))
-            ->orderByDesc('price')
-            ->orderByDesc('any_variant_available')
-            ->orderByDesc('id')
+            ->orderByDesc('sort_order')
             ->limit(6)
             ->get();
 
