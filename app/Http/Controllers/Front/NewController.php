@@ -121,6 +121,12 @@ class NewController extends Controller
             'route' => 'thuisbatterij-huurders-flexibel',
             'per_page' => 9,
         ],
+        //todo
+        'installatie-zelf-aansluiten' => [
+            'category' => 'Installatie & Zelf Aansluiten',
+            'route' => 'installatie-zelf-aansluiten',
+            'per_page' => 9,
+        ],
     ];
 
     public function index(Request $request)
@@ -146,6 +152,7 @@ class NewController extends Controller
     private function list(Request $request, ?int $page = null)
     {
         $section = $this->section($request);
+
         $categories = ArticleCategory::active()
             ->withCount(['articles' => fn ($query) => $query->frontVisible()])
             ->get();
