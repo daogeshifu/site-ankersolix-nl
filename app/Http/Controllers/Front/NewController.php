@@ -386,14 +386,12 @@ class NewController extends Controller
             return collect();
         }
 
-        $positionMap = array_flip($normalizedIds);
-
         return Product::with(['media', 'category'])
             ->active()
             ->whereIn('id', $normalizedIds)
-            ->get()
-            ->sortBy(fn (Product $product) => $positionMap[$product->id] ?? PHP_INT_MAX)
-            ->values();
+            ->orderByDesc('sort_order')
+            ->orderByDesc('id')
+            ->get();
     }
 
     private function loadSelectedFaqs(array $ids): Collection
