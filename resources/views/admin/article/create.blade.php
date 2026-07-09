@@ -113,6 +113,12 @@
         min-width: 96px;
         text-align: center;
     }
+    .ql-product-card {
+        margin: 18px 0;
+    }
+    .ql-product-card > div {
+        pointer-events: none;
+    }
 </style>
 @endsection
 
@@ -554,6 +560,35 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    const BlockEmbed = Quill.import('blots/block/embed');
+
+    class ProductCardBlot extends BlockEmbed {
+        static create(value) {
+            const node = super.create();
+            const html = typeof value === 'string' ? value : (value && value.html ? value.html : '');
+            node.setAttribute('contenteditable', 'false');
+            node.setAttribute('data-product-card', '1');
+            node.innerHTML = html;
+            return node;
+        }
+
+        static value(node) {
+            return {
+                html: node.innerHTML,
+            };
+        }
+    }
+
+    ProductCardBlot.blotName = 'productCard';
+    ProductCardBlot.tagName = 'div';
+    ProductCardBlot.className = 'ql-product-card';
+
+    try {
+        Quill.register(ProductCardBlot, true);
+    } catch (error) {
+        console.warn('Product card blot already registered:', error);
+    }
+
     const productWidgetStatusBadge = document.getElementById('productWidgetStatusBadge');
     const productWidgetPreview = document.getElementById('productWidgetHtmlPreview');
     const productWidgetCode = document.getElementById('productWidgetHtmlCode');
@@ -725,7 +760,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const range = quill.getSelection(true) || { index: quill.getLength(), length: 0 };
-        quill.clipboard.dangerouslyPasteHTML(range.index, html);
+        quill.insertEmbed(range.index, 'productCard', { html });
         quill.setSelection(range.index + 1);
         quill.focus();
     }

@@ -8,6 +8,7 @@ use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use App\Models\User\User;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
 
 class Article extends Model implements TranslatableContract
 {
@@ -70,6 +71,28 @@ class Article extends Model implements TranslatableContract
         'last_viewed_at' => 'datetime',
         'last_read_at' => 'datetime',
     ];
+
+    protected static function supportedWidgetAttributes(array $data): array
+    {
+        $mapped = [
+            'product_widget_image' => $data['product_widget_image'] ?? null,
+            'product_widget_title' => $data['product_widget_title'] ?? null,
+            'product_widget_price' => $data['product_widget_price'] ?? null,
+            'product_widget_description' => $data['product_widget_description'] ?? null,
+            'product_widget_more_label' => $data['product_widget_more_label'] ?? null,
+            'product_widget_more_url' => $data['product_widget_more_url'] ?? null,
+            'product_widget_buy_label' => $data['product_widget_buy_label'] ?? null,
+            'product_widget_buy_url' => $data['product_widget_buy_url'] ?? null,
+            'product_widget_html' => $data['product_widget_html'] ?? null,
+            'hide_product_widget' => $data['hide_product_widget'] ?? false,
+        ];
+
+        return array_filter(
+            $mapped,
+            static fn ($value, string $field): bool => Schema::hasColumn('articles', $field),
+            ARRAY_FILTER_USE_BOTH
+        );
+    }
 
     public function scopeFrontVisible($query)
     {
@@ -300,19 +323,12 @@ class Article extends Model implements TranslatableContract
         $article->category_id = $data['category_id'] ?? ArticleCategory::first()->id;
         $article->link = $data['link'] ?? null;
         $article->cover = $data['cover'] ?? null;
-        $article->product_widget_image = $data['product_widget_image'] ?? null;
-        $article->product_widget_title = $data['product_widget_title'] ?? null;
-        $article->product_widget_price = $data['product_widget_price'] ?? null;
-        $article->product_widget_description = $data['product_widget_description'] ?? null;
-        $article->product_widget_more_label = $data['product_widget_more_label'] ?? null;
-        $article->product_widget_more_url = $data['product_widget_more_url'] ?? null;
-        $article->product_widget_buy_label = $data['product_widget_buy_label'] ?? null;
-        $article->product_widget_buy_url = $data['product_widget_buy_url'] ?? null;
-        $article->product_widget_html = $data['product_widget_html'] ?? null;
-        $article->hide_product_widget = $data['hide_product_widget'] ?? false;
         $article->is_front_visible = $data['is_front_visible'] ?? true;
         $article->title = $defaultTitle;
         $article->content = $defaultContent;
+        foreach (self::supportedWidgetAttributes($data) as $field => $value) {
+            $article->{$field} = $value;
+        }
         $article->save();
 
         // 创建每种语言的翻译
@@ -398,7 +414,7 @@ class Article extends Model implements TranslatableContract
                 'product_widget_html',
                 'hide_product_widget',
             ] as $field) {
-                if (array_key_exists($field, $data)) {
+                if (Schema::hasColumn('articles', $field) && array_key_exists($field, $data)) {
                     $updates[$field] = $data[$field];
                 }
             }

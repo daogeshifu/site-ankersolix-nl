@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Schema;
 use App\Http\Controllers\Controller;
 
 class ArticleController extends Controller
@@ -263,24 +264,35 @@ class ArticleController extends Controller
             if ($lang === 'nl') {
                 $categoryIds = array_values(array_unique(array_map('intval', $validated['category_ids'])));
 
-                $article->update([
+                $articleUpdateData = [
                     'link' => $validated['link'],
                     'category_id' => $categoryIds[0],
                     'keywords' => $validated['keywords'] ?? null,
                     'author' => $validated['author'] ?? null,
                     'author_bio' => $validated['author_bio'] ?? null,
-                    'product_widget_image' => $validated['product_widget_image'] ?? null,
-                    'product_widget_title' => $validated['product_widget_title'] ?? null,
-                    'product_widget_price' => $validated['product_widget_price'] ?? null,
-                    'product_widget_description' => $validated['product_widget_description'] ?? null,
-                    'product_widget_more_label' => $validated['product_widget_more_label'] ?? null,
-                    'product_widget_more_url' => $validated['product_widget_more_url'] ?? null,
-                    'product_widget_buy_label' => $validated['product_widget_buy_label'] ?? null,
-                    'product_widget_buy_url' => $validated['product_widget_buy_url'] ?? null,
-                    'hide_product_widget' => $request->boolean('hide_product_widget', false),
                     'is_front_visible' => $request->boolean('is_front_visible'),
                     'cover' => $validated['cover'] ?? $article->cover,
-                ]);
+                ];
+
+                foreach ([
+                    'product_widget_image',
+                    'product_widget_title',
+                    'product_widget_price',
+                    'product_widget_description',
+                    'product_widget_more_label',
+                    'product_widget_more_url',
+                    'product_widget_buy_label',
+                    'product_widget_buy_url',
+                    'hide_product_widget',
+                ] as $field) {
+                    if (Schema::hasColumn('articles', $field) && array_key_exists($field, $validated)) {
+                        $articleUpdateData[$field] = $field === 'hide_product_widget'
+                            ? $request->boolean('hide_product_widget', false)
+                            : $validated[$field];
+                    }
+                }
+
+                $article->update($articleUpdateData);
 
                 // 同步标签关系
                 $article->tags()->sync($validated['tags'] ?? []);
@@ -295,14 +307,20 @@ class ArticleController extends Controller
             ];
 
             if ($lang === 'nl') {
-                $translationData['product_widget_image'] = $validated['product_widget_image'] ?? null;
-                $translationData['product_widget_title'] = $validated['product_widget_title'] ?? null;
-                $translationData['product_widget_price'] = $validated['product_widget_price'] ?? null;
-                $translationData['product_widget_description'] = $validated['product_widget_description'] ?? null;
-                $translationData['product_widget_more_label'] = $validated['product_widget_more_label'] ?? null;
-                $translationData['product_widget_more_url'] = $validated['product_widget_more_url'] ?? null;
-                $translationData['product_widget_buy_label'] = $validated['product_widget_buy_label'] ?? null;
-                $translationData['product_widget_buy_url'] = $validated['product_widget_buy_url'] ?? null;
+                foreach ([
+                    'product_widget_image',
+                    'product_widget_title',
+                    'product_widget_price',
+                    'product_widget_description',
+                    'product_widget_more_label',
+                    'product_widget_more_url',
+                    'product_widget_buy_label',
+                    'product_widget_buy_url',
+                ] as $field) {
+                    if (Schema::hasColumn('article_translations', $field) && array_key_exists($field, $validated)) {
+                        $translationData[$field] = $validated[$field];
+                    }
+                }
             }
 
             $article->updateTranslation($lang, $translationData);
