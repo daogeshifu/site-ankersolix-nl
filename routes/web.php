@@ -153,6 +153,7 @@ Route::group([
             'warmtepomp-elektrische-auto' => ['path' => 'warmtepomp-elektrische-auto', 'name' => 'warmtepomp-elektrische-auto'],
             'thuisbatterij-zelf-installeren' => ['path' => 'thuisbatterij-zelf-installeren', 'name' => 'thuisbatterij-zelf-installeren'],
             'installatie-zelf-aansluiten' => ['path' => 'installatie-zelf-aansluiten', 'name' => 'installatie-zelf-aansluiten'],
+            'salderingsregeling' => ['path' => 'salderingsregeling', 'name' => 'salderingsregeling'],
         ];
 
         foreach ($newSections as $section => $route) {

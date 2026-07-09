@@ -150,7 +150,6 @@ class NewController extends Controller
             ->withCount(['articles' => fn ($query) => $query->frontVisible()])
             ->get();
         $currentCategory = $categories->firstWhere('name', $section['category']);
-
         if (!$currentCategory) {
             $currentCategory = (object) [
                 'id' => null,
