@@ -599,19 +599,14 @@
                                     </div>
                                 </div>
 
-                                @if($article->cover)
-                                <div class="cover-preview-wrapper" id="coverPreviewWrapper">
-                                    <label class="form-label">当前封面</label><br>
-                                    <img src="{{ $article->cover_url }}"
+                                <div class="cover-preview-wrapper"
+                                     id="coverPreviewWrapper"
+                                     @if(!$article->cover) style="display: none;" @endif>
+                                    <label class="form-label">{{ $article->cover ? '当前封面' : '封面预览' }}</label><br>
+                                    <img src="{{ $article->cover_url ?? '' }}"
                                          id="coverImg"
                                          alt="Cover preview">
                                 </div>
-                                @else
-                                <div class="cover-preview-wrapper" id="coverPreviewWrapper" style="display: none;">
-                                    <label class="form-label">封面预览</label><br>
-                                    <img id="coverImg" alt="Cover preview">
-                                </div>
-                                @endif
 
                                 <input type="hidden" name="cover" id="cover_path" value="{{ $article->cover }}">
                             </div>
