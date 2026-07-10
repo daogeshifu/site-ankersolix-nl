@@ -44,7 +44,6 @@ class ExportArticleUrls extends Command
             'category_url',
             'full_url',
             'all_categories',
-            'updated_at',
         ];
 
         fputcsv($handle, $header);
@@ -142,7 +141,9 @@ class ExportArticleUrls extends Command
             ->map(fn (ArticleCategory $category) => $this->formatCategoryLabel($category))
             ->implode(' | ');
 
-        return $categories->map(function (ArticleCategory $category) use ($article, $allCategories) {
+        $categoryCount = $categories->count();
+
+        return $categories->map(function (ArticleCategory $category) use ($article, $allCategories, $categoryCount) {
             $categoryPath = $this->categoryPath($category);
 
             return [
@@ -152,7 +153,7 @@ class ExportArticleUrls extends Command
                 optional($article->created_at)->toDateTimeString(),
                 optional($article->updated_at)->toDateTimeString(),
                 $article->is_front_visible ? '1' : '0',
-                $categories->count(),
+                $categoryCount,
                 $article->category_id === $category->id ? 'primary' : 'related',
                 $category->id,
                 $this->csvValue($category->name),
@@ -162,7 +163,6 @@ class ExportArticleUrls extends Command
                     'link' => $article->link,
                 ]),
                 $this->csvValue($allCategories),
-                optional($article->updated_at)->toDateTimeString(),
             ];
         })->all();
     }
@@ -186,7 +186,6 @@ class ExportArticleUrls extends Command
             null,
             '',
             '',
-            optional($article->updated_at)->toDateTimeString(),
         ];
     }
 
