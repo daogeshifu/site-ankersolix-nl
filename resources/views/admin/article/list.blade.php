@@ -11,7 +11,14 @@
 			<div class="card">
 				<div class="card-header d-flex justify-content-between align-items-center">
 					<h5 class="mb-0">Article List</h5>
-					<a type="button" class="btn btn-primary" href="{{ route('admin.article.create') }}"><i class="bi bi-file-earmark-plus"></i>Add Article</a>
+					<div class="d-flex gap-2">
+						<a type="button" class="btn btn-outline-secondary" href="{{ route('admin.article.export_urls') }}">
+							<i class="bi bi-download"></i>Export URLs
+						</a>
+						<a type="button" class="btn btn-primary" href="{{ route('admin.article.create') }}">
+							<i class="bi bi-file-earmark-plus"></i>Add Article
+						</a>
+					</div>
 				</div>
 
 				<div class="card-body">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Article\Article;
 use App\Models\Article\ArticleCategory;
 use App\Models\Article\ArticleTag;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -43,6 +44,24 @@ class ArticleController extends Controller
         $categories = ArticleCategory::all();
 
         return view('admin.article.list', compact('articles', 'categories'));
+    }
+
+    public function exportUrls(Request $request)
+    {
+        $fileName = 'article-urls-' . now()->format('Ymd-His') . '.csv';
+        $absolutePath = storage_path('app/exports/' . $fileName);
+
+        Artisan::call('articles:export-urls', [
+            '--path' => $absolutePath,
+        ]);
+
+        if (!is_file($absolutePath)) {
+            return back()->with('error', '导出失败，请稍后重试');
+        }
+
+        return response()->download($absolutePath, $fileName, [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+        ])->deleteFileAfterSend(true);
     }
 
 

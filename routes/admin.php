@@ -27,6 +27,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // 文章管理
     Route::prefix('article')->name('article.')->group(function () {
         Route::get('/', [ArticleController::class, 'index'])->name('index');
+        Route::get('/export-urls', [ArticleController::class, 'exportUrls'])->name('export_urls');
         Route::get('/create', [ArticleController::class, 'create'])->name('create');
         Route::post('/store', [ArticleController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [ArticleController::class, 'edit'])->name('edit');
