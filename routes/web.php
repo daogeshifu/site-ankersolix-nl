@@ -143,7 +143,9 @@ Route::group([
             'reviews' => ['path' => 'cases-reviews', 'name' => 'reviews'],
 
             'beste-thuisbatterij-2026' => ['path' => 'beste-thuisbatterij-2026', 'name' => 'beste-thuisbatterij-2026'],
-            'thuisbatterij-zonder-zonnepanelen' => ['path' => 'thuisbatterij-koopgids', 'name' => 'thuisbatterij-zonder-zonnepanelen'],
+//            'thuisbatterij-zonder-zonnepanelen' => ['path' => 'thuisbatterij-koopgids', 'name' => 'thuisbatterij-zonder-zonnepanelen'],
+
+            'thuisbatterij-zonder-zonnepanelen' => ['path' => 'thuisbatterij-zonder-zonnepanelen', 'name' => 'thuisbatterij-zonder-zonnepanelen'],
             'thuisbatterij-koopgids' => ['path' => 'thuisbatterij-koopgids', 'name' => 'thuisbatterij-koopgids'],
             'dynamische-energietarieven' => ['path' => 'dynamische-energietarieven', 'name' => 'dynamische-energietarieven'],
             'thuisbatterij-subsidie' => ['path' => 'thuisbatterij-subsidie', 'name' => 'thuisbatterij-subsidie'],
