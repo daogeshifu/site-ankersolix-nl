@@ -86,16 +86,6 @@
                     </div>
                 </div>
 
-                <!-- Captcha -->
-                <div>
-                    <label class="block text-sm font-semibold text-[#111318] dark:text-gray-200 mb-1.5 ml-1">{{ __('lang.captcha') }}</label>
-                    <div class="flex items-center gap-3">
-                        <img src="{{ captcha_src('default') }}" alt="captcha" id="captcha-img" onclick="refreshCaptcha()" class="h-12 rounded-lg cursor-pointer hover:opacity-80 transition-opacity">
-                        <input type="text" name="captcha" class="flex-1 h-12 px-4 rounded-lg border border-[#e2e8f0] dark:border-white/10 dark:bg-white/5 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm outline-none" placeholder="{{ __('lang.form_captcha_placeholder') }}" required>
-                    </div>
-                    <p class="text-xs text-[#616f89] mt-1 ml-1">{{ __('lang.click_image_refresh') }}</p>
-                </div>
-
                 <!-- Submit Button -->
                 <button type="submit" id="login-button" class="w-full h-12 bg-primary text-white font-bold rounded-lg shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all flex items-center justify-center gap-2 mt-2">
                     <span>{{ __('lang.login_btn') }}</span>
@@ -136,11 +126,6 @@
         }
     }
 
-    // Refresh captcha
-    function refreshCaptcha() {
-        document.getElementById('captcha-img').src = '{{ captcha_src('default') }}?t=' + Math.random();
-    }
-
     // Form submission
     document.getElementById('login-form').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -169,16 +154,13 @@
                 // Validation errors
                 const errors = body.errors;
                 let errorMsg = '';
-                if (errors.captcha) errorMsg = errors.captcha[0];
-                else if (errors.email) errorMsg = errors.email[0];
+                if (errors.email) errorMsg = errors.email[0];
                 else if (errors.password) errorMsg = errors.password[0];
                 else errorMsg = "{{ __('lang.validation_failed') }}";
 
                 alert(errorMsg);
-                refreshCaptcha();
             } else if (status === 401) {
                 alert(body.message || "{{ __('lang.authentication_failed') }}");
-                refreshCaptcha();
             } else {
                 alert("{{ __('lang.request_failed') }}");
             }

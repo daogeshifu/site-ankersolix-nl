@@ -1,5 +1,14 @@
 # site_bestenthuisbatterij
 
+## 管理后台
+
+- 登录地址：`/login`（管理员登录后自动进入 `/admin`）
+- 初始化命令：`php artisan migrate --force && php artisan db:seed --force`
+- 默认账号：`admin@bestenthuisbatterij.nl`
+- 默认密码：`BestThuisbatterij@2026!`
+
+生产环境请在首次执行 seed 前，通过 `ADMIN_NAME`、`ADMIN_EMAIL`、`ADMIN_PASSWORD` 覆盖默认值。正式站点域名为 `https://www.bestenthuisbatterij.nl/`。
+
 ## Product catalog import
 
 Run the product catalog migration and import the crawled CSV:

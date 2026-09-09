@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         // 调用 RoleSeeder
         $this->call([
             RoleSeeder::class,
+            DefaultAdminSeeder::class,
         ]);
 
         // \App\Models\User::factory(10)->create();

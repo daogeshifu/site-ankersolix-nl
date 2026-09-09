@@ -12,12 +12,12 @@
 		<div class="col-sm-12">
 			<div class="card">
 				<div class="card-header">
-					<h5>Daily Registration Trend</h5>
+					<h5>每日注册趋势</h5>
 					<div class="card-header-right">
 						<select id="trendDays" class="form-select" style="width: 150px;">
-							<option value="7">Last 7 Days</option>
-							<option value="30" selected>Last 30 Days</option>
-							<option value="90">Last 90 Days</option>
+							<option value="7">最近 7 天</option>
+							<option value="30" selected>最近 30 天</option>
+							<option value="90">最近 90 天</option>
 						</select>
 					</div>
 				</div>
@@ -31,12 +31,12 @@
 		<div class="col-sm-12">
 			<div class="card">
 				<div class="card-header">
-					<h5>User List</h5>
+					<h5>用户列表</h5>
 					<div class="card-header-right">
 						<form method="GET" action="{{ route('admin.user.index') }}" class="d-inline">
 							<div class="input-group" style="width: 300px;">
-								<input type="text" name="search" class="form-control" placeholder="Search by name or email..." value="{{ request('search') }}">
-								<button class="btn btn-primary" type="submit">Search</button>
+								<input type="text" name="search" class="form-control" placeholder="按姓名或邮箱搜索…" value="{{ request('search') }}">
+								<button class="btn btn-primary" type="submit">搜索</button>
 							</div>
 						</form>
 					</div>
@@ -47,13 +47,13 @@
 							<thead>
 								<tr>
 									<th>ID</th>
-									<th>Name</th>
-									<th>Email</th>
-									<th>Avatar</th>
-									<th>Level</th>
-									<th>Verified</th>
+									<th>姓名</th>
+									<th>邮箱</th>
+									<th>头像</th>
+									<th>等级</th>
+									<th>已验证</th>
 									<th>Google ID</th>
-									<th>Registration Date</th>
+									<th>注册时间</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -90,7 +90,7 @@
 								</tr>
 								@empty
 								<tr>
-									<td colspan="8" class="text-center">No users found</td>
+									<td colspan="8" class="text-center">暂无用户</td>
 								</tr>
 								@endforelse
 							</tbody>
@@ -134,7 +134,7 @@ function loadRegistrationTrend(days = 30) {
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'New Users',
+                        label: '新增用户',
                         data: counts,
                         borderColor: 'rgb(75, 192, 192)',
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',

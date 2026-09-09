@@ -30,27 +30,28 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        // 验证字段，包括验证码
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
-            'captcha' => ['required', 'captcha'],
-        ], [
-            'captcha.required' => __('lang.custom.captcha.required'),
-            'captcha.captcha' => __('lang.custom.captcha.captcha'),
         ]);
     
         if (Auth::attempt([
             'email' => $credentials['email'],
             'password' => $credentials['password'],
         ])) {
+            $request->session()->regenerate();
+            $redirect = $request->user()->hasRole('admin')
+                ? route('admin.index')
+                : route('index');
+
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'redirect' => route('index')
+                    'redirect' => $redirect,
                 ]);
             }
-            return redirect()->route('index');
+
+            return redirect()->intended($redirect);
         }
     
         if ($request->ajax()) {
@@ -73,6 +74,9 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect()->route('index');
     }
 }

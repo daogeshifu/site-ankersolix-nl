@@ -10,13 +10,13 @@
 		<div class="col-sm-12">
 			<div class="card">
 				<div class="card-header d-flex justify-content-between align-items-center">
-					<h5 class="mb-0">Article List</h5>
+					<h5 class="mb-0">文章列表</h5>
 					<div class="d-flex gap-2">
 						<a type="button" class="btn btn-outline-secondary" href="{{ route('admin.article.export_urls') }}">
-							<i class="bi bi-download"></i>Export URLs
+							<i class="bi bi-download"></i> 导出链接
 						</a>
 						<a type="button" class="btn btn-primary" href="{{ route('admin.article.create') }}">
-							<i class="bi bi-file-earmark-plus"></i>Add Article
+							<i class="bi bi-file-earmark-plus"></i> 新建文章
 						</a>
 					</div>
 				</div>
@@ -79,13 +79,13 @@
 							<thead>
 								<tr>
 									<th width="60">ID</th>
-									<th>Keywords</th>
-									<th>Title</th>
-									<th width="120">Category</th>
-									<th>Description</th>
+									<th>链接标识</th>
+									<th>标题</th>
+									<th width="120">分类</th>
+									<th>摘要</th>
 									<th width="90">前台展示</th>
-									<th width="80">Cover</th>
-									<th width="140">Actions</th>
+									<th width="80">封面</th>
+									<th width="140">操作</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -115,7 +115,7 @@
 												 width="40"
 												 class="img-thumbnail">
 										@else
-											<span class="text-muted">No Cover</span>
+											<span class="text-muted">无封面</span>
 										@endif
 									</td>
 
@@ -123,13 +123,13 @@
 									<td>
 										<a href="{{ route('admin.article.edit', ['id' =>$article->id]) }}"
 										   class="btn btn-sm btn-warning">
-											Edit
+											编辑
 										</a>
 
 										<a href="{{ route('admin.article.destroy', $article->id) }}"
 										   class="btn btn-sm btn-danger"
 										   onclick="return confirm('确认删除该文章？')">
-											Delete
+											删除
 										</a>
 									</td>
 								</tr>

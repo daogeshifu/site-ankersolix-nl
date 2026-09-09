@@ -9,15 +9,13 @@ use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Paypal\PayPalController;
 use App\Http\Controllers\Admin\ArticleTaskController;
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 // 后台管理（需要认证）
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
 
-    // 后台默认进入用户列表
-    Route::get('/', function () {
-        return redirect()->route('admin.user.index');
-    })->name('index');
+    Route::get('/', [DashboardController::class, 'index'])->name('index');
     // 用户管理
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('/', [AdminUserController::class, 'index'])->name('index');

@@ -31,4 +31,3 @@
 <!-- Plugins JS Ends-->
 <!-- Theme js-->
 <script src="/cuba/assets/js/script.js"></script>
-<script src="/cuba/assets/js/theme-customizer/customizer.js"></script>

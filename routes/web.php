@@ -20,7 +20,8 @@ use App\Http\Controllers\Front\GuidesController;
 use App\Http\Controllers\Front\NewController;
 use App\Http\Controllers\Front\ProductController as FrontProductController;
 
-
+// 后台路由必须先于前台分类通配路由注册，避免 /admin 被 /{category_name} 截获。
+require __DIR__.'/admin.php';
 // ===============================================
 // 语言切换路由
 // ===============================================
@@ -75,7 +76,7 @@ Route::group([
 
             // 为了保持向后兼容，保留原有的路由别名
         Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-        Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+        Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:10,1')->name('login.post');
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
         Route::get('/auth/password/reset', [LoginController::class, 'showResetForm'])->name('auth.password.reset');
         Route::post('/auth/password/reset', [LoginController::class, 'reset'])->name('auth.password.reset.post');
@@ -244,9 +245,3 @@ Route::group([
     // ===============================================
     @include('user_admin.php');
 });
-
-
-// ===============================================
-// 后台管理路由
-// ===============================================
-@include('admin.php');

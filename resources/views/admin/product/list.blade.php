@@ -66,7 +66,7 @@
                                     <th width="120">价格</th>
                                     <th width="90">库存</th>
                                     <th width="90">展示</th>
-                                    <th width="100">Type</th>
+                                    <th width="100">类型</th>
                                     <th width="120">操作</th>
                                 </tr>
                             </thead>
@@ -78,7 +78,7 @@
                                             @if($product->display_image)
                                                 <img src="{{ $product->display_image }}" alt="{{ $product->title }}" class="img-thumbnail" style="width:56px;height:56px;object-fit:contain;">
                                             @else
-                                                <span class="text-muted">No image</span>
+                                                <span class="text-muted">无图片</span>
                                             @endif
                                         </td>
                                         <td>

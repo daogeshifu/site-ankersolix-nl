@@ -13,3 +13,4 @@
 <link rel="stylesheet" type="text/css" href="/assets/scss/components/_buttons.scss">
 <link rel="stylesheet" type="text/css" href="/cuba/css/cuba-customer.css">
 <link href="/block/css/bootstrap-icons.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{{ asset('/cuba/css/admin-theme.css') }}">
